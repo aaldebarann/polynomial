@@ -29,12 +29,12 @@ p_2 - p_1
 y - 1
 ```
 ## Структура проекта:
-gtest - файлы google test
-include - .h файлы
-src - .cpp файлы
-test - файлы тестов
-
-monome.h, monome.cpp - класс монома
-polynome.h, polynome.cpp - класс полинома
-expression.h, expression.cpp - класс арифметического выражения
-calculator.h, calculator.cpp - класс, предоставляющий консольный интерфейс программы и реализующий функции для графического интерфейса
+gtest - файлы google test  
+include - .h файлы  
+src - .cpp файлы  
+test - файлы тестов  
+    
+monome.h, monome.cpp - класс монома  
+polynome.h, polynome.cpp - класс полинома  
+expression.h, expression.cpp - класс арифметического выражения  
+calculator.h, calculator.cpp - класс, предоставляющий консольный интерфейс программы и реализующий функции для графического интерфейса  
