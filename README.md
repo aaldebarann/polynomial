@@ -34,7 +34,7 @@ include - .h файлы
 src - .cpp файлы  
 test - файлы тестов  
     
-monome.h, monome.cpp - класс монома  
-polynome.h, polynome.cpp - класс полинома  
-expression.h, expression.cpp - класс арифметического выражения  
-calculator.h, calculator.cpp - класс, предоставляющий консольный интерфейс программы и реализующий функции для графического интерфейса  
+_monome.h, monome.cpp_ - класс монома  
+_polynome.h, polynome.cpp_ - класс полинома  
+_expression.h, expression.cpp_ - класс арифметического выражения  
+_calculator.h, calculator.cpp_ - класс, предоставляющий консольный интерфейс программы и реализующий функции для графического интерфейса  
