@@ -7,8 +7,7 @@ class Monome {
     float K; // Коэффициент при мономе
     int a,b,c; // Показатели степеней монома в том же порядке
 
-    // Конструктор монома K_ * x^a_ * y^b_ * z^c_
-    Monome(float K_ = 1,int a_ = 0,int b_ = 0,int c_ = 0); // Дефолтные значения добавлены для удобства
+    // Дефолтные значения добавлены для удобства
 
     Monome& differentiate(short index); // Дифференцировать моном
     // Индекс показывает, по какой переменной идёт дифференцирование: 0 - x; 1 - y; 2 - z;
@@ -24,7 +23,13 @@ class Monome {
     Monome& operator * (Monome M); // Умножение на моном
 
     Monome& operator * (float constant); // Умножение на константу
+public:
+    // Конструктор монома K_ * x^a_ * y^b_ * z^c_
+    Monome(float K_ = 1,int a_ = 0,int b_ = 0,int c_ = 0);
+    void print() const; // Вывод монома
 };
+
+
 
 
 #endif
