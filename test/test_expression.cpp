@@ -1,9 +1,10 @@
 #include <gtest.h>
 #include "expression.h"
+#include <iostream>
 
 TEST(ArithmeticExpression, can_parse_vars_only_expression) {
-  string str = " _var1_ *  var2 + VAR3-  vAr_4 -v  /  ___var_6/var_______7";
-  ASSERT_NO_THROW(ArithmeticExpression expression(str));
+    string str = " _var1_ *  var2 + VAR3-  vAr_4 -v  /  ___var_6/var_______7";
+    ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
 TEST(ArithmeticExpression, can_parse_digits_only_expression) {
     string str = "   2/4 -4.0 + 0.4 * .4 / 3. - 4      - 7";
@@ -15,6 +16,11 @@ TEST(ArithmeticExpression, can_parse_vars_digits_expression) {
 }
 TEST(ArithmeticExpression, can_parse_brackets_expression) {
     string str = " (  ((2)/4) -(4.0*_var1_ + 0.4) * (.4 / 3.) - f   +vAr_2   - 7)";
+    ASSERT_NO_THROW(ArithmeticExpression expression(str));
+}
+TEST(ArithmeticExpression, can_parse_function_expression) {
+    string str = "4 - min(1,3,-2) + (FUNC_1 ( a, b) / FUNC_2 (1, 2, 3, 4., pyat) ) - f(42)";
+    ArithmeticExpression expression(str);
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
 
@@ -47,11 +53,63 @@ TEST(ArithmeticExpression, throws_when_invalid_symbols) {
     ASSERT_ANY_THROW(ArithmeticExpression expression(str));
 }
 
+TEST(ArithmeticExpression, throws_when_no_arguments_function)
+{
+    string str = "3 + min()";
+    ASSERT_ANY_THROW(ArithmeticExpression expression(str));
+}
+TEST(ArithmeticExpression, throws_when_extra_comma_in_function)
+{
+    string str = "3 + min(x, y, 12,)";
+    ASSERT_ANY_THROW(ArithmeticExpression expression(str));
+}
+TEST(ArithmeticExpression, throws_when_function_in_function)
+{
+    string str = "3 + min(x, y, 12,)";
+    ASSERT_ANY_THROW(ArithmeticExpression expression(str));
+}
+
 TEST(ArithmeticExpression, can_get_infix)
 {
     ArithmeticExpression expression("aaa - 123.23 +b*c/.124-d");
 
-    EXPECT_EQ("aaa-123.23+b*c/.124-d", expression.getInfix());
+    EXPECT_EQ("aaa-123.23+b*c/.124-d", expression.getString());
+}
+TEST(ArithmeticExpression, correct_infix_no_functions) {
+    string str = "(  ((2)/4) -(4.0*_var1_ + 0.4) * (.4 / 3.) - o_0   +vAr_2   - 7)";
+    vector<pair<ArithmeticExpression::LType, string>> expected = {
+            {ArithmeticExpression::begin,  "("},
+            {ArithmeticExpression::begin, "("},
+            {ArithmeticExpression::begin, "("},
+            {ArithmeticExpression::number,  "2"},
+            {ArithmeticExpression::end, ")"},
+            {ArithmeticExpression::operation, "/"},
+            {ArithmeticExpression::number,  "4"},
+            {ArithmeticExpression::end, ")"},
+            {ArithmeticExpression::operation, "-"},
+            {ArithmeticExpression::begin, "("},
+            {ArithmeticExpression::number,  "4.0"},
+            {ArithmeticExpression::operation, "*"},
+            {ArithmeticExpression::variable,  "_var1_"},
+            {ArithmeticExpression::operation, "+"},
+            {ArithmeticExpression::number,  "0.4"},
+            {ArithmeticExpression::end, ")"},
+            {ArithmeticExpression::operation, "*"},
+            {ArithmeticExpression::begin, "("},
+            {ArithmeticExpression::number,  ".4"},
+            {ArithmeticExpression::operation, "/"},
+            {ArithmeticExpression::number,  "3."},
+            {ArithmeticExpression::end, ")"},
+            {ArithmeticExpression::operation, "-"},
+            {ArithmeticExpression::variable,  "o_0"},
+            {ArithmeticExpression::operation, "+"},
+            {ArithmeticExpression::variable,  "vAr_2"},
+            {ArithmeticExpression::operation, "-"},
+            {ArithmeticExpression::number,  "7"},
+            {ArithmeticExpression::end, ")"},
+    };
+    ArithmeticExpression expr = ArithmeticExpression(str);
+    EXPECT_EQ(expr.getInfix(), expected);
 }
 
 TEST(ArithmeticExpression, can_get_postfix_equal_priority)
@@ -68,6 +126,23 @@ TEST(ArithmeticExpression, can_get_postfix_brackets)
 {
   ArithmeticExpression expression("  a+b*(c -  e)  - d*e + (f+g*(j-i))");
   EXPECT_EQ("abce-*+de*-fgji-*++", expression.getPostfix());
+}
+TEST(ArithmeticExpression, can_get_postfix_function_equal_priority)
+{
+    ArithmeticExpression expression("2 + min(1, 3) - max(a, b)");
+    cout << expression.getPostfix() << endl;
+    EXPECT_EQ("2min(1,3)+max(a,b)-", expression.getPostfix());
+}
+TEST(ArithmeticExpression, can_get_postfix_function_different_priority)
+{
+    ArithmeticExpression expression("2 + min(1, 3)*f(2) - max(a, b)/f(5)");
+    cout << expression.getPostfix() << endl;
+    EXPECT_EQ("2min(1,3)f(2)*+max(a,b)f(5)/-", expression.getPostfix());
+}
+TEST(ArithmeticExpression, can_get_postfix_function_brackets)
+{
+    ArithmeticExpression expression("a_0(f) / 2 + pi*( I(p1, dx, a, b) - D(p2, p4, 12) * 8) / 1");
+    EXPECT_EQ("a_0(f)2/piI(p1,dx,a,b)D(p2,p4,12)8*-*1/+", expression.getPostfix());
 }
 
 TEST(ArithmeticExpression, can_calculate_addition_vars_only)
