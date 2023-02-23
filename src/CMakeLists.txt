@@ -1,7 +1,7 @@
-set(target ${MP2_LIBRARY})
+set(target ${POL_SRC})
 
-file(GLOB hdrs "*.h*" "${MP2_INCLUDE}/*.h*")
-file(GLOB srcs "*.cpp")
+file(GLOB hdrs "*.h*" "../include/*.cpp")
+file(GLOB srcs "*.cpp" "../src/*.cpp")
 
 add_library(${target} STATIC ${srcs} ${hdrs})
 target_link_libraries(${target} ${LIBRARY_DEPS})

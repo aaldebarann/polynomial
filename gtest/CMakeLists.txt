@@ -1,6 +1,9 @@
 set(target "gtest")
 
-add_library(${target} STATIC gtest-all.cc)
+file(GLOB hdrs "*.h*" "../include/*.cpp")
+file(GLOB srcs "*.cpp" "../src/*.cpp")
+
+add_library(${target} STATIC gtest-all.cc ${srcs} ${hdrs})
 
 if((${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR
     ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang") AND
