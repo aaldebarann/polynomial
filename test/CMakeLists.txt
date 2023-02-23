@@ -1,4 +1,4 @@
-set(target MP2_TESTS)
+set(target ${POL_TESTS})
 
 file(GLOB hdrs "*.h*" "../include/*.cpp")
 file(GLOB srcs "*.cpp" "../src/*.cpp")

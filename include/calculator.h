@@ -6,9 +6,16 @@
 #define POLYNOMIAL_CALCULATOR_H
 
 
-class calculator {
+#include <iostream>
+#include "expression.h"
+using namespace std;
 
-};
-
+int m() {
+    cout << "Enter arithmetic expression:"<<endl;
+    string str;
+    cin >> str;
+    ArithmeticExpression expr(str);
+    expr.calculate();
+}
 
 #endif //POLYNOMIAL_CALCULATOR_H
