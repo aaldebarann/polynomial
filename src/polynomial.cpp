@@ -13,7 +13,10 @@ Monome::Monome(float K_, int a_, int b_, int c_) {
 }
 
 void Monome::print() const {
-    cout << K <<"*x^"<<a<<"*y^"<<b<<"*z^"<<c<<'+';
+    if(K>=0)
+        cout <<"+"<< K <<"*x^"<<a<<"*y^"<<b<<"*z^"<<c;
+    else
+        cout << K <<"*x^"<<a<<"*y^"<<b<<"*z^"<<c;
 }
 
 Monome Monome::operator*(float constant) const {
@@ -81,29 +84,39 @@ Polynome::Polynome(string s) {
     auto sm = StateMachine(0);
     s.push_back(' ');
     // Параметры текущего монома, который будет добавлен к полиному
-    int constant = 0;
+    float constant = 0;
     int i1 = 0; // Степень x
     int i2 = 0; // Степень y
     int i3 = 0; // Степень z
     int last_state; // Введено для облегчения обработки ввода цифр
+
+    bool is_negative = false; // Является ли константа отрицательным числом
+
+    bool is_first = true; // является ли символ первым (нужно для знака минуса, чтобы не положился нулевой моном)
     for(char& c:s){
-        if((c == '+')||(c == ' ')){
+        if((c == '+')||(c == ' ')||( (c=='-')&&(!is_first)  )){
+            if(is_negative)
+                constant = -constant;
             core.emplace_back(constant,i1,i2,i3);
-            //cout << "Placing monome: "<< constant << "*x^"<<i1<<"*y^"<<i2<<"*z^"<<i3<<endl;
+            cout << "Placing monome: "<< constant << "*x^"<<i1<<"*y^"<<i2<<"*z^"<<i3<<endl;
             constant = 0;
             i1 = 0;
             i2 = 0;
             i3 = 0;
+            is_negative = false;
             sm.current_state = 0;
         }
+        
+        is_first = false;
 
-
+        if(c=='-')
+            is_negative = true;
         last_state = sm.current_state;
         sm.Move(c);
-        //cout << "Current symbol is "<<c<<" and the state is "<< sm.current_state<<endl;
+        cout << "Current symbol is "<<c<<" and the state is "<< sm.current_state<<endl;
 //        if(c == '*')
 //            ;
-        if((c != '+')&&(c!=' ')){
+        if((c != '+')&&(c!='-')&&(c!=' ')){
             if(sm.current_state==0){
 
                 int r = c-'0'; // Числовое значение
@@ -197,6 +210,7 @@ void StateMachine::Move(char c) {
             current_state = v1[current_state];
             break;
         case '+':
+        case '-':
             current_state = v2[current_state];
             break;
         case '*':
