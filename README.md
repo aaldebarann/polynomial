@@ -33,8 +33,9 @@ gtest - файлы google test
 include - .h файлы  
 src - .cpp файлы  
 test - файлы тестов  
+samples - примеры использования
     
 _monome.h, monome.cpp_ - класс монома  
 _polynome.h, polynome.cpp_ - класс полинома  
 _expression.h, expression.cpp_ - класс арифметического выражения  
-_calculator.h, calculator.cpp_ - класс, предоставляющий консольный интерфейс программы и реализующий функции для графического интерфейса  
+_calculator.h, calculator.cpp_ - организует работу с пользователем  
