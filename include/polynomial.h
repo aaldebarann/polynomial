@@ -10,27 +10,28 @@ class Polynome {
 
     list<Monome> core; // Список из мономов этого полинома
 
-    // Конструктор полинома по строке ввода
-
-    explicit Polynome(list<Monome> monomes); // Конструктор полинома из списка мономов
-
-    float value_at(float x,float y,float z); // Значение в точке (x,y,z)
-
-    Polynome& operator*(float constant); // Умножение на константу
-    Polynome& differentiate(short index); // Дифференцирование по переменной, соответствующей индексу:
-    // 0 - x; 1 - y; 2 - z;
-    Polynome& integrate(short index,float from,float to); // Интегрирование по переменной, соответствующей индексу:
-    // 0 - x; 1 - y; 2 - z;
-    // На отрезке [from;to]
 
     Polynome& operator+(Polynome p); // Сложение полиномов
     Polynome& operator-(Polynome p); // Вычитание полиномов
-    Polynome& operator*(Polynome p); // Умножение полиномов
-    Polynome& operator/(Polynome p); // Деление полиномов
+    Polynome& operator*(Polynome p); // Умножение полиномов (*)
+    Polynome& operator/(Polynome p); // Деление полиномов (*)
 
 public:
-    explicit Polynome(string s);
+    explicit Polynome(string s); // Конструктор полинома по строке ввода
     void print();
+
+    explicit Polynome(list<Monome> monomes); // Конструктор полинома из списка мономов
+
+    Polynome(Polynome const &p); // Конструктор копирования
+
+    float value_at(float x,float y,float z); // Значение в точке (x,y,z)
+
+    Polynome operator*(float constant); // Умножение на константу
+    Polynome differentiate(short index); // Дифференцирование по переменной, соответствующей индексу:
+    // 0 - x; 1 - y; 2 - z;
+    Polynome integrate(short index); // Интегрирование по переменной, соответствующей индексу:
+    // 0 - x; 1 - y; 2 - z;
+    // На отрезке [from;to]
 };
 
 // Конечный автомат для обработки ввода полинома
