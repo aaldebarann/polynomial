@@ -14,10 +14,14 @@ class ArithmeticExpression {
     // приоритет операций
     static map<char, int> priority; // все разрешенные операции односимвольные
     // типы лексем
-    enum lType {number, variable, operation, begin, end, null}; // begin и end - открывающая и закрывающая скобка
+    // begin и end - открывающая и закрывающая скобка
+    enum LType {number, variable, operation, begin, end, function};
+    // состояния конечного автомата, распознающего лексемы
+    enum State {sNumber, sVariable, sOperation, sBegin, sEnd, sFunction, sFend, null};
+    // sFend - закрывающая скобка функции, является состоянием конечного автомата, но игнорируется как лексема
     string text;
-    vector<pair<lType, string>> infix; // набор пар (тип_лексемы, текст_лексемы)
-    vector<pair<lType, string>> postfix; // набор пар (тип_лексемы, текст_лексемы)
+    vector<pair<LType, string>> infix; // набор пар (тип_лексемы, текст_лексемы)
+    vector<pair<LType, string>> postfix; // набор пар (тип_лексемы, текст_лексемы)
     map<string, double> operands;
 
     // проверка символов
@@ -28,6 +32,7 @@ class ArithmeticExpression {
     static bool isPoint(char c); // -
     static bool isBegin(char c); // (
     static bool isEnd(char c); // )
+    static bool isComma(char c);
 
     static void deleteAll(string& str, char toDelete) {
         int spaces = 0;
