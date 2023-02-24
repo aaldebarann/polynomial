@@ -1,7 +1,7 @@
 set(target ${POL_SAMPLES})
 # Get all cpp-files in the current directory
 
-file(GLOB samples_list RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.c *.cpp)
+file(GLOB samples_list RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
 
 foreach(sample_filename ${samples_list})
     # Get file name without extension
@@ -9,7 +9,7 @@ foreach(sample_filename ${samples_list})
 
     # Add and configure executable file to be produced
     add_executable(${sample} ${sample_filename})
-    target_link_libraries(${sample} ${MP2_LIBRARY})
+    target_link_libraries(${sample} ${POL_LIBRARY})
     set_target_properties(${sample} PROPERTIES
             OUTPUT_NAME "${sample}"
             PROJECT_LABEL "${sample}"
