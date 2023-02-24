@@ -95,6 +95,17 @@ Polynome::Polynome(string s) {
     bool is_first = true; // является ли символ первым (нужно для знака минуса, чтобы не положился нулевой моном)
     for(char& c:s){
         if((c == '+')||(c == ' ')||( (c=='-')&&(!is_first)  )){
+            // Возможность не вводить единичную степень последнего элемента
+            // Для x
+            if(sm.current_state == 2)
+                i1 = 1;
+            // Для y
+            if(sm.current_state == 5)
+                i2 = 1;
+            // Для z
+            if(sm.current_state == 7)
+                i3 = 1;
+
             if(is_negative)
                 constant = -constant;
             core.emplace_back(constant,i1,i2,i3);
@@ -106,16 +117,32 @@ Polynome::Polynome(string s) {
             is_negative = false;
             sm.current_state = 0;
         }
-        
+
         is_first = false;
 
         if(c=='-')
             is_negative = true;
         last_state = sm.current_state;
         sm.Move(c);
-        cout << "Current symbol is "<<c<<" and the state is "<< sm.current_state<<endl;
-//        if(c == '*')
-//            ;
+
+        // Возможность не вводить единичную степень элемента внутри
+        // Для x
+        if((sm.current_state==4)&&(last_state == 2)){
+            i1 = 1;
+            //cout << "IT'S HERE!!"<<endl;
+        }
+        // Для y
+        if((sm.current_state==7)&&(last_state == 5)){
+            i2 = 1;
+            //cout << "IT'S HERE!!"<<endl;
+        }
+        // Для z не нужно, поскольку z всегда является последним
+
+
+        cout << "Current symbol is "<<c<<" and the state is "<< sm.current_state<<" and the last state is "<<last_state<<endl;
+
+
+
         if((c != '+')&&(c!='-')&&(c!=' ')){
             if(sm.current_state==0){
 
