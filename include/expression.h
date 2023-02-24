@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <stack>
+#include <cmath>
 
 using namespace std;
 
@@ -67,6 +68,9 @@ private:
     void parse(); // текст -> набор лексем
     void toPostfix();
     void readOperands(istream& input, ostream& output);
+
+    double calcFunction(int& i);
+    double calcSqrt(int& i);
 
 };
 

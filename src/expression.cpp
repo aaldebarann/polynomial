@@ -153,7 +153,7 @@ void ArithmeticExpression::parse()
                 break;
             case (comma):
                 // считывание числа окончено
-                infix.emplace_back(strArg, text.substr(b, i - b));
+                infix.emplace_back(comma, text.substr(b, i - b));
                 b = i;
                 if(isMinus(c) || isDigit(c)) {
                     t = numArg;
@@ -233,13 +233,42 @@ void ArithmeticExpression::toPostfix()
   }
 }
 
+double ArithmeticExpression::calcSqrt(int& i) {
+    // i -> function
+    i++;
+    // i -> fbegin
+    i++;
+    // i -> argument
+    auto& arg = postfix[i];
+    if(arg.first != numArg )
+        throw invalid_argument("sqrt() must have a number as an argument");
+    double result = sqrt(stod(arg.second));
+    i++;
+    // i -> fend
+    arg = postfix[i];
+    if(arg.first != fend) {
+        throw invalid_argument("sqrt() must have only one argument");
+    }
+    return result;
+}
+double ArithmeticExpression::calcFunction(int& i) {
+    // i is first lexem of function in postfix
+    string& name = postfix[i].second;
+    if (name == "sqrt")
+        return calcSqrt(i);
+    else
+        throw invalid_argument("Unknown function \""+name+"\"");
+}
+
 double ArithmeticExpression::calculate(istream& input, ostream& output)
 {
     readOperands(input, output);
     double left, right; // операнды
     stack<double> st;
-    for(auto& lexem: postfix) {
+    for(int i = 0; i < postfix.size(); i++) {
+        auto& lexem  = postfix[i];
         switch (lexem.second[0]) {
+            // с символов + - * / могут начинаться ТОЛЬКО операции
             case '+':
                 right = st.top();
                 st.pop();
@@ -271,8 +300,12 @@ double ArithmeticExpression::calculate(istream& input, ostream& output)
             default:
                 if(lexem.first == variable)
                     st.push(operands[lexem.second]);
-                else
+                else if(lexem.first == number)
                     st.push(stod(lexem.second));
+                else  {
+                    // lexem is function
+                    st.push(calcFunction(i)); // i will be changed
+                }
         }
     }
     return st.top();
