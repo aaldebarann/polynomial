@@ -19,7 +19,7 @@ TEST(ArithmeticExpression, can_parse_brackets_expression) {
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
 TEST(ArithmeticExpression, can_parse_function_expression) {
-    string str = "4 - min(1,3,-2) + (FUNC_1 ( a, b) / FUNC_2 (1, 2, 3, 4., pyat) ) - f(42)";
+    string str = "4 - min(1,3,-2) + (FUNC_1 ( a, b) / FUNC_2 (1, 2, 3, 4., pyat) ) - sqrt(42)";
     ArithmeticExpression expression(str);
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
@@ -65,7 +65,7 @@ TEST(ArithmeticExpression, throws_when_extra_comma_in_function)
 }
 TEST(ArithmeticExpression, throws_when_function_in_function)
 {
-    string str = "3 + min(x, y, 12,)";
+    string str = "3 + min(x, sqrt(y))";
     ASSERT_ANY_THROW(ArithmeticExpression expression(str));
 }
 
@@ -109,7 +109,34 @@ TEST(ArithmeticExpression, correct_infix_no_functions) {
             {ArithmeticExpression::end, ")"},
     };
     ArithmeticExpression expr = ArithmeticExpression(str);
-    EXPECT_EQ(expr.getInfix(), expected);
+    EXPECT_EQ(expected, expr.getInfix());
+}
+
+TEST(ArithmeticExpression, correct_infix_functions) {
+    string str = "(  (8 - sqrt(3)*pi) / MIN(a, b))";
+    vector<pair<ArithmeticExpression::LType, string>> expected = {
+            {ArithmeticExpression::begin,  "("},
+            {ArithmeticExpression::begin, "("},
+            {ArithmeticExpression::number,  "8"},
+            {ArithmeticExpression::operation, "-"},
+            {ArithmeticExpression::function, "sqrt"},
+            {ArithmeticExpression::fbegin, "("},
+            {ArithmeticExpression::numArg, "3"},
+            {ArithmeticExpression::fend, ")"},
+            {ArithmeticExpression::operation, "*"},
+            {ArithmeticExpression::variable,  "pi"},
+            {ArithmeticExpression::end, ")"},
+            {ArithmeticExpression::operation, "/"},
+            {ArithmeticExpression::function, "MIN"},
+            {ArithmeticExpression::fbegin, "("},
+            {ArithmeticExpression::strArg, "a"},
+            {ArithmeticExpression::comma, ","},
+            {ArithmeticExpression::strArg, "b"},
+            {ArithmeticExpression::fend, ")"},
+            {ArithmeticExpression::end, ")"},
+    };
+    ArithmeticExpression expr = ArithmeticExpression(str);
+    EXPECT_EQ(expected, expr.getInfix());
 }
 
 TEST(ArithmeticExpression, can_get_postfix_equal_priority)
@@ -130,13 +157,11 @@ TEST(ArithmeticExpression, can_get_postfix_brackets)
 TEST(ArithmeticExpression, can_get_postfix_function_equal_priority)
 {
     ArithmeticExpression expression("2 + min(1, 3) - max(a, b)");
-    cout << expression.getPostfix() << endl;
     EXPECT_EQ("2min(1,3)+max(a,b)-", expression.getPostfix());
 }
 TEST(ArithmeticExpression, can_get_postfix_function_different_priority)
 {
     ArithmeticExpression expression("2 + min(1, 3)*f(2) - max(a, b)/f(5)");
-    cout << expression.getPostfix() << endl;
     EXPECT_EQ("2min(1,3)f(2)*+max(a,b)f(5)/-", expression.getPostfix());
 }
 TEST(ArithmeticExpression, can_get_postfix_function_brackets)
@@ -331,14 +356,26 @@ TEST(ArithmeticExpression, can_calculate_division)
 
     EXPECT_EQ(expected, result);
 }
+
+TEST(ArithmeticExpression, can_calculate_sqrt)
+{
+    ArithmeticExpression expression("(5 - (sqrt(4))*(sqrt(4))) - sqrt(3)*sqrt(3)");
+    istringstream values("");
+    ostream nowhere(nullptr);
+
+    double result = expression.calculate(values, nowhere);
+    double expected = 5 - sqrt(4)*sqrt(4) - sqrt(3)*sqrt(3);
+
+    EXPECT_EQ(expected, result);
+}
 TEST(ArithmeticExpression, can_calculate)
 {
-    ArithmeticExpression expression("( a / b - (c / d) * e + f - 0.7*g) / (1.0 + 2.0)");
+    ArithmeticExpression expression("( a / b - (c / d) * e + f - 0.7*g) / (sqrt(1.0) + 2.0)");
     istringstream values("1 2 3 4 5 0.6 .7");
     ostream nowhere(nullptr);
 
     double result = expression.calculate(values, nowhere);
-    double expected = (1.0 / 2.0 - (3.0 / 4.0) * 5.0 + 0.6 - 0.7*0.7) / (1.0 + 2.0);
+    double expected = (1.0 / 2.0 - (3.0 / 4.0) * 5.0 + 0.6 - 0.7*0.7) / (sqrt(1.0) + 2.0);
 
     EXPECT_EQ(expected, result);
 }
