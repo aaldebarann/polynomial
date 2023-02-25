@@ -121,7 +121,10 @@ Polynome::Polynome(string s) {
                 constant = -constant;
             core.emplace_back(constant,i1,i2,i3);
             cout << "Placing monome: "<< constant << "*x^"<<i1<<"*y^"<<i2<<"*z^"<<i3<<endl;
-            constant = 0;
+            // Всё зануляем
+            constant = 0.0;
+            constant_integer_part = 0.0;
+            constant_floating_part = 0.0;
             i1 = 0;
             i2 = 0;
             i3 = 0;
@@ -154,6 +157,9 @@ Polynome::Polynome(string s) {
         }
         // Для z не нужно, поскольку z всегда является последним
 
+        // Возможность не вводить единичную константу
+        if((last_state == 0)&&( (sm.current_state == 2)||(sm.current_state == 5)||(sm.current_state == 7)  ))
+            constant_integer_part = 1.0;
 
         cout << "Current symbol is "<<c<<" and the state is "<< sm.current_state<<" and the last state is "<<last_state<<endl;
 
