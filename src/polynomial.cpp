@@ -84,7 +84,11 @@ Polynome::Polynome(string s) {
     auto sm = StateMachine(0);
     s.push_back(' ');
     // Параметры текущего монома, который будет добавлен к полиному
-    float constant = 0;
+    float constant_integer_part = 0.0; // Целая часть константы
+    float constant_floating_part = 0.0; // Вещественная часть константы
+
+    float constant; // Сумма целой и вещественной частей
+
     int i1 = 0; // Степень x
     int i2 = 0; // Степень y
     int i3 = 0; // Степень z
@@ -92,7 +96,12 @@ Polynome::Polynome(string s) {
 
     bool is_negative = false; // Является ли константа отрицательным числом
 
-    bool is_first = true; // является ли символ первым (нужно для знака минуса, чтобы не положился нулевой моном)
+    bool is_first = true; // Является ли символ первым (нужно для знака минуса, чтобы не положился нулевой моном)
+
+    bool was_a_dot = false; // Встретилась ли  , или . при вводе константы
+
+    float multiplier = 10.0; // Мультипликатор для ввода вещественной части числа
+
     for(char& c:s){
         if((c == '+')||(c == ' ')||( (c=='-')&&(!is_first)  )){
             // Возможность не вводить единичную степень последнего элемента
@@ -106,6 +115,8 @@ Polynome::Polynome(string s) {
             if(sm.current_state == 7)
                 i3 = 1;
 
+            constant = constant_integer_part + constant_floating_part;
+            //cout << constant_floating_part << endl;
             if(is_negative)
                 constant = -constant;
             core.emplace_back(constant,i1,i2,i3);
@@ -115,13 +126,18 @@ Polynome::Polynome(string s) {
             i2 = 0;
             i3 = 0;
             is_negative = false;
+            was_a_dot = false;
             sm.current_state = 0;
+            multiplier = 10.0;
         }
 
         is_first = false;
 
         if(c=='-')
             is_negative = true;
+
+        if(sm.current_state == 9)
+            was_a_dot = true;
         last_state = sm.current_state;
         sm.Move(c);
 
@@ -147,7 +163,13 @@ Polynome::Polynome(string s) {
             if(sm.current_state==0){
 
                 int r = c-'0'; // Числовое значение
-                constant = constant*10 + r; // Набираем число
+                if(!was_a_dot){
+                    constant_integer_part = constant_integer_part*10 + r; // Набираем целое число
+                }
+                else{
+                    constant_floating_part = constant_floating_part + r/multiplier; // Набираем вещественную часть
+                    multiplier *= 10.0;
+                }
                 //cout << constant << endl;
             }
             if(last_state == sm.current_state){
@@ -254,6 +276,10 @@ void StateMachine::Move(char c) {
             break;
         case 'z':
             current_state = v7[current_state];
+            break;
+        case ',':
+        case '.':
+            current_state = v8[current_state];
             break;
         default:
             break;
