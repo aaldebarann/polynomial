@@ -11,10 +11,10 @@ class Polynome {
     list<Monome> core; // Список из мономов этого полинома
 
 
-    Polynome& operator+(Polynome p); // Сложение полиномов
-    Polynome& operator-(Polynome p); // Вычитание полиномов
-    Polynome& operator*(Polynome p); // Умножение полиномов (*)
-    Polynome& operator/(Polynome p); // Деление полиномов (*)
+    // Сложение полиномов
+    Polynome operator-(Polynome p); // Вычитание полиномов
+    Polynome operator*(Polynome p); // Умножение полиномов (*)
+    Polynome operator/(Polynome p); // Деление полиномов (*)
 
 public:
     explicit Polynome(string s); // Конструктор полинома по строке ввода
@@ -26,12 +26,14 @@ public:
 
     float value_at(float x,float y,float z); // Значение в точке (x,y,z)
 
+    // Все эти операции СОХРАНЯЮТ отсортированность полинома
     Polynome operator*(float constant); // Умножение на константу
     Polynome differentiate(short index); // Дифференцирование по переменной, соответствующей индексу:
     // 0 - x; 1 - y; 2 - z;
     Polynome integrate(short index); // Интегрирование по переменной, соответствующей индексу:
     // 0 - x; 1 - y; 2 - z;
     // На отрезке [from;to]
+    Polynome operator+(Polynome p);
 };
 
 // Конечный автомат для обработки ввода полинома

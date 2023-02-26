@@ -75,8 +75,32 @@ Monome Monome::differentiate(short index) const {
     }
 }
 
-float Monome::value_at(float x, float y, float z) {
+float Monome::value_at(float x, float y, float z) const {
     return K* pow(x,a)* pow(y,b)* pow(x,c);
+}
+
+bool Monome::compare(const Monome& m1, const Monome& m2) {
+    return (100*m1.a+10*m1.b+m1.c)<(100*m2.a+10*m2.b+m2.c); // Хитрый хак
+}
+
+bool Monome::operator<(const Monome &m2) const {
+    return (100*a+10*b+c)<(100*m2.a+10*m2.b+m2.c); // Хитрый хак
+}
+
+bool operator<(std::list<Monome>::iterator it1, std::list<Monome>::iterator it2) {
+    return (100*it1->a+10*it1->b+it1->c)<(100*it2->a+10*it2->b+it2->c); // Хитрый хак
+}
+
+bool operator>(std::list<Monome>::iterator it1, std::list<Monome>::iterator it2) {
+    return (100*it1->a+10*it1->b+it1->c)>(100*it2->a+10*it2->b+it2->c); // Хитрый хак
+}
+
+//bool operator==(std::list<Monome>::iterator it1, std::list<Monome>::iterator it2) {
+//    return (it1->a == it2->a)&&(it1->b == it2->b)&&(it1->c == it2->c);
+//}
+
+bool Monome::equal_iterators(std::list<Monome>::iterator it1, std::list<Monome>::iterator it2) {
+    return (it1->a == it2->a)&&(it1->b == it2->b)&&(it1->c == it2->c);
 }
 
 Polynome::Polynome(string s) {
@@ -120,7 +144,7 @@ Polynome::Polynome(string s) {
             if(is_negative)
                 constant = -constant;
             core.emplace_back(constant,i1,i2,i3);
-            cout << "Placing monome: "<< constant << "*x^"<<i1<<"*y^"<<i2<<"*z^"<<i3<<endl;
+            //cout << "Placing monome: "<< constant << "*x^"<<i1<<"*y^"<<i2<<"*z^"<<i3<<endl;
             // Всё зануляем
             constant = 0.0;
             constant_integer_part = 0.0;
@@ -161,7 +185,7 @@ Polynome::Polynome(string s) {
         if((last_state == 0)&&( (sm.current_state == 2)||(sm.current_state == 5)||(sm.current_state == 7)  ))
             constant_integer_part = 1.0;
 
-        cout << "Current symbol is "<<c<<" and the state is "<< sm.current_state<<" and the last state is "<<last_state<<endl;
+        //cout << "Current symbol is "<<c<<" and the state is "<< sm.current_state<<" and the last state is "<<last_state<<endl;
 
 
 
@@ -195,12 +219,9 @@ Polynome::Polynome(string s) {
                 }
             }
         }
-
-
-
-
-
     }
+    // После окончания ввода полином сортируется по возврастанию
+    core.sort(Monome::compare);
 }
 
 void Polynome::print() {
@@ -244,6 +265,55 @@ Polynome Polynome::integrate(short index) {
     for(Monome& m:p.core)
         m = m.integrate(index);
     return p;
+}
+
+Polynome Polynome::operator+(Polynome p) {
+    // Предполагается, что мы складываем 2 ОТСОРТИРОВАННЫХ по возрастанию степеней мономов полинома
+    list<Monome> add_list;// Пока что пустой список, на основе которого будет сформирован новый полином
+
+    //Идея такая: создаём вспомогательный список и в него делаем merge с сохранением порядка
+    // После этого проходим по вспомогательному списку и собираем одинаковые (с одинаковыми наборами степеней)
+    list<Monome> tmp = core; // Вспомогательный список
+    tmp.merge(p.core,Monome::compare); // Происходит merge
+    // ----------------------------------------------------
+    // Добавлено для тестирования, не является частью проги
+//    Polynome n_p(tmp);
+//    n_p.print();
+    // ----------------------------------------------------
+    // Теперь по tmp надо пройтись и собрать одинаковые
+    list<Monome>::iterator it;// Итератор для получения лёгкого доступа к элементам
+    // Нам нужно идти парами
+    // Длина должна быть хотя бы 2
+    if(tmp.begin()!=tmp.end()){
+        // Сразу начинаем добавлять моном
+        it = tmp.begin();
+        float K_ = it->K;
+        int a_ = it->a;
+        int b_ = it->b;
+        int c_ = it->c;
+        auto nxt = std::next(it); // Следующий за ним элемент
+        while (true){
+            if(Monome::equal_iterators(it,nxt)){
+                K_ += nxt->K;
+            } else{
+                if(K_!=0.0)
+                    add_list.emplace_back(K_,a_,b_,c_);
+                K_ = nxt->K;
+                a_ = nxt->a;
+                b_ = nxt->b;
+                c_ = nxt->c;
+            }
+            if(nxt == tmp.end())
+                break;
+            it++;
+            nxt++;
+        }
+    }
+    else{
+        add_list = tmp;
+    }
+
+    return Polynome(add_list);
 }
 
 StateMachine::StateMachine(int start_state) {
