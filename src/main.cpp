@@ -3,10 +3,10 @@
 #include "polynomial.h"
 using namespace std;
 int main(){
-    Polynome p1("x^3+x^2+2*x+6");
-    Polynome p2("-x^2-2*x+5");
+    Polynome p1("x*y-6");
+    Polynome p2("x^2*z-y");
     //auto p1 = p.differentiate(1);
-    auto t = p1+p2;
+    auto t = p1*p2;
     t.print();
 //    Monome m1(1,1,2,3);
 //    Monome m2(1,1,1,3);

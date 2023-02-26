@@ -316,6 +316,33 @@ Polynome Polynome::operator+(Polynome p) {
     return Polynome(add_list);
 }
 
+Polynome Polynome::operator-(Polynome p) {
+    return *this+p.operator*(-1);
+}
+
+Polynome Polynome::operator*(const Polynome& p) {
+    // Очевидная реализация за O(n^2), n - длина полинома
+    Polynome res;
+    for(auto& m:p.core)
+        res=res + ((*this) *m);
+    return res;
+}
+
+Polynome::Polynome() {
+    core.emplace_back(0,0,0,0);
+}
+
+Polynome Polynome::operator*(const Monome &m) {
+    auto temp = core;
+    for (auto& t:temp) {
+        t.K *= m.K;
+        t.a += m.a;
+        t.b += m.b;
+        t.c += m.c;
+    }
+    return Polynome(temp);
+}
+
 StateMachine::StateMachine(int start_state) {
     current_state = start_state;
 }

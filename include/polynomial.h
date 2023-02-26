@@ -7,16 +7,9 @@ using namespace std;
 
 // Класс стандартного полинома
 class Polynome {
-
     list<Monome> core; // Список из мономов этого полинома
-
-
-    // Сложение полиномов
-    Polynome operator-(Polynome p); // Вычитание полиномов
-    Polynome operator*(Polynome p); // Умножение полиномов (*)
-    Polynome operator/(Polynome p); // Деление полиномов (*)
-
 public:
+    Polynome();// Конструктор по умолчанию
     explicit Polynome(string s); // Конструктор полинома по строке ввода
     void print();
 
@@ -33,7 +26,12 @@ public:
     Polynome integrate(short index); // Интегрирование по переменной, соответствующей индексу:
     // 0 - x; 1 - y; 2 - z;
     // На отрезке [from;to]
-    Polynome operator+(Polynome p);
+    // Операции над двумя полиномами
+    Polynome operator+(Polynome p);// Сложение полиномов
+    Polynome operator-(Polynome p); // Вычитание полиномов
+    Polynome operator*(const Polynome& p); // Умножение полиномов (*)
+    Polynome operator*(const Monome& m); // Умножение полинома на моном
+    Polynome operator/(Polynome p); // Деление полиномов (*)
 };
 
 // Конечный автомат для обработки ввода полинома
