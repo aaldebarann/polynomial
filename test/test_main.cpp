@@ -1,6 +1,6 @@
 #include <gtest.h>
 #include "polynomial.h"
-int testa(int argc, char **argv)
+int main(int argc, char **argv)
 {
     Polynome p("3*x^2*y^3");
   ::testing::InitGoogleTest(&argc, argv);

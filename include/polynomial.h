@@ -33,6 +33,8 @@ public:
     Polynome operator*(const Polynome& p); // Умножение полиномов (*)
     Polynome operator*(const Monome& m); // Умножение полинома на моном
     Polynome operator/(Polynome p); // Деление полиномов (*)
+
+    bool operator==(Polynome& p); // Сравнение полиномов
 };
     static void deleteAll(string& str, char toDelete); // Для удаления пробелов в строке
 // Конечный автомат для обработки ввода полинома

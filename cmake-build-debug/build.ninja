@@ -197,6 +197,13 @@ build test/CMakeFiles/polynomial_test.dir/test_main.cpp.obj: CXX_COMPILER__polyn
   OBJECT_DIR = test\CMakeFiles\polynomial_test.dir
   OBJECT_FILE_DIR = test\CMakeFiles\polynomial_test.dir
 
+build test/CMakeFiles/polynomial_test.dir/test_polynome.cpp.obj: CXX_COMPILER__polynomial_test_Debug C$:/C++_proj/PolynomeProj/polynomial/test/test_polynome.cpp || cmake_object_order_depends_target_polynomial_test
+  DEP_FILE = test\CMakeFiles\polynomial_test.dir\test_polynome.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/C++_proj/PolynomeProj/polynomial/include -IC:/C++_proj/PolynomeProj/polynomial/gtest
+  OBJECT_DIR = test\CMakeFiles\polynomial_test.dir
+  OBJECT_FILE_DIR = test\CMakeFiles\polynomial_test.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target polynomial_test
@@ -205,7 +212,7 @@ build test/CMakeFiles/polynomial_test.dir/test_main.cpp.obj: CXX_COMPILER__polyn
 #############################################
 # Link the executable bin\polynomial_test.exe
 
-build bin/polynomial_test.exe: CXX_EXECUTABLE_LINKER__polynomial_test_Debug test/CMakeFiles/polynomial_test.dir/__/src/expression.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/main.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/polynomial.cpp.obj test/CMakeFiles/polynomial_test.dir/test_expression.cpp.obj test/CMakeFiles/polynomial_test.dir/test_main.cpp.obj | lib/libgtest.a || lib/libgtest.a
+build bin/polynomial_test.exe: CXX_EXECUTABLE_LINKER__polynomial_test_Debug test/CMakeFiles/polynomial_test.dir/__/src/expression.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/main.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/polynomial.cpp.obj test/CMakeFiles/polynomial_test.dir/test_expression.cpp.obj test/CMakeFiles/polynomial_test.dir/test_main.cpp.obj test/CMakeFiles/polynomial_test.dir/test_polynome.cpp.obj | lib/libgtest.a || lib/libgtest.a
   FLAGS = -g
   LINK_LIBRARIES = lib/libgtest.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = test\CMakeFiles\polynomial_test.dir
