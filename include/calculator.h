@@ -16,6 +16,7 @@ int m() {
     cin >> str;
     ArithmeticExpression expr(str);
     expr.calculate();
+    return 0;
 }
 
 #endif //POLYNOMIAL_CALCULATOR_H
