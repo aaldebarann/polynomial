@@ -10,6 +10,7 @@ class Polynome {
     list<Monome> core; // Список из мономов этого полинома
 public:
     Polynome();// Конструктор по умолчанию
+    explicit Polynome(float C); // Константный полином
     explicit Polynome(string s); // Конструктор полинома по строке ввода
     void print();
 
@@ -33,7 +34,7 @@ public:
     Polynome operator*(const Monome& m); // Умножение полинома на моном
     Polynome operator/(Polynome p); // Деление полиномов (*)
 };
-
+    static void deleteAll(string& str, char toDelete); // Для удаления пробелов в строке
 // Конечный автомат для обработки ввода полинома
 class StateMachine{
     // Векторы перехода

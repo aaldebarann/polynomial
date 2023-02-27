@@ -103,9 +103,21 @@ bool Monome::equal_iterators(std::list<Monome>::iterator it1, std::list<Monome>:
     return (it1->a == it2->a)&&(it1->b == it2->b)&&(it1->c == it2->c);
 }
 
+void deleteAll(string& str, char toDelete) {
+    int spaces = 0;
+    for(int i = 0; i < str.size(); i++) {
+        str[i - spaces] = str[i];
+        if(str[i] == toDelete)
+            spaces++;
+    }
+    str.erase(str.size() - spaces, spaces);
+}
+
+
 Polynome::Polynome(string s) {
     // Создадим конечный автомат
     auto sm = StateMachine(0);
+    deleteAll(s,' ');
     s.push_back(' ');
     // Параметры текущего монома, который будет добавлен к полиному
     float constant_integer_part = 0.0; // Целая часть константы
@@ -341,6 +353,10 @@ Polynome Polynome::operator*(const Monome &m) {
         t.c += m.c;
     }
     return Polynome(temp);
+}
+
+Polynome::Polynome(float C) {
+    core.emplace_back(C,0,0,0);
 }
 
 StateMachine::StateMachine(int start_state) {

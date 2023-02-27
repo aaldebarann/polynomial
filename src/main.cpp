@@ -2,9 +2,9 @@
 //#include <algorithm>
 #include "polynomial.h"
 using namespace std;
-int main(){
-    Polynome p1("x*y-6");
-    Polynome p2("x^2*z-y");
+int tats(){
+    Polynome p1("x * y - 6");
+    Polynome p2("x^2 * z - y");
     //auto p1 = p.differentiate(1);
     auto t = p1*p2;
     t.print();
