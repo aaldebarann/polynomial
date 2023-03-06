@@ -185,8 +185,10 @@ Polynome::Polynome(string s) {
             was_a_dot = true;
         last_state = sm.current_state;
         sm.Move(c);
+        
         if(sm.current_state == -1)
-            correct = false;
+            throw std::invalid_argument("Incorrect input!");
+
         // Возможность не вводить единичную степень элемента внутри
         // Для x
         if((sm.current_state==4)&&(last_state == 2)){

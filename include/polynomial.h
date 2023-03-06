@@ -8,7 +8,6 @@ using namespace std;
 // Класс стандартного полинома
 class Polynome {
     list<Monome> core; // Список из мономов этого полинома
-    bool correct = true; // Правильно введён
 public:
     Polynome();// Конструктор по умолчанию
     explicit Polynome(float C); // Константный полином
