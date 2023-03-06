@@ -13,10 +13,16 @@ Monome::Monome(float K_, int a_, int b_, int c_) {
 }
 
 void Monome::print() const {
-    if(K>=0)
-        cout <<"+"<< K <<"*x^"<<a<<"*y^"<<b<<"*z^"<<c;
-    else
-        cout << K <<"*x^"<<a<<"*y^"<<b<<"*z^"<<c;
+    if(K>=0){
+        cout <<"+";
+    }
+    cout << K ;
+    if(a!=0)
+        cout<<"*x^"<<a;
+    if(b!=0)
+        cout<<"*y^"<<b;
+    if(c!=0)
+        cout <<"*z^"<<c;
 }
 
 Monome Monome::operator*(float constant) const {
@@ -179,6 +185,9 @@ Polynome::Polynome(string s) {
             was_a_dot = true;
         last_state = sm.current_state;
         sm.Move(c);
+        
+        if(sm.current_state == -1)
+            throw std::invalid_argument("Incorrect input!");
 
         // Возможность не вводить единичную степень элемента внутри
         // Для x
