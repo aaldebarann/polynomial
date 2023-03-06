@@ -263,8 +263,8 @@ double ArithmeticExpression::calcFunction(int& i) {
 double ArithmeticExpression::calculate(istream& input, ostream& output)
 {
     readOperands(input, output);
-    double left, right; // операнды
-    stack<double> st;
+    Polynome left, right; // операнды
+    stack<Polynome> st;
     for(int i = 0; i < postfix.size(); i++) {
         auto& lexem  = postfix[i];
         switch (lexem.second[0]) {
@@ -299,9 +299,9 @@ double ArithmeticExpression::calculate(istream& input, ostream& output)
                 break;
             default:
                 if(lexem.first == variable)
-                    st.push(operands[lexem.second]);
+                    st.push(Polynome(operands[lexem.second]));
                 else if(lexem.first == number)
-                    st.push(stod(lexem.second));
+                    st.push(Polynome(stod(lexem.second)));
                 else  {
                     // lexem is function
                     st.push(calcFunction(i)); // i will be changed

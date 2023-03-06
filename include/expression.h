@@ -7,6 +7,7 @@
 #include <vector>
 #include <stack>
 #include <cmath>
+#include "polynomial.h"
 
 using namespace std;
 
