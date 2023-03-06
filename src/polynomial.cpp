@@ -76,7 +76,7 @@ Monome Monome::differentiate(short index) const {
 }
 
 float Monome::value_at(float x, float y, float z) const {
-    return K* pow(x,a)* pow(y,b)* pow(x,c);
+    return K* pow(x,a)* pow(y,b)* pow(z,c);
 }
 
 bool Monome::compare(const Monome& m1, const Monome& m2) {
@@ -103,9 +103,21 @@ bool Monome::equal_iterators(std::list<Monome>::iterator it1, std::list<Monome>:
     return (it1->a == it2->a)&&(it1->b == it2->b)&&(it1->c == it2->c);
 }
 
+void deleteAll(string& str, char toDelete) {
+    int spaces = 0;
+    for(int i = 0; i < str.size(); i++) {
+        str[i - spaces] = str[i];
+        if(str[i] == toDelete)
+            spaces++;
+    }
+    str.erase(str.size() - spaces, spaces);
+}
+
+
 Polynome::Polynome(string s) {
     // Создадим конечный автомат
     auto sm = StateMachine(0);
+    deleteAll(s,' ');
     s.push_back(' ');
     // Параметры текущего монома, который будет добавлен к полиному
     float constant_integer_part = 0.0; // Целая часть константы
@@ -233,6 +245,7 @@ void Polynome::print() {
 
 Polynome::Polynome(list<Monome> monomes) {
     core = std::move(monomes);
+    core.sort(Monome::compare);
 }
 
 Polynome::Polynome(const Polynome &p) {
@@ -241,8 +254,14 @@ Polynome::Polynome(const Polynome &p) {
 
 float Polynome::value_at(float x, float y, float z) {
     float res = 0.0;
-    for(Monome& m:core)
+    for(Monome& m:core){
+
+//        m.print();cout << endl;
+//        cout << m.value_at(x,y,z) << endl;
+
         res += m.value_at(x,y,z);
+    }
+
     return res;
 }
 
@@ -254,10 +273,13 @@ Polynome Polynome::operator*(float constant) {
 }
 
 Polynome Polynome::differentiate(short index) {
-    Polynome p(core);
-    for(Monome& m:p.core)
-        m = m.differentiate(index);
-    return p;
+    list<Monome> add_core;
+    for(Monome& m:core){
+        auto t = m.differentiate(index);
+        if(t.K != 0.0)
+            add_core.push_back(t);
+    }
+    return Polynome(add_core);
 }
 
 Polynome Polynome::integrate(short index) {
@@ -341,6 +363,24 @@ Polynome Polynome::operator*(const Monome &m) {
         t.c += m.c;
     }
     return Polynome(temp);
+}
+
+Polynome::Polynome(float C) {
+    core.emplace_back(C,0,0,0);
+}
+
+bool Polynome::operator==(Polynome &p) {
+    if(core.size()!=p.core.size())
+        return false;
+    auto it1 = core.begin();
+    auto it2 = p.core.begin();
+    while (it1!=core.end()){
+        if(!(Monome::equal_iterators(it1,it2)))
+            return false;
+        it1 ++;
+        it2 ++;
+    }
+    return true;
 }
 
 StateMachine::StateMachine(int start_state) {
