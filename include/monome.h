@@ -2,6 +2,7 @@
 #ifndef POLYGUI_MONOME_H
 #define POLYGUI_MONOME_H
 #include <list>
+#include <iostream>
 // Класс стандартного монома вида K * x^a * y^b * z^c
 class Monome {
 

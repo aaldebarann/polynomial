@@ -77,6 +77,13 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 build cmake_object_order_depends_target_polynomial: phony || src/CMakeFiles/polynomial.dir
 
+build src/CMakeFiles/polynomial.dir/StateMachine.cpp.obj: CXX_COMPILER__polynomial_Debug C$:/C++_proj/PolynomeProj/polynomial/src/StateMachine.cpp || cmake_object_order_depends_target_polynomial
+  DEP_FILE = src\CMakeFiles\polynomial.dir\StateMachine.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/C++_proj/PolynomeProj/polynomial/include -IC:/C++_proj/PolynomeProj/polynomial/gtest
+  OBJECT_DIR = src\CMakeFiles\polynomial.dir
+  OBJECT_FILE_DIR = src\CMakeFiles\polynomial.dir
+
 build src/CMakeFiles/polynomial.dir/expression.cpp.obj: CXX_COMPILER__polynomial_Debug C$:/C++_proj/PolynomeProj/polynomial/src/expression.cpp || cmake_object_order_depends_target_polynomial
   DEP_FILE = src\CMakeFiles\polynomial.dir\expression.cpp.obj.d
   FLAGS = -g
@@ -86,6 +93,13 @@ build src/CMakeFiles/polynomial.dir/expression.cpp.obj: CXX_COMPILER__polynomial
 
 build src/CMakeFiles/polynomial.dir/main.cpp.obj: CXX_COMPILER__polynomial_Debug C$:/C++_proj/PolynomeProj/polynomial/src/main.cpp || cmake_object_order_depends_target_polynomial
   DEP_FILE = src\CMakeFiles\polynomial.dir\main.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/C++_proj/PolynomeProj/polynomial/include -IC:/C++_proj/PolynomeProj/polynomial/gtest
+  OBJECT_DIR = src\CMakeFiles\polynomial.dir
+  OBJECT_FILE_DIR = src\CMakeFiles\polynomial.dir
+
+build src/CMakeFiles/polynomial.dir/monome.cpp.obj: CXX_COMPILER__polynomial_Debug C$:/C++_proj/PolynomeProj/polynomial/src/monome.cpp || cmake_object_order_depends_target_polynomial
+  DEP_FILE = src\CMakeFiles\polynomial.dir\monome.cpp.obj.d
   FLAGS = -g
   INCLUDES = -IC:/C++_proj/PolynomeProj/polynomial/include -IC:/C++_proj/PolynomeProj/polynomial/gtest
   OBJECT_DIR = src\CMakeFiles\polynomial.dir
@@ -106,7 +120,7 @@ build src/CMakeFiles/polynomial.dir/polynomial.cpp.obj: CXX_COMPILER__polynomial
 #############################################
 # Link the static library lib\libpolynomial.a
 
-build lib/libpolynomial.a: CXX_STATIC_LIBRARY_LINKER__polynomial_Debug src/CMakeFiles/polynomial.dir/expression.cpp.obj src/CMakeFiles/polynomial.dir/main.cpp.obj src/CMakeFiles/polynomial.dir/polynomial.cpp.obj
+build lib/libpolynomial.a: CXX_STATIC_LIBRARY_LINKER__polynomial_Debug src/CMakeFiles/polynomial.dir/StateMachine.cpp.obj src/CMakeFiles/polynomial.dir/expression.cpp.obj src/CMakeFiles/polynomial.dir/main.cpp.obj src/CMakeFiles/polynomial.dir/monome.cpp.obj src/CMakeFiles/polynomial.dir/polynomial.cpp.obj
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = src\CMakeFiles\polynomial.dir
   POST_BUILD = cd .
@@ -162,6 +176,13 @@ build test/edit_cache: phony test/CMakeFiles/edit_cache.util
 
 build cmake_object_order_depends_target_polynomial_test: phony || cmake_object_order_depends_target_gtest
 
+build test/CMakeFiles/polynomial_test.dir/__/src/StateMachine.cpp.obj: CXX_COMPILER__polynomial_test_Debug C$:/C++_proj/PolynomeProj/polynomial/src/StateMachine.cpp || cmake_object_order_depends_target_polynomial_test
+  DEP_FILE = test\CMakeFiles\polynomial_test.dir\__\src\StateMachine.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/C++_proj/PolynomeProj/polynomial/include -IC:/C++_proj/PolynomeProj/polynomial/gtest
+  OBJECT_DIR = test\CMakeFiles\polynomial_test.dir
+  OBJECT_FILE_DIR = test\CMakeFiles\polynomial_test.dir\__\src
+
 build test/CMakeFiles/polynomial_test.dir/__/src/expression.cpp.obj: CXX_COMPILER__polynomial_test_Debug C$:/C++_proj/PolynomeProj/polynomial/src/expression.cpp || cmake_object_order_depends_target_polynomial_test
   DEP_FILE = test\CMakeFiles\polynomial_test.dir\__\src\expression.cpp.obj.d
   FLAGS = -g
@@ -171,6 +192,13 @@ build test/CMakeFiles/polynomial_test.dir/__/src/expression.cpp.obj: CXX_COMPILE
 
 build test/CMakeFiles/polynomial_test.dir/__/src/main.cpp.obj: CXX_COMPILER__polynomial_test_Debug C$:/C++_proj/PolynomeProj/polynomial/src/main.cpp || cmake_object_order_depends_target_polynomial_test
   DEP_FILE = test\CMakeFiles\polynomial_test.dir\__\src\main.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/C++_proj/PolynomeProj/polynomial/include -IC:/C++_proj/PolynomeProj/polynomial/gtest
+  OBJECT_DIR = test\CMakeFiles\polynomial_test.dir
+  OBJECT_FILE_DIR = test\CMakeFiles\polynomial_test.dir\__\src
+
+build test/CMakeFiles/polynomial_test.dir/__/src/monome.cpp.obj: CXX_COMPILER__polynomial_test_Debug C$:/C++_proj/PolynomeProj/polynomial/src/monome.cpp || cmake_object_order_depends_target_polynomial_test
+  DEP_FILE = test\CMakeFiles\polynomial_test.dir\__\src\monome.cpp.obj.d
   FLAGS = -g
   INCLUDES = -IC:/C++_proj/PolynomeProj/polynomial/include -IC:/C++_proj/PolynomeProj/polynomial/gtest
   OBJECT_DIR = test\CMakeFiles\polynomial_test.dir
@@ -212,7 +240,7 @@ build test/CMakeFiles/polynomial_test.dir/test_polynome.cpp.obj: CXX_COMPILER__p
 #############################################
 # Link the executable bin\polynomial_test.exe
 
-build bin/polynomial_test.exe: CXX_EXECUTABLE_LINKER__polynomial_test_Debug test/CMakeFiles/polynomial_test.dir/__/src/expression.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/main.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/polynomial.cpp.obj test/CMakeFiles/polynomial_test.dir/test_expression.cpp.obj test/CMakeFiles/polynomial_test.dir/test_main.cpp.obj test/CMakeFiles/polynomial_test.dir/test_polynome.cpp.obj | lib/libgtest.a || lib/libgtest.a
+build bin/polynomial_test.exe: CXX_EXECUTABLE_LINKER__polynomial_test_Debug test/CMakeFiles/polynomial_test.dir/__/src/StateMachine.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/expression.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/main.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/monome.cpp.obj test/CMakeFiles/polynomial_test.dir/__/src/polynomial.cpp.obj test/CMakeFiles/polynomial_test.dir/test_expression.cpp.obj test/CMakeFiles/polynomial_test.dir/test_main.cpp.obj test/CMakeFiles/polynomial_test.dir/test_polynome.cpp.obj | lib/libgtest.a || lib/libgtest.a
   FLAGS = -g
   LINK_LIBRARIES = lib/libgtest.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = test\CMakeFiles\polynomial_test.dir
