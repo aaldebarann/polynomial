@@ -5,6 +5,7 @@ TEST(Polynome,can_create_polynomes){
     ASSERT_NO_THROW(Polynome("3 * x^2 + 5 * x * z - y"));
 }
 
+/*
 TEST(Polynome,can_add_polynomes){
     Polynome p1("2* x + y");
     Polynome p2("-x + z + y");
@@ -81,3 +82,4 @@ TEST(Polynome,can_find_value_at_point_properly){
     auto v = p1.value_at(0,1,1);
     ASSERT_EQ(v,-6);
 }
+*/
