@@ -7,10 +7,10 @@ int Tree::comparison(string one, string tow) {
 	if (strcmp(s, f) == 0) {
 		return 0;
 	}
-	if (strcmp(s, f) > 0) {//str1 áîëüøå, ÷åì str2
+	if (strcmp(s, f) > 0) {//str1 Ã¡Ã®Ã«Ã¼Ã¸Ã¥, Ã·Ã¥Ã¬ str2
 		return 1;
 	}
-	if (strcmp(s, f) < 0) { //str1 ìåíüøå, ÷åì str2
+	if (strcmp(s, f) < 0) { //str1 Ã¬Ã¥Ã­Ã¼Ã¸Ã¥, Ã·Ã¥Ã¬ str2
 		return -1;
 	}
 }
@@ -75,7 +75,7 @@ Polynome Tree::find(string x, nodeptr& p)
 	if (p == NULL)
 	{
 		cout << "Sorry! element not found" << endl;
-		// âûçîâ îêíà ñ òåêñòîì "ýëåìåíò íå íàéäåò"
+		// Ã¢Ã»Ã§Ã®Ã¢ Ã®ÃªÃ­Ã  Ã± Ã²Ã¥ÃªÃ±Ã²Ã®Ã¬ "Ã½Ã«Ã¥Ã¬Ã¥Ã­Ã² Ã­Ã¥ Ã­Ã Ã©Ã¤Ã¥Ã²"
 		return Polynome("0");
 	}
 	else
@@ -93,7 +93,7 @@ Polynome Tree::find(string x, nodeptr& p)
 			else
 			{
 				cout << "Element found!" << endl;
-				// âûçîâ îêíà ñ òåêñòîì "ýëåìåíò íàéäåò"
+				// Ã¢Ã»Ã§Ã®Ã¢ Ã®ÃªÃ­Ã  Ã± Ã²Ã¥ÃªÃ±Ã²Ã®Ã¬ "Ã½Ã«Ã¥Ã¬Ã¥Ã­Ã² Ã­Ã Ã©Ã¤Ã¥Ã²"
 				return p->DataCase.data;
 			}
 		}
@@ -140,7 +140,7 @@ void Tree::del(string x, nodeptr& p)
 	if (p == NULL)
 	{
 		cout << "Sorry! element not found" << endl;
-		// âûçîâ îêíà ñ òåêñòîì "ýëåìåíò íå íàéäåò"
+		// Ã¢Ã»Ã§Ã®Ã¢ Ã®ÃªÃ­Ã  Ã± Ã²Ã¥ÃªÃ±Ã²Ã®Ã¬ "Ã½Ã«Ã¥Ã¬Ã¥Ã­Ã² Ã­Ã¥ Ã­Ã Ã©Ã¤Ã¥Ã²"
 	}
 	else if (comparison(x, p->DataCase.name) == -1)
 	{
@@ -225,8 +225,8 @@ void Tree::postorder(nodeptr p)
 
 int Tree::max(int val1, int val2)
 {
-	return ((val1 > val2) ? val1 : val2); // íåáîëüøîå ïîÿñíåíèå ((?:a) ñîîòâåòñòâóåò öåëåâîé ïîñëåäîâàòåëüíîñòè "a", íî "(?:a)\1" ÿâëÿåòñÿ íåäîïóñòèìûì, òàê êàê ãðóïïà çàïèñè 1 îòñóòñòâóåò.) ýòî èç ML íó èëè 
-	// ïðîñòûìè ñëîâàìè åñëè val1 > val2 òî âîçâðàùàåì val1 èíà÷å val2
+	return ((val1 > val2) ? val1 : val2); // Ð½ÐµÐ±Ð¾Ð»ÑŒÑˆÐ¾Ðµ Ð¿Ð¾ÑÑÐ½ÐµÐ½Ð¸Ðµ ((?:a) ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ Ñ†ÐµÐ»ÐµÐ²Ð¾Ð¹ Ð¿Ð¾ÑÐ»ÐµÐ´Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ "a", Ð½Ð¾ "(?:a)\1" ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð½ÐµÐ´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ð¼, Ñ‚Ð°Ðº ÐºÐ°Ðº Ð³Ñ€ÑƒÐ¿Ð¿Ð° Ð·Ð°Ð¿Ð¸ÑÐ¸ 1 Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚.) ÑÑ‚Ð¾ Ð¸Ð· ML Ð½Ñƒ Ð¸Ð»Ð¸ 
+	// Ð¿Ñ€Ð¾ÑÑ‚Ñ‹Ð¼Ð¸ ÑÐ»Ð¾Ð²Ð°Ð¼Ð¸ ÐµÑÐ»Ð¸ val1 > val2 Ñ‚Ð¾ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ val1 Ð¸Ð½Ð°Ñ‡Ðµ val2
 }
 int Tree::bsheight(nodeptr p)
 {
