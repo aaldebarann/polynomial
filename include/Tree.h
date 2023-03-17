@@ -31,7 +31,7 @@ public:
 	void preorder(nodeptr);
 	void inorder(nodeptr);
 	void postorder(nodeptr);
-
+	~Tree();
 
 	
 
