@@ -272,3 +272,7 @@ nodeptr Tree::drr(nodeptr& p1)
 	p1->right = srl(p1->right);
 	return srr(p1);
 }
+Tree :: ~Tree() {
+	Obj* t = NULL;
+	this->clear(t);
+}
