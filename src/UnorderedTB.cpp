@@ -1,5 +1,4 @@
 #include "UnorderedTB.h"
-#include "UnorderedTB"
 UnorderedTB::UnorderedTB() {
 	row = new Node[1];
 	marker = -1;
