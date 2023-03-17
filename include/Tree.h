@@ -3,7 +3,7 @@
 struct Obj
 {
 	Node DataCase;
-	int height; // она же глубина
+	int height; // Г®Г­Г  Г¦ГҐ ГЈГ«ГіГЎГЁГ­Г 
 	Obj* right;
 	Obj* left;
 };
@@ -12,25 +12,26 @@ typedef struct Obj* nodeptr;
 class Tree
 {
 private:
-	int bsheight(nodeptr); // высота(глубина) до конкретного объекта (звена) в дереве
+	int bsheight(nodeptr); // РІС‹СЃРѕС‚Р°(РіР»СѓР±РёРЅР°) РґРѕ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РѕР±СЉРµРєС‚Р° (Р·РІРµРЅР°) РІ РґРµСЂРµРІРµ
 	nodeptr srl(nodeptr&);
-	nodeptr drl(nodeptr&);// левый поворот
+	nodeptr drl(nodeptr&);// Р»РµРІС‹Р№ РїРѕРІРѕСЂРѕС‚
 	nodeptr srr(nodeptr&);
-	nodeptr drr(nodeptr&); //правый поворот		   
-	int max(int, int); // максимальное из двух имен 
-	int comparison(string, string); // сравнение имен
+	nodeptr drr(nodeptr&); //РїСЂР°РІС‹Р№ РїРѕРІРѕСЂРѕС‚		   
+	int max(int, int); // РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РёР· РґРІСѓС… РІС‹СЃРѕС‚
+	int comparison(string, string); // СЃСЂР°РІРЅРµРЅРёРµ РёРјРµРЅ
 	Polynome deletemin(nodeptr&);
 	nodeptr nodecopy(nodeptr&);
 	void copy(nodeptr&, nodeptr&);
 public:
-	Polynome find(string, nodeptr&);
+	Polynome find(string, nodeptr&); // РїРѕР»СѓС‡РµРЅРёРµ РїРѕР»РёРЅРѕРјР°
 	void insert(Node, nodeptr&);
 	void del(string, nodeptr&);
-	void clear(nodeptr&); // очищает дерево
-	// три варианта принтов 
+	void clear(nodeptr&); // РѕС‡РёС‰Р°РµС‚ РґРµСЂРµРІРѕ
+	// С‚СЂРё РІР°СЂРёР°РЅС‚Р° РїСЂРёРЅС‚РѕРІ 
 	void preorder(nodeptr);
 	void inorder(nodeptr);
 	void postorder(nodeptr);
+
 
 	
 
