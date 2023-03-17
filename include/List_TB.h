@@ -1,5 +1,5 @@
 #include "Table.h"
-class List_TB : public Abstract
+class List_TB : public Table
 {
 private:
 	list <Node> rows;
