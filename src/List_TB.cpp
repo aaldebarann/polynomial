@@ -1,9 +1,9 @@
 #include "List_TB.h"
 List_TB::List_TB() {
-};
+}
 void List_TB::Put(Node val) {
 	rows.push_back(val);
-};
+}
 int List_TB::Search(string name) {
 	list <Node>::iterator Iter;
 	int i = 0;
@@ -24,7 +24,7 @@ int List_TB::Search(string name) {
 	}
 
 
-};
+}
 int List_TB::Search(int id) {
 	list <Node>::iterator Iter;
 	int i = 0;
@@ -45,7 +45,7 @@ int List_TB::Search(int id) {
 	}
 
 
-};
+}
 
 Polynome List_TB::Take_elem(string name) {
 	list <Node>::iterator Iter;
@@ -65,7 +65,7 @@ Polynome List_TB::Take_elem(string name) {
 		cout << "name not found" << endl;
 	}
 
-};
+}
 Polynome List_TB::Take_elem(int id) {
 	list <Node>::iterator Iter;
 	int i = 0;
@@ -84,7 +84,7 @@ Polynome List_TB::Take_elem(int id) {
 		cout << "id not found" << endl;
 	}
 
-};
+}
 void List_TB::Del(string name) {
 	list <Node>::iterator Iter;
 	int i = 0;
@@ -107,7 +107,7 @@ void List_TB::Del(string name) {
 	{
 		cout << "id not found" << endl;
 	}
-};
+}
 void List_TB::Del(int id) {
 	list <Node>::iterator Iter;
 	int i = 0;
@@ -130,7 +130,7 @@ void List_TB::Del(int id) {
 	{
 		cout << "id not found" << endl;
 	}
-};
+}
 void List_TB::Print() {
 	list <Node>::iterator Iter;
 	for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
@@ -139,7 +139,7 @@ void List_TB::Print() {
 		(*Iter).data.print();
 		cout << endl;
 	}
-};
+}
 List_TB ::~List_TB() {
 	rows.clear();
-};
+}

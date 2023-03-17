@@ -1,5 +1,5 @@
 #include "Table.h"
-class UnorderedTB : public Abstract
+class UnorderedTB : public Table
 {
 private:
 	Node* row;

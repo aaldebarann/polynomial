@@ -1,3 +1,4 @@
+#pragma once
 
 #include "monome.h"
 #include <list>

@@ -1,9 +1,8 @@
 #include "UnorderedTB.h"
-#include "UnorderedTB"
 UnorderedTB::UnorderedTB() {
 	row = new Node[1];
 	marker = -1;
-};
+}
 void UnorderedTB::Put(Node val) {
 	if (marker == -1) {
 		marker = 0;
@@ -21,7 +20,7 @@ void UnorderedTB::Put(Node val) {
 		}
 		row[++marker] = val;
 	}
-};
+}
 void UnorderedTB::Del(string name) {
 	int i = Search(name);
 	if (i == marker) {
@@ -34,7 +33,7 @@ void UnorderedTB::Del(string name) {
 		}
 		marker--;
 	}
-};
+}
 void UnorderedTB::Del(int id) {
 	int i = Search(id);
 	if (i == marker) {
@@ -47,7 +46,7 @@ void UnorderedTB::Del(int id) {
 		}
 		marker--;
 	}
-};
+}
 int UnorderedTB::Search(string name) {
 	int i = 0;
 	try
@@ -65,7 +64,7 @@ int UnorderedTB::Search(string name) {
 		cout << "name not found" << endl;
 	}
 
-};
+}
 int UnorderedTB::Search(int id) {
 	int i = 0;
 	try
@@ -83,13 +82,13 @@ int UnorderedTB::Search(int id) {
 		cout << "id not found" << endl;
 	}
 
-};
+}
 Polynome UnorderedTB::Take_elem(string name) {
 	return row[Search(name)].data;
-};
+}
 Polynome UnorderedTB::Take_elem(int id) {
 	return row[Search(id)].data;
-};
+}
 void UnorderedTB::Print() {
 	int i = 0;
 	cout << "Line mas table" << endl;
@@ -100,8 +99,8 @@ void UnorderedTB::Print() {
 		cout << endl;
 		i++;
 	}
-};
+}
 UnorderedTB:: ~UnorderedTB() {
 	delete[]row;
 	row = nullptr;
-};
+}

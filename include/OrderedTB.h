@@ -1,6 +1,6 @@
 #pragma once
 #include "Table.h"
-class OrderedTB : public Abstract
+class OrderedTB : public Table
 {
 private:
 	Node* DataMas;

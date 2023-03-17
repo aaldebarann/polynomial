@@ -1,5 +1,4 @@
-﻿#pragma once
-#include <algorithm>
+﻿#include <algorithm>
 #include "OrderedTB.h"
 
 void OrderedTB::repack() {
