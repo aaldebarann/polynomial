@@ -1,6 +1,6 @@
-<<<<<<< .merge_file_a14340
 #pragma once
 #include "Table.h"
+
 struct Obj
 {
 	Node DataCase;

@@ -1,4 +1,3 @@
-<<<<<<< .merge_file_a04608
 #include "Tree.h"
 
 int Tree::comparison(string one, string tow) {

@@ -1,4 +1,3 @@
-<<<<<<< .merge_file_a13272
 #include "Table.h"
 class List_TB : public Table
 {

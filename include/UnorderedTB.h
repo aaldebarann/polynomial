@@ -1,5 +1,5 @@
-<<<<<<< .merge_file_a13388
 #include "Table.h"
+
 class UnorderedTB : public Table
 {
 private:

@@ -1,5 +1,5 @@
-<<<<<<< .merge_file_a15004
 #include "List_TB.h"
+
 List_TB::List_TB() {
 }
 void List_TB::Put(Node val) {

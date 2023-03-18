@@ -1,4 +1,3 @@
-<<<<<<< .merge_file_a12024
 #pragma once
 #include "Table.h"
 class OrderedTB : public Table

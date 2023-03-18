@@ -1,5 +1,5 @@
-<<<<<<< .merge_file_a12240
 #include "UnorderedTB.h"
+
 UnorderedTB::UnorderedTB() {
 	row = new Node[1];
 	marker = -1;
@@ -161,7 +161,7 @@ int UnorderedTB::Search(string name) {
 
 Polynome UnorderedTB::Take_elem(string name) {
 	if (Search(name) == marker +1) {
-		// вызвать окно (такого элемента в таблице нет)
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ)
 		return Polynome("");
 	}
 	return row[Search(name)].data;
