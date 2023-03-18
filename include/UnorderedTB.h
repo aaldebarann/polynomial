@@ -1,3 +1,4 @@
+<<<<<<< .merge_file_a13388
 #include "Table.h"
 class UnorderedTB : public Table
 {
@@ -16,4 +17,21 @@ public:
 	void Print() override;
 	~UnorderedTB();
 
+=======
+#include "Table.h"
+class UnorderedTB : public Abstract
+{
+private:
+	Node* row;
+	int marker;
+public:
+	UnorderedTB();
+	void Insert(Node) override;
+	void Del(string) override;
+	int Search(string) override;
+	Polynome Take_elem(string) override;
+	void Print() override;
+	~UnorderedTB();
+
+>>>>>>> .merge_file_a08508
 };
