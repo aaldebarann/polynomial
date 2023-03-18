@@ -7,16 +7,15 @@
 
 
 #include <iostream>
+#include <list>
 #include "expression.h"
+#include "UnorderedTB.h"
+#include "OrderedTB.h"
+#include "List_TB.h"
+
 using namespace std;
 
-int m() {
-    cout << "Enter arithmetic expression:"<<endl;
-    string str;
-    cin >> str;
-    ArithmeticExpression expr(str);
-    expr.calculate();
-    return 0;
-}
+void start(list<Table>);
+
 
 #endif //POLYNOMIAL_CALCULATOR_H
