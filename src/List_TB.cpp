@@ -14,55 +14,36 @@ int List_TB::Search(string name) {
 			}
 			i++;
 		}
-
-
-
-
+		return -1;
 }
 
 
 Polynome List_TB::Take_elem(string name) {
 	list <Node>::iterator Iter;
 	int i = 0;
-	try
-	{
 		for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
 			if ((*Iter).name == name) {
 				return (*Iter).data;
 			}
 			i++;
 		}
-		throw invalid_argument("ERROR");
-	}
-	catch (const std::exception&)
-	{
-		cout << "name not found" << endl;
-	}
+		cout << "Sorry elem not in TB" << endl;
+		return Polynome("0")
 
 };
 void List_TB::Del(string name) {
 	list <Node>::iterator Iter;
 	int i = 0;
-	bool k = false;
-	try
-	{
-		for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
-			if ((*Iter).name == name) {
-				rows.erase(Iter);
-				k = true;
-				break;
-			}
-			i++;
+
+	for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
+		if ((*Iter).name == name) {
+			rows.erase(Iter);
+			break;
 		}
-		if (k == false) {
-			throw invalid_argument("ERROR");
-		}
+		i++;
 	}
-	catch (const std::exception&)
-	{
-		cout << "id not found" << endl;
-	}
-};
+
+}
 void List_TB::Print() {
 	list <Node>::iterator Iter;
 	for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
