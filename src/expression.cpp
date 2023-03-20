@@ -298,11 +298,14 @@ Polynome ArithmeticExpression::calculate(istream& input, ostream& output, const 
                 st.push(left * right);
                 break;
             case '/':
+                throw exception("DIVISION IS NOT IMPLEMENTED YET");
+                /*
                 right = st.top();
                 st.pop();
                 left = st.top();
                 st.pop();
                 st.push(left / right);
+                */
                 break;
             default:
                 if(lexem.first == variable)
