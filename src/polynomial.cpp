@@ -213,15 +213,22 @@ Polynome Polynome::operator+(Polynome p) {
     list<Monome>::iterator it;// Итератор для получения лёгкого доступа к элементам
     // Нам нужно идти парами
     // Длина должна быть хотя бы 2
-    if(tmp.begin()!=tmp.end()){
+    std::list<Monome>::iterator iter = tmp.end();
+    --iter;
+    if(tmp.begin()!=iter){
         // Сразу начинаем добавлять моном
         it = tmp.begin();
+        //it->print();
+        //cout << endl;
         float K_ = it->K;
         int a_ = it->a;
         int b_ = it->b;
         int c_ = it->c;
         auto nxt = std::next(it); // Следующий за ним элемент
+        /*nxt->print();
+        cout << endl;*/
         while (true){
+            //it->print(); cout << "||"; nxt->print(); cout <<" "<< Monome::equal_iterators(it, nxt) <<endl;
             if(Monome::equal_iterators(it,nxt)){
                 K_ += nxt->K;
             } else{
@@ -232,10 +239,18 @@ Polynome Polynome::operator+(Polynome p) {
                 b_ = nxt->b;
                 c_ = nxt->c;
             }
-            if(nxt == tmp.end())
+            /*it->print();
+            cout << endl;*/
+            if (nxt == iter) {
+                add_list.emplace_back(K_, a_, b_, c_);
                 break;
+            }
+                
             it++;
             nxt++;
+            
+            /*nxt->print();
+            cout << endl;*/
         }
     }
     else{
