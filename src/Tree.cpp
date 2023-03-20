@@ -17,7 +17,7 @@ int Tree::comparison(string one, string tow) {
 
 
 
-void Tree::insert(Node Data, nodeptr& p)
+void Tree::Insert(Node Data, nodeptr& p)
 {
     if (p == NULL)
     {
@@ -31,7 +31,7 @@ void Tree::insert(Node Data, nodeptr& p)
     {
         if (comparison(Data.name,p->DataCase.name) == -1)
         {
-            insert(Data, p->left);
+            Insert(Data, p->left);
             if ((bsheight(p->left) - bsheight(p->right)) == 2)
             {
                 if (comparison(Data.name,p->left->DataCase.name) == -1)
@@ -46,7 +46,7 @@ void Tree::insert(Node Data, nodeptr& p)
         }
         else if (comparison(Data.name, p->DataCase.name) == 1)
         {
-            insert(Data, p->right);
+            Insert(Data, p->right);
             if ((bsheight(p->right) - bsheight(p->left)) == 2)
             {
                 if (comparison(Data.name, p->DataCase.name) == 1)
@@ -134,7 +134,7 @@ nodeptr Tree::nodecopy(nodeptr& p)
     }
 }
 
-void Tree::del(string x, nodeptr& p)
+void Tree::Del(string x, nodeptr& p)
 {
     nodeptr d;
     if (p == NULL)
@@ -144,11 +144,11 @@ void Tree::del(string x, nodeptr& p)
     }
     else if (comparison(x, p->DataCase.name) == -1)
     {
-        del(x, p->left);
+        Del(x, p->left);
     }
     else if (comparison(x, p->DataCase.name) == 1)
     {
-        del(x, p->right);
+        Del(x, p->right);
     }
     else if ((p->left == NULL) && (p->right == NULL))
     {

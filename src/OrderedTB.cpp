@@ -48,7 +48,7 @@ void OrderedTB::Insert(Node val) {
         KeyMas[marker] = marker;
     }
     else {
-        if (Search(val.name) != marker + 1) {
+        if (Search(val.name) == marker + 1) {
             if ((marker == int(sizeof(DataMas)) / 4) || marker == 0) {
                 Node* tmp = new Node[int(sizeof(DataMas)) * 2];
                 int* tm = new int[int(sizeof(KeyMas)) * 2];
