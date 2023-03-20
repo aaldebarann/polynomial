@@ -1,6 +1,0 @@
-#ifndef POLYGUI_POLYNOME_H
-#define POLYGUI_POLYNOME_H
-
-
-
-#endif //POLYGUI_POLYNOME_H

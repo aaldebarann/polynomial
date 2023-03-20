@@ -1,7 +1,7 @@
-set(target polynomial_test)
+set(target ${POL_TESTS})
 
-file(GLOB hdrs "*.h*" "../include/*.cpp")
-file(GLOB srcs "*.cpp" "../src/*.cpp")
+file(GLOB hdrs "*.h*")
+file(GLOB srcs "*.cpp")
 
-add_executable(${target} ${srcs} ${hdrs} ../src/main.cpp)
+add_executable(${target} ${srcs} ${hdrs})
 target_link_libraries(${target} gtest)
