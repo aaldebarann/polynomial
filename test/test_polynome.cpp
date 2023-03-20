@@ -5,18 +5,24 @@ TEST(Polynome,can_create_polynomes){
     ASSERT_NO_THROW(Polynome("3 * x^2 + 5 * x * z - y"));
 }
 
-/*
+
 TEST(Polynome,can_add_polynomes){
     Polynome p1("2* x + y");
     Polynome p2("-x + z + y");
+    auto p3 = p1 + p2;
+    //cout << "Here it is: " << endl;
+    //p3.print();
     ASSERT_NO_THROW(auto p3 = p1 + p2;);
 }
 
 TEST(Polynome,can_add_polynomes_properly){
     Polynome p1("2* x + y");
-    Polynome p2("-x + z + y");
+    Polynome p2("z - x + y");
     auto p3 = p1 + p2;
+    p3.print();
+    cout << endl;
     auto p4 = Polynome("x+z+2*y");
+    p4.print();
     bool r = (p3 == p4);
     ASSERT_EQ(r,1);
 }
@@ -82,4 +88,3 @@ TEST(Polynome,can_find_value_at_point_properly){
     auto v = p1.value_at(0,1,1);
     ASSERT_EQ(v,-6);
 }
-*/
