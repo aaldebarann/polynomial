@@ -176,8 +176,8 @@ TEST(ArithmeticExpression, can_calculate_addition_vars_only)
     istringstream values("1 2 3 4");
     ostream nowhere(nullptr);
 
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 + 2 + (3 + 4);
+    Polynome result = expression.calculate(values, nowhere);
+    Polynome expected = 1 + 2 + (3 + 4);
 
     EXPECT_EQ(expected, result);
 }
@@ -187,8 +187,8 @@ TEST(ArithmeticExpression, can_calculate_addition_repeated_variables_vars_only)
     istringstream values("1 2");
     ostream nowhere(nullptr);
 
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 + 2 + (2 + 1) + 1 + 1;
+    Polynome result = expression.calculate(values, nowhere);
+    Polynome expected = 1 + 2 + (2 + 1) + 1 + 1;
 
     EXPECT_EQ(expected, result);
 }
@@ -198,8 +198,8 @@ TEST(ArithmeticExpression, can_calculate_subtraction_vars_only)
     istringstream values("1 2 3 4");
     ostream nowhere(nullptr);
 
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 - 2 - (3 - 4);
+    Polynome result = expression.calculate(values, nowhere);
+    Polynome expected = 1 - 2 - (3 - 4);
 
     EXPECT_EQ(expected, result);
 }
@@ -209,8 +209,8 @@ TEST(ArithmeticExpression, can_calculate_subtraction_repeated_variables_vars_onl
     istringstream values("1 2");
     ostream nowhere(nullptr);
 
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 - 2 - (2 - 1) - 1 - 1;
+    Polynome result = expression.calculate(values, nowhere);
+    Polynome expected = 1 - 2 - (2 - 1) - 1 - 1;
 
     EXPECT_EQ(expected, result);
 }
