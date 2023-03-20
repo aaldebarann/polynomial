@@ -14,6 +14,7 @@ public:
     explicit Polynome(float C); // Константный полином
     explicit Polynome(string s); // Конструктор полинома по строке ввода
     void print();
+    string to_string();// Возвращает полином в виде строки
 
     explicit Polynome(list<Monome> monomes); // Конструктор полинома из списка мономов
 
