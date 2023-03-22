@@ -24,20 +24,14 @@ int List_TB::Search(string name) {
 Polynome List_TB::Take_elem(string name) {
     list <Node>::iterator Iter;
     int i = 0;
-    try
-    {
-        for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
-            if ((*Iter).name == name) {
-                return (*Iter).data;
-            }
-            i++;
+    for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
+        if ((*Iter).name == name) {
+            return (*Iter).data;
         }
-        throw invalid_argument("ERROR");
+        i++;
     }
-    catch (const std::exception&)
-    {
-        cout << "name not found" << endl;
-    }
+    string message("variable was not found: "+name);
+    throw invalid_argument(message);
 
 };
 void List_TB::Del(string name) {
