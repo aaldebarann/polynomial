@@ -36,7 +36,7 @@ public:
         return postfixStr;
     }
 
-    Polynome calculate(istream& input = cin, ostream& output = cout, const Table* table = nullptr); // Ввод переменных, вычисление по постфиксной форме
+    Polynome calculate(Table *table = nullptr); // Ввод переменных, вычисление по постфиксной форме
 
 private:
     // приоритет операций
@@ -71,7 +71,7 @@ private:
     void toPostfix();
     void readOperands(istream& input, ostream& output);
 
-    static Polynome getPolynome(const string& name, const Table* table)  ;
+    static Polynome getPolynome(const string& name, Table *table);
 
     Polynome calcFunction(int& i);
     Polynome calcSqrt(int& i);

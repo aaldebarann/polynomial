@@ -260,16 +260,13 @@ Polynome ArithmeticExpression::calcFunction(int& i) {
         throw invalid_argument("Unknown function \""+name+"\"");
 }
 
-Polynome ArithmeticExpression::getPolynome(const string& name, const Table* table) {
+Polynome ArithmeticExpression::getPolynome(const string& name, Table *table) {
     // TODO: убедиться, что Table выкинет исключение
-    // return table->Take_elem(name);
-    Polynome pol{};
-    return pol;
+    return table->Take_elem(name);
 }
 
-Polynome ArithmeticExpression::calculate(istream& input, ostream& output, const Table* table)
+Polynome ArithmeticExpression::calculate(Table *table)
 {
-    readOperands(input, output);
     Polynome left, right; // операнды
     stack<Polynome> st;
     for(int i = 0; i < postfix.size(); i++) {
@@ -298,7 +295,7 @@ Polynome ArithmeticExpression::calculate(istream& input, ostream& output, const 
                 st.push(left * right);
                 break;
             case '/':
-                throw exception("DIVISION IS NOT IMPLEMENTED YET");
+                throw invalid_argument("Division is not implemented yet");
                 /*
                 right = st.top();
                 st.pop();
@@ -328,14 +325,6 @@ Polynome ArithmeticExpression::calculate(istream& input, ostream& output, const 
         }
     }
     return st.top();
-}
-
-void ArithmeticExpression::readOperands(istream& input, ostream& output) {
-    output << "Enter values:"<< endl;
-    for(auto& o: operands) {
-        output << o.first << " = ";
-        input >> o.second;
-    }
 }
 
 bool ArithmeticExpression::isDigit(char c) {
