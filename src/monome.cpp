@@ -107,3 +107,25 @@ bool Monome::equal_iterators(std::list<Monome>::iterator it1, std::list<Monome>:
     return (it1->a == it2->a)&&(it1->b == it2->b)&&(it1->c == it2->c);
 }
 
+string Monome::to_string() const {
+    string s;
+    if(K>=0){
+        s.push_back('+');
+    }
+    s.append(std::to_string(K));
+    if(a!=0){
+        s.append("*x^");
+        s.append(std::to_string(a));
+    }
+    if(b!=0){
+        s.append("*y^");
+        s.append(std::to_string(b));
+    }
+
+    if(c!=0){
+        s.append("*z^");
+        s.append(std::to_string(c));
+    }
+    return s;
+}
+

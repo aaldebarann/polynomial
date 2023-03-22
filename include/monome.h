@@ -3,6 +3,7 @@
 #define POLYGUI_MONOME_H
 #include <list>
 #include <iostream>
+using namespace std;
 // Класс стандартного монома вида K * x^a * y^b * z^c
 class Monome {
 
@@ -13,6 +14,7 @@ public:
     explicit Monome(float K_ = 1,int a_ = 0,int b_ = 0,int c_ = 0);
     Monome(Monome const & m);// Конструктор копирования
     void print() const; // Вывод монома
+    string to_string() const;// Возвращает моном в виде строки
 
     Monome differentiate(short index) const; // Дифференцировать моном
     // Индекс показывает, по какой переменной идёт дифференцирование: 0 - x; 1 - y; 2 - z;
