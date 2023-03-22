@@ -305,4 +305,11 @@ bool Polynome::operator==(Polynome &p) {
     return true;
 }
 
+string Polynome::to_string() {
+    string s;
+    for(auto& m:core)
+        s.append(m.to_string());
+    return s;
+}
+
 
