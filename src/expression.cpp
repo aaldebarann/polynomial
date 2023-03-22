@@ -233,7 +233,7 @@ void ArithmeticExpression::toPostfix()
   }
 }
 
-double ArithmeticExpression::calcSqrt(int& i) {
+Polynome ArithmeticExpression::calcSqrt(int& i) {
     // i -> function
     i++;
     // i -> fbegin
@@ -249,9 +249,9 @@ double ArithmeticExpression::calcSqrt(int& i) {
     if(arg.first != fend) {
         throw invalid_argument("sqrt() must have only one argument");
     }
-    return result;
+    return Polynome(result); // TODO: fix narrowing conversion from 'double' to 'float'
 }
-double ArithmeticExpression::calcFunction(int& i) {
+Polynome ArithmeticExpression::calcFunction(int& i) {
     // i is first lexem of function in postfix
     string& name = postfix[i].second;
     if (name == "sqrt")
@@ -260,11 +260,15 @@ double ArithmeticExpression::calcFunction(int& i) {
         throw invalid_argument("Unknown function \""+name+"\"");
 }
 
-double ArithmeticExpression::calculate(istream& input, ostream& output)
+Polynome ArithmeticExpression::getPolynome(const string& name, Table *table) {
+    // TODO: убедиться, что Table выкинет исключение
+    return table->Take_elem(name);
+}
+
+Polynome ArithmeticExpression::calculate(Table *table)
 {
-    readOperands(input, output);
-    double left, right; // операнды
-    stack<double> st;
+    Polynome left, right; // операнды
+    stack<Polynome> st;
     for(int i = 0; i < postfix.size(); i++) {
         auto& lexem  = postfix[i];
         switch (lexem.second[0]) {
@@ -291,17 +295,29 @@ double ArithmeticExpression::calculate(istream& input, ostream& output)
                 st.push(left * right);
                 break;
             case '/':
+                throw invalid_argument("Division is not implemented yet");
+                /*
                 right = st.top();
                 st.pop();
                 left = st.top();
                 st.pop();
                 st.push(left / right);
+                */
                 break;
             default:
                 if(lexem.first == variable)
-                    st.push(operands[lexem.second]);
+                    // in case of numeric operands
+                    // st.push(operands[lexem.second]);
+                    // in case of Polynome operands
+                    try {
+                        Polynome pol = getPolynome(lexem.second, table);
+                        st.push(pol);
+                    } catch (exception& e) {
+                        string message = "Unknown variable \'"+lexem.second+"\'";
+                        throw invalid_argument(message);
+                    }
                 else if(lexem.first == number)
-                    st.push(stod(lexem.second));
+                    st.push(Polynome(lexem.second));
                 else  {
                     // lexem is function
                     st.push(calcFunction(i)); // i will be changed
@@ -309,14 +325,6 @@ double ArithmeticExpression::calculate(istream& input, ostream& output)
         }
     }
     return st.top();
-}
-
-void ArithmeticExpression::readOperands(istream& input, ostream& output) {
-    output << "Enter values:"<< endl;
-    for(auto& o: operands) {
-        output << o.first << " = ";
-        input >> o.second;
-    }
 }
 
 bool ArithmeticExpression::isDigit(char c) {

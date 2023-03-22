@@ -118,7 +118,8 @@ int OrderedTB::Search(string name) {
 Polynome OrderedTB::Take_elem(string name) {
     if (Search(name) == marker + 1) {
         // вызвать окно (такого элемента в таблице нет)
-        return Polynome("");
+        string message("variable was not found: "+name);
+        throw invalid_argument(message);
     }
     return Polynome(DataMas[KeyMas[Search(name)]].data); }
 void OrderedTB::Print() {
