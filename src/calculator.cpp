@@ -3,6 +3,13 @@
 //
 
 #include "calculator.h"
+Calculator:: Calculator(bool allTables) {
+    tables.push_back(new List_TB());
+    if(allTables) {
+        tables.push_back(new UnorderedTB());
+        tables.push_back(new OrderedTB());
+    }
+}
 
 void Calculator::insert(const string& name, Polynome p) {
     Node* node = new Node();
@@ -52,4 +59,20 @@ string Calculator::interpret(string str) {
         }
     }
     return "New variable was added";
+}
+
+void Calculator::deleteAll(string& str, char toDelete) {
+    int spaces = 0;
+    for(int i = 0; i < str.size(); i++) {
+        str[i - spaces] = str[i];
+        if(str[i] == toDelete)
+            spaces++;
+    }
+    str.erase(str.size() - spaces, spaces);
+}
+bool Calculator::onlyConstants(const string& str) {
+    for(char c: str)
+        if('a' <= c && c < 'x' || 'A' <= c && c <= 'Z' || c == '_' )
+            return false;
+    return true;
 }
