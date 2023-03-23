@@ -242,7 +242,8 @@ Polynome Polynome::operator+(Polynome p) {
             /*it->print();
             cout << endl;*/
             if (nxt == iter) {
-                add_list.emplace_back(K_, a_, b_, c_);
+                if(K_!=0.0)
+                    add_list.emplace_back(K_, a_, b_, c_);
                 break;
             }
                 
