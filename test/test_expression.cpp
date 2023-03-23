@@ -173,13 +173,13 @@ TEST(ArithmeticExpression, can_get_postfix_function_brackets)
 
 TEST(ArithmeticExpression, can_calculate_subtraction_digits_only)
 {
-    ArithmeticExpression expression(" 1 - 2 - (3 - 4)");
+    ArithmeticExpression expression(" 3 - 2 - (3 - 4)");
 
     Polynome result = expression.calculate();
-    float exp = 1 - 2 - (3 - 4);
+    float exp = 3 - 2 - (3 - 4);
     Polynome expected{ exp };
 
-    EXPECT_TRUE(expected == result);
+    EXPECT_EQ(expected.to_string(), result.to_string());
 }
 TEST(ArithmeticExpression, can_calculate_multiplication_digits_only)
 {
