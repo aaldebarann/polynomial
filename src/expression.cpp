@@ -251,11 +251,111 @@ Polynome ArithmeticExpression::calcSqrt(int& i) {
     }
     return Polynome(result); // TODO: fix narrowing conversion from 'double' to 'float'
 }
-Polynome ArithmeticExpression::calcFunction(int& i) {
+Polynome ArithmeticExpression::calcDifferentiate(int& i, Table* table) {
+    // i -> function
+    i++;
+    // i -> fbegin
+    i++;
+    // i -> polynomial name (strArg)
+    auto& name = postfix[i];
+    if(name.first != strArg )
+        throw invalid_argument("D() must have polynomial name as a first argument");
+    Polynome p = table->Take_elem(name.second);
+    i++;
+    // i -> comma
+    i++;
+    // i -> variable (strArg)
+    auto& var = postfix[i];
+    if(var.first != strArg ||
+    (var.second != "x" && var.second != "y" && var.second != "z") )
+        throw invalid_argument(R"(D() must have 'x', 'y' or 'z' as a second argument)");
+    Polynome result = p.differentiate((short)(var.second[0] - 'x'));
+    i++;
+    // i -> fend
+    auto& arg = postfix[i];
+    if(arg.first != fend) {
+        throw invalid_argument("D() must have only two argument");
+    }
+    return result;
+}
+Polynome ArithmeticExpression::calcIntegrate(int& i, Table* table) {
+    // i -> function
+    i++;
+    // i -> fbegin
+    i++;
+    // i -> polynomial name (strArg)
+    auto& name = postfix[i];
+    if(name.first != strArg )
+        throw invalid_argument("I() must have polynomial name as a first argument");
+    Polynome p = table->Take_elem(name.second);
+    i++;
+    // i -> comma
+    i++;
+    // i -> variable (strArg)
+    auto& var = postfix[i];
+    if(var.first != strArg ||
+       (var.second != "x" && var.second != "y" && var.second != "z") )
+        throw invalid_argument(R"(I() must have 'x', 'y' or 'z' as a second argument)");
+    Polynome result = p.integrate((short)(var.second[0] - 'x'));
+    i++;
+    // i -> fend
+    auto& arg = postfix[i];
+    if(arg.first != fend) {
+        throw invalid_argument("I() must have only two argument");
+    }
+    return result;
+}
+Polynome ArithmeticExpression::calcValueAt(int& i, Table* table) {
+    // i -> function
+    i++;
+    // i -> fbegin
+    i++;
+    // i -> polynomial name (strArg)
+    auto& name = postfix[i];
+    if(name.first != strArg )
+        throw invalid_argument("AT() must have polynomial name as a first argument");
+    Polynome p = table->Take_elem(name.second);
+    i++;
+    // i -> comma
+    i++;
+    // i -> x value (numArg)
+    auto& x = postfix[i];
+    if(x.first != numArg)
+        throw invalid_argument(R"(AT() must have a number as a second argument)");
+    i++;
+    // i -> comma
+    i++;
+    // i -> y value (numArg)
+    auto& y = postfix[i];
+    if(y.first != numArg)
+        throw invalid_argument(R"(AT() must have a number as a third argument)");
+    i++;
+    // i -> comma
+    i++;
+    // i -> z value (numArg)
+    auto& z = postfix[i];
+    if(z.first != numArg)
+        throw invalid_argument(R"(AT() must have a number as a fourth argument)");
+    i++;
+    // i -> fend
+    auto& arg = postfix[i];
+    if(arg.first != fend) {
+        throw invalid_argument("D() must have only two argument");
+    }
+    Polynome result {p.value_at((float)stod(x.second), (float)stod(y.second), (float)stod(z.second))};
+    return result;
+}
+Polynome ArithmeticExpression::calcFunction(int& i, Table* table) {
     // i is first lexem of function in postfix
     string& name = postfix[i].second;
     if (name == "sqrt")
         return calcSqrt(i);
+    else if (name == "D")
+        return calcDifferentiate(i, table);
+    else if (name == "I")
+        return calcIntegrate(i, table);
+    else if (name == "AT")
+        return calcValueAt(i, table);
     else
         throw invalid_argument("Unknown function \""+name+"\"");
 }
@@ -320,7 +420,7 @@ Polynome ArithmeticExpression::calculate(Table *table)
                     st.push(Polynome(lexem.second));
                 else  {
                     // lexem is function
-                    st.push(calcFunction(i)); // i will be changed
+                    st.push(calcFunction(i, table)); // i will be changed
                 }
         }
     }
