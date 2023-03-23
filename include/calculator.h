@@ -23,7 +23,7 @@ public:
     }
 
     Polynome get(const string& name); // возвращает полином по имени, кидает исключение, если не найден
-    void insert(const string& name, Polynome p); // вставляет полином во все используемые таблицы
+    void insert(const string& name, const Polynome& p); // вставляет полином во все используемые таблицы
     Table* activeTable(); // активная таблица
     /* Пояснение:
      * задание требует хранить полиномы во всех шести таблиц одновременно,

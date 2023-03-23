@@ -128,8 +128,7 @@ TEST(Calculator, can_interpret_huge_set) {
 
     EXPECT_EQ(expected.to_string(), actual);
 }
-/*
- * test fails
+
 TEST(Calculator, can_interpret_huge_set_all_tables) {
     Calculator calc{true};
 
@@ -148,4 +147,3 @@ TEST(Calculator, can_interpret_huge_set_all_tables) {
 
     EXPECT_EQ(expected.to_string(), actual);
 }
- */

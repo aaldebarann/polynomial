@@ -11,13 +11,13 @@ Calculator:: Calculator(bool allTables) {
     }
 }
 
-void Calculator::insert(const string& name, Polynome p) {
-    Node* node = new Node();
-    node->name = name;
-    node->data = p;
+void Calculator::insert(const string& name, const Polynome& p) {
+    Node node;
+    node.name = name;
+    node.data = p;
     for(auto t: tables)
-        t->Insert(*node);
-    delete node;
+        t->Insert(node);
+
 }
 Polynome Calculator::get(const string& name) {
     // TODO: убедиться, что Table выкинет исключение
