@@ -307,6 +307,8 @@ bool Polynome::operator==(Polynome &p) {
 }
 
 string Polynome::to_string() {
+    if(core.empty())
+        return "0";
     string s;
     for(auto& m:core)
         s.append(m.to_string());
