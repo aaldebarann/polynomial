@@ -15,9 +15,14 @@ void Calculator::insert(const string& name, const Polynome& p) {
     Node node;
     node.name = name;
     node.data = p;
-    for(auto t: tables)
-        t->Insert(node);
-
+    for(auto t: tables) {
+        try {
+            t->Take_elem(name);
+            t->Del(name);
+        } catch (exception& e) {
+            t->Insert(node);
+        }
+    }
 }
 Polynome Calculator::get(const string& name) {
     // TODO: убедиться, что Table выкинет исключение
@@ -54,11 +59,11 @@ string Calculator::interpret(string str) {
             }
             Polynome pol{value};
             insert(name, pol);
+            return "New value \""+name+"\" recorded";
         } catch (exception& e) {
             return e.what();
         }
     }
-    return "New variable was added";
 }
 
 void Calculator::deleteAll(string& str, char toDelete) {
