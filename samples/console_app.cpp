@@ -6,14 +6,15 @@
 using namespace std;
 
 int main() {
-    Calculator calc{};
+    Calculator calc{false};
     setlocale(LC_ALL, "Russian");
     cout << "Введите допустимое выражение."<<
-            "Для завершения работы введите \"exit\"" << endl;
+         "Для завершения работы введите \"exit\"" << endl;
     string str;
-    cin >> str;
+    getline(cin, str);
     while (str != "exit") {
         cout << calc.interpret(str) << endl;
+        getline(cin, str);
     }
     cout << "Завершение работы" << endl;
     return 0;
