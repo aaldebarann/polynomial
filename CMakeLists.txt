@@ -18,7 +18,6 @@ set(POL_LIBRARY "${PROJECT_NAME}")
 set(POL_TESTS   "test_${PROJECT_NAME}")
 set(POL_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(POL_SRC "src_${PROJECT_NAME}")
-set(POL_INC "include_${PROJECT_NAME}")
 
 include_directories("${POL_INCLUDE}" gtest)
 
