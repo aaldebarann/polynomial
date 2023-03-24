@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(PROJECT_NAME polynomial)
 project(${PROJECT_NAME})
+set(CMAKE_CXX_STANDARD 17)
 
 # TODO: not sure if these lines are needed
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
@@ -23,9 +24,10 @@ include_directories("${POL_INCLUDE}" gtest)
 
 # BUILD
 add_subdirectory(src)
-add_subdirectory(test)
-add_subdirectory(gtest)
 add_subdirectory(samples)
+add_subdirectory(gtest)
+add_subdirectory(test)
+add_subdirectory(include)
 
 # REPORT
 message( STATUS "")
