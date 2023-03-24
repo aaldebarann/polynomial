@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 set(PROJECT_NAME polynomial)
 project(${PROJECT_NAME})
-set(CMAKE_CXX_STANDARD 17)
 
 # TODO: not sure if these lines are needed
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
@@ -15,19 +14,18 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE})
 
-set(POL_LIBRARY "${PROJECT_NAME}")
-set(POL_TESTS   "test_${PROJECT_NAME}")
-set(POL_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-set(POL_SRC "src_${PROJECT_NAME}")
+set(MP2_LIBRARY "${PROJECT_NAME}")
+set(MP2_TESTS   "test_${PROJECT_NAME}")
+set(MP2_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(MP2_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
-include_directories("${POL_INCLUDE}" gtest)
+include_directories("${MP2_INCLUDE}" gtest)
 
 # BUILD
 add_subdirectory(src)
 add_subdirectory(samples)
-add_subdirectory(gtest)
 add_subdirectory(test)
-add_subdirectory(include)
+add_subdirectory(gtest)
 
 # REPORT
 message( STATUS "")
