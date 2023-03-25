@@ -233,7 +233,7 @@ void ArithmeticExpression::toPostfix()
   }
 }
 
-double ArithmeticExpression::calcSqrt(int& i) {
+Polynome ArithmeticExpression::calcSqrt(int& i) {
     // i -> function
     i++;
     // i -> fbegin
@@ -249,22 +249,126 @@ double ArithmeticExpression::calcSqrt(int& i) {
     if(arg.first != fend) {
         throw invalid_argument("sqrt() must have only one argument");
     }
+    return Polynome(result); // TODO: fix narrowing conversion from 'double' to 'float'
+}
+Polynome ArithmeticExpression::calcDifferentiate(int& i, Table* table) {
+    // i -> function
+    i++;
+    // i -> fbegin
+    i++;
+    // i -> polynomial name (strArg)
+    auto& name = postfix[i];
+    if(name.first != strArg )
+        throw invalid_argument("D() must have polynomial name as a first argument");
+    Polynome p = table->Take_elem(name.second);
+    i++;
+    // i -> comma
+    i++;
+    // i -> variable (strArg)
+    auto& var = postfix[i];
+    if(var.first != strArg ||
+    (var.second != "x" && var.second != "y" && var.second != "z") )
+        throw invalid_argument(R"(D() must have 'x', 'y' or 'z' as a second argument)");
+    Polynome result = p.differentiate((short)(var.second[0] - 'x'));
+    i++;
+    // i -> fend
+    auto& arg = postfix[i];
+    if(arg.first != fend) {
+        throw invalid_argument("D() must have only two argument");
+    }
     return result;
 }
-double ArithmeticExpression::calcFunction(int& i) {
+Polynome ArithmeticExpression::calcIntegrate(int& i, Table* table) {
+    // i -> function
+    i++;
+    // i -> fbegin
+    i++;
+    // i -> polynomial name (strArg)
+    auto& name = postfix[i];
+    if(name.first != strArg )
+        throw invalid_argument("I() must have polynomial name as a first argument");
+    Polynome p = table->Take_elem(name.second);
+    i++;
+    // i -> comma
+    i++;
+    // i -> variable (strArg)
+    auto& var = postfix[i];
+    if(var.first != strArg ||
+       (var.second != "x" && var.second != "y" && var.second != "z") )
+        throw invalid_argument(R"(I() must have 'x', 'y' or 'z' as a second argument)");
+    Polynome result = p.integrate((short)(var.second[0] - 'x'));
+    i++;
+    // i -> fend
+    auto& arg = postfix[i];
+    if(arg.first != fend) {
+        throw invalid_argument("I() must have only two argument");
+    }
+    return result;
+}
+Polynome ArithmeticExpression::calcValueAt(int& i, Table* table) {
+    // i -> function
+    i++;
+    // i -> fbegin
+    i++;
+    // i -> polynomial name (strArg)
+    auto& name = postfix[i];
+    if(name.first != strArg )
+        throw invalid_argument("AT() must have polynomial name as a first argument");
+    Polynome p = table->Take_elem(name.second);
+    i++;
+    // i -> comma
+    i++;
+    // i -> x value (numArg)
+    auto& x = postfix[i];
+    if(x.first != numArg)
+        throw invalid_argument(R"(AT() must have a number as a second argument)");
+    i++;
+    // i -> comma
+    i++;
+    // i -> y value (numArg)
+    auto& y = postfix[i];
+    if(y.first != numArg)
+        throw invalid_argument(R"(AT() must have a number as a third argument)");
+    i++;
+    // i -> comma
+    i++;
+    // i -> z value (numArg)
+    auto& z = postfix[i];
+    if(z.first != numArg)
+        throw invalid_argument(R"(AT() must have a number as a fourth argument)");
+    i++;
+    // i -> fend
+    auto& arg = postfix[i];
+    if(arg.first != fend) {
+        throw invalid_argument("D() must have only two argument");
+    }
+    Polynome result {p.value_at((float)stod(x.second), (float)stod(y.second), (float)stod(z.second))};
+    return result;
+}
+Polynome ArithmeticExpression::calcFunction(int& i, Table* table) {
     // i is first lexem of function in postfix
     string& name = postfix[i].second;
     if (name == "sqrt")
         return calcSqrt(i);
+    else if (name == "D")
+        return calcDifferentiate(i, table);
+    else if (name == "I")
+        return calcIntegrate(i, table);
+    else if (name == "AT")
+        return calcValueAt(i, table);
     else
         throw invalid_argument("Unknown function \""+name+"\"");
 }
 
-double ArithmeticExpression::calculate(istream& input, ostream& output)
+Polynome ArithmeticExpression::getPolynome(const string& name, Table *table) {
+    // TODO: убедиться, что Table выкинет исключение
+    return table->Take_elem(name);
+}
+
+Polynome ArithmeticExpression::calculate(Table *table)
 {
-    readOperands(input, output);
-    double left, right; // операнды
-    stack<double> st;
+    Polynome left, right; // операнды
+    stack<Polynome> st;
     for(int i = 0; i < postfix.size(); i++) {
         auto& lexem  = postfix[i];
         switch (lexem.second[0]) {
@@ -291,32 +395,36 @@ double ArithmeticExpression::calculate(istream& input, ostream& output)
                 st.push(left * right);
                 break;
             case '/':
+                throw invalid_argument("Division is not implemented yet");
+                /*
                 right = st.top();
                 st.pop();
                 left = st.top();
                 st.pop();
                 st.push(left / right);
+                */
                 break;
             default:
                 if(lexem.first == variable)
-                    st.push(operands[lexem.second]);
+                    // in case of numeric operands
+                    // st.push(operands[lexem.second]);
+                    // in case of Polynome operands
+                    try {
+                        Polynome pol = getPolynome(lexem.second, table);
+                        st.push(pol);
+                    } catch (exception& e) {
+                        string message = "Unknown variable \'"+lexem.second+"\'";
+                        throw invalid_argument(message);
+                    }
                 else if(lexem.first == number)
-                    st.push(stod(lexem.second));
+                    st.push(Polynome(lexem.second));
                 else  {
                     // lexem is function
-                    st.push(calcFunction(i)); // i will be changed
+                    st.push(calcFunction(i, table)); // i will be changed
                 }
         }
     }
     return st.top();
-}
-
-void ArithmeticExpression::readOperands(istream& input, ostream& output) {
-    output << "Enter values:"<< endl;
-    for(auto& o: operands) {
-        output << o.first << " = ";
-        input >> o.second;
-    }
 }
 
 bool ArithmeticExpression::isDigit(char c) {

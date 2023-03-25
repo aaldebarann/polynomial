@@ -48,7 +48,7 @@ void OrderedTB::Insert(Node val) {
         KeyMas[marker] = marker;
     }
     else {
-        if (Search(val.name) != marker + 1) {
+        if (Search(val.name) == marker + 1) {
             if ((marker == int(sizeof(DataMas)) / 4) || marker == 0) {
                 Node* tmp = new Node[int(sizeof(DataMas)) * 2];
                 int* tm = new int[int(sizeof(KeyMas)) * 2];
@@ -118,7 +118,8 @@ int OrderedTB::Search(string name) {
 Polynome OrderedTB::Take_elem(string name) {
     if (Search(name) == marker + 1) {
         // вызвать окно (такого элемента в таблице нет)
-        return Polynome("");
+        string message("variable was not found: "+name);
+        throw invalid_argument(message);
     }
     return Polynome(DataMas[KeyMas[Search(name)]].data); }
 void OrderedTB::Print() {

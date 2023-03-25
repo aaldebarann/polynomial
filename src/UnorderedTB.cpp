@@ -9,7 +9,7 @@ void UnorderedTB::Insert(Node val) {
         row[marker] = val;
     }
     else {
-        if(Search(val.name) != marker + 1){
+        if(Search(val.name) == marker + 1){
             if ((marker == int(sizeof(row)) / 4) || marker == 0) {
                 Node* tmp = new Node[int(sizeof(row)) * 2];
                 for (int i = 0; i <= marker; i++) {
@@ -54,8 +54,9 @@ int UnorderedTB::Search(string name) {
 
 Polynome UnorderedTB::Take_elem(string name) {
     if (Search(name) == marker +1) {
-        // âûçâàòü îêíî (òàêîãî ýëåìåíòà â òàáëèöå íåò)
-        return Polynome("");
+
+        string message("variable was not found: "+name);
+        throw invalid_argument(message);
     }
     return row[Search(name)].data;
 }

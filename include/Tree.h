@@ -24,8 +24,8 @@ private:
     void copy(nodeptr&, nodeptr&);
 public:
     Polynome find(string, nodeptr&); // получение полинома
-    void insert(Node, nodeptr&);
-    void del(string, nodeptr&);
+    void Insert(Node, nodeptr&);
+    void Del(string, nodeptr&);
     void clear(nodeptr&); // очищает дерево
     // три варианта принтов
     void preorder(nodeptr);

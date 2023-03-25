@@ -8,6 +8,7 @@
 #include <stack>
 #include <cmath>
 #include "polynomial.h"
+#include "Table.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ public:
         return postfixStr;
     }
 
-    double calculate(istream& input = cin, ostream& output = cout); // Ввод переменных, вычисление по постфиксной форме
+    Polynome calculate(Table *table = nullptr); // Ввод переменных, вычисление по постфиксной форме
 
 private:
     // приоритет операций
@@ -70,8 +71,13 @@ private:
     void toPostfix();
     void readOperands(istream& input, ostream& output);
 
-    double calcFunction(int& i);
-    double calcSqrt(int& i);
+    static Polynome getPolynome(const string& name, Table *table);
+
+    Polynome calcFunction(int& i, Table* table);
+    Polynome calcSqrt(int& i);
+    Polynome calcDifferentiate(int& i, Table* table);
+    Polynome calcIntegrate(int& i, Table* table);
+    Polynome calcValueAt(int& i, Table* table);
 
 };
 

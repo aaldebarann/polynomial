@@ -1,25 +1,26 @@
 #include <gtest.h>
 #include "expression.h"
 #include <iostream>
+#include <UnorderedTB.h>
 
 TEST(ArithmeticExpression, can_parse_vars_only_expression) {
-    string str = " _var1_ *  var2 + VAR3-  vAr_4 -v  /  ___var_6/var_______7";
+    string str = " _var1_ *  var2 + VAR3-  vAr_4 -v  *  ___var_6*var_______7";
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
 TEST(ArithmeticExpression, can_parse_digits_only_expression) {
-    string str = "   2/4 -4.0 + 0.4 * .4 / 3. - 4      - 7";
+    string str = "   2*4 -4.0 + 0.4 * .4 * 3. - 4      - 7";
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
 TEST(ArithmeticExpression, can_parse_vars_digits_expression) {
-    string str = "   2/4 -4.0*_var1_ + 0.4 * .4 / 3. - f   +vAr_2   - 7";
+    string str = "   2*4 -4.0*_var1_ + 0.4 * .4 * 3. - f   +vAr_2   - 7";
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
 TEST(ArithmeticExpression, can_parse_brackets_expression) {
-    string str = " (  ((2)/4) -(4.0*_var1_ + 0.4) * (.4 / 3.) - f   +vAr_2   - 7)";
+    string str = " (  ((2)*4) -(4.0*_var1_ + 0.4) * (.4 * 3.) - f   +vAr_2   - 7)";
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
 TEST(ArithmeticExpression, can_parse_function_expression) {
-    string str = "4 - min(1,3,-2) + (FUNC_1 ( a, b) / FUNC_2 (1, 2, 3, 4., pyat) ) - sqrt(42)";
+    string str = "4 - min(1,3,-2) + (FUNC_1 ( a, b) * FUNC_2 (1, 2, 3, 4., pyat) ) - sqrt(42)";
     ArithmeticExpression expression(str);
     ASSERT_NO_THROW(ArithmeticExpression expression(str));
 }
@@ -71,19 +72,19 @@ TEST(ArithmeticExpression, throws_when_function_in_function)
 
 TEST(ArithmeticExpression, can_get_infix)
 {
-    ArithmeticExpression expression("aaa - 123.23 +b*c/.124-d");
+    ArithmeticExpression expression("aaa - 123.23 +b*c*.124-d");
 
-    EXPECT_EQ("aaa-123.23+b*c/.124-d", expression.getString());
+    EXPECT_EQ("aaa-123.23+b*c*.124-d", expression.getString());
 }
 TEST(ArithmeticExpression, correct_infix_no_functions) {
-    string str = "(  ((2)/4) -(4.0*_var1_ + 0.4) * (.4 / 3.) - o_0   +vAr_2   - 7)";
+    string str = "(  ((2)*4) -(4.0*_var1_ + 0.4) * (.4 * 3.) - o_0   +vAr_2   - 7)";
     vector<pair<ArithmeticExpression::LType, string>> expected = {
             {ArithmeticExpression::begin,  "("},
             {ArithmeticExpression::begin, "("},
             {ArithmeticExpression::begin, "("},
             {ArithmeticExpression::number,  "2"},
             {ArithmeticExpression::end, ")"},
-            {ArithmeticExpression::operation, "/"},
+            {ArithmeticExpression::operation, "*"},
             {ArithmeticExpression::number,  "4"},
             {ArithmeticExpression::end, ")"},
             {ArithmeticExpression::operation, "-"},
@@ -97,7 +98,7 @@ TEST(ArithmeticExpression, correct_infix_no_functions) {
             {ArithmeticExpression::operation, "*"},
             {ArithmeticExpression::begin, "("},
             {ArithmeticExpression::number,  ".4"},
-            {ArithmeticExpression::operation, "/"},
+            {ArithmeticExpression::operation, "*"},
             {ArithmeticExpression::number,  "3."},
             {ArithmeticExpression::end, ")"},
             {ArithmeticExpression::operation, "-"},
@@ -113,7 +114,7 @@ TEST(ArithmeticExpression, correct_infix_no_functions) {
 }
 
 TEST(ArithmeticExpression, correct_infix_functions) {
-    string str = "(  (8 - sqrt(3)*pi) / MIN(a, b))";
+    string str = "(  (8 - sqrt(3)*pi) * MIN(a, b))";
     vector<pair<ArithmeticExpression::LType, string>> expected = {
             {ArithmeticExpression::begin,  "("},
             {ArithmeticExpression::begin, "("},
@@ -126,7 +127,7 @@ TEST(ArithmeticExpression, correct_infix_functions) {
             {ArithmeticExpression::operation, "*"},
             {ArithmeticExpression::variable,  "pi"},
             {ArithmeticExpression::end, ")"},
-            {ArithmeticExpression::operation, "/"},
+            {ArithmeticExpression::operation, "*"},
             {ArithmeticExpression::function, "MIN"},
             {ArithmeticExpression::fbegin, "("},
             {ArithmeticExpression::strArg, "a"},
@@ -161,221 +162,169 @@ TEST(ArithmeticExpression, can_get_postfix_function_equal_priority)
 }
 TEST(ArithmeticExpression, can_get_postfix_function_different_priority)
 {
-    ArithmeticExpression expression("2 + min(1, 3)*f(2) - max(a, b)/f(5)");
-    EXPECT_EQ("2min(1,3)f(2)*+max(a,b)f(5)/-", expression.getPostfix());
+    ArithmeticExpression expression("2 + min(1, 3)*f(2) - max(a, b)*f(5)");
+    EXPECT_EQ("2min(1,3)f(2)*+max(a,b)f(5)*-", expression.getPostfix());
 }
 TEST(ArithmeticExpression, can_get_postfix_function_brackets)
 {
-    ArithmeticExpression expression("a_0(f) / 2 + pi*( I(p1, dx, a, b) - D(p2, p4, 12) * 8) / 1");
-    EXPECT_EQ("a_0(f)2/piI(p1,dx,a,b)D(p2,p4,12)8*-*1/+", expression.getPostfix());
-}
-
-TEST(ArithmeticExpression, can_calculate_addition_vars_only)
-{
-    ArithmeticExpression expression(" a + b + (c + d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 + 2 + (3 + 4);
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_addition_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a + b + (b + a) + a + a");
-    istringstream values("1 2");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 + 2 + (2 + 1) + 1 + 1;
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_subtraction_vars_only)
-{
-    ArithmeticExpression expression(" a - b - (c - d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 - 2 - (3 - 4);
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_subtraction_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a - b - (b - a) - a - a");
-    istringstream values("1 2");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 - 2 - (2 - 1) - 1 - 1;
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_multiplication_vars_only)
-{
-    ArithmeticExpression expression(" a * b * (c * d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 * 2 * (3 * 4);
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_multiplication_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a * b * (b * a) * a * a");
-    istringstream values("2 3");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 2 * 3 * (3 * 2) * 2 * 2;
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_division_vars_only)
-{
-    ArithmeticExpression expression(" a / b / (c / d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1.0 / 2.0 / (3.0 / 4.0);
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_division_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a / b / (b / a) / a / a");
-    istringstream values("2 3");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 2.0 / 3.0 / (3.0 / 2.0) / 2.0 / 2.0;
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_vars_only)
-{
-    ArithmeticExpression expression("( a / b - (c / d) * e + f ) ");
-    istringstream values("2 4 3 6 5 6");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = (2.0 / 4.0 - (3.0 / 6.0) * 5.0 + 6.0 ) ;
-
-    EXPECT_EQ(expected, result);
+    ArithmeticExpression expression("a_0(f) * 2 + pi*( I(p1, dx, a, b) - D(p2, p4, 12) * 8) * 1");
+    EXPECT_EQ("a_0(f)2*piI(p1,dx,a,b)D(p2,p4,12)8*-*1*+", expression.getPostfix());
 }
 
 TEST(ArithmeticExpression, can_calculate_subtraction_digits_only)
 {
-    ArithmeticExpression expression(" 1 - 2 - (3 - 4)");
-    ostream nowhere(nullptr);
+    ArithmeticExpression expression(" 3 - 2 - (3 - 4)");
 
-    double result = expression.calculate(cin, nowhere);
-    double expected = 1 - 2 - (3 - 4);
+    Polynome result = expression.calculate();
+    float exp = 3 - 2 - (3 - 4);
+    Polynome expected{ exp };
 
-    EXPECT_EQ(expected, result);
+    EXPECT_EQ(expected.to_string(), result.to_string());
 }
 TEST(ArithmeticExpression, can_calculate_multiplication_digits_only)
 {
     ArithmeticExpression expression(" 1 * 2 * (3 * 4)");
 
-    ostream nowhere(nullptr);
+    Polynome result = expression.calculate();
+    float exp = 1 * 2 * (3 * 4);
+    Polynome expected{ exp };
 
-    double result = expression.calculate(cin, nowhere);
-    double expected = 1 * 2 * (3 * 4);
-
-    EXPECT_EQ(expected, result);
+    EXPECT_TRUE(expected == result);
 }
 TEST(ArithmeticExpression, can_calculate_division_digits_only)
 {
-    ArithmeticExpression expression(" 1.0 / 2.0 / (3.0 / 4.0)");
-    ostream nowhere(nullptr);
+    ArithmeticExpression expression(" 1.0 * 2.0 * (3.0 * 4.0)");
 
-    double result = expression.calculate(cin, nowhere);
-    double expected = 1.0 / 2.0 / (3.0 / 4.0);
+    Polynome result = expression.calculate();
+    float exp = 1.0 * 2.0 * (3.0 * 4.0);
+    Polynome expected{ exp };
 
-    EXPECT_EQ(expected, result);
+    EXPECT_TRUE(expected == result);
 }
 TEST(ArithmeticExpression, can_calculate_digits_only)
 {
-    ArithmeticExpression expression("(1.0 / 2.0 - (3.0 / 4.0) * 5.0 + 0.6 - 0.7*0.7) / (0.1 + 0.2)");
-    ostream nowhere(nullptr);
+    ArithmeticExpression expression("(1.0 * 2.0 - (3.0 * 4.0) * 5.0 + 0.6 - 0.7*0.7) * (0.1 + 0.2)");
 
-    double result = expression.calculate(cin, nowhere);
-    double expected = (1.0 / 2.0 - (3.0 / 4.0) * 5.0 + 0.6 - 0.7*0.7) / (0.1 + 0.2);
+    Polynome result = expression.calculate();
+    float exp = (1.0 * 2.0 - (3.0 * 4.0) * 5.0 + 0.6 - 0.7*0.7) * (0.1 + 0.2);
+    Polynome expected{ exp };
 
-    EXPECT_EQ(expected, result);
+    EXPECT_TRUE(expected == result);
 }
-
-TEST(ArithmeticExpression, can_calculate_addition)
-{
-    ArithmeticExpression expression(" a + 2.0 + (c + d)");
-    istringstream values("1 3 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 + 2 + (3 + 4);
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_subtraction)
-{
-    ArithmeticExpression expression(" a - 2 - (c - d)");
-    istringstream values("1 3 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 - 2 - (3 - 4);
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_multiplication)
-{
-    ArithmeticExpression expression(" a * 2222 * (c * d)");
-    istringstream values("1 3 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1 * 2222 * (3 * 4);
-
-    EXPECT_EQ(expected, result);
-}
-TEST(ArithmeticExpression, can_calculate_division)
-{
-    ArithmeticExpression expression(" a / b / (0.3 / d)");
-    istringstream values("1 2 4");
-    ostream nowhere(nullptr);
-
-    double result = expression.calculate(values, nowhere);
-    double expected = 1.0 / 2.0 / (0.3 / 4.0);
-
-    EXPECT_EQ(expected, result);
-}
-
 TEST(ArithmeticExpression, can_calculate_sqrt)
 {
     ArithmeticExpression expression("(5 - (sqrt(4))*(sqrt(4))) - sqrt(3)*sqrt(3)");
-    istringstream values("");
-    ostream nowhere(nullptr);
 
-    double result = expression.calculate(values, nowhere);
-    double expected = 5 - sqrt(4)*sqrt(4) - sqrt(3)*sqrt(3);
+    Polynome result = expression.calculate();
+    float exp = 5 - sqrt(4)*sqrt(4) - sqrt(3)*sqrt(3);
+    Polynome expected{ exp };
 
-    EXPECT_EQ(expected, result);
+    EXPECT_TRUE(expected == result);
 }
-TEST(ArithmeticExpression, can_calculate)
+Table* sampleTable () {
+    auto* table = new UnorderedTB();
+    Node node;
+
+    Polynome a{"x"};
+    Polynome b{"y"};
+    Polynome c{"z"};
+    Polynome d{"-1*x"};
+    Polynome e{"x + y + z"};
+
+    node.data = a;
+    node.name = "a";
+    table->Insert(node);
+    node.data = b;
+    node.name = "b";
+    table->Insert(node);
+    node.data = c;
+    node.name = "c";
+    table->Insert(node);
+    node.data = d;
+    node.name = "d";
+    table->Insert(node);
+    node.data = e;
+    node.name = "e";
+    table->Insert(node);
+
+    return table;
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_additiony)
 {
-    ArithmeticExpression expression("( a / b - (c / d) * e + f - 0.7*g) / (sqrt(1.0) + 2.0)");
-    istringstream values("1 2 3 4 5 0.6 .7");
-    ostream nowhere(nullptr);
+    ArithmeticExpression expression(" a + b + (c + d) + (b + b)");
 
-    double result = expression.calculate(values, nowhere);
-    double expected = (1.0 / 2.0 - (3.0 / 4.0) * 5.0 + 0.6 - 0.7*0.7) / (sqrt(1.0) + 2.0);
+    Table* pTable = sampleTable();
 
-    EXPECT_EQ(expected, result);
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{"3*y + z"};
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_multiplication)
+{
+    ArithmeticExpression expression(" a * b * (c * d)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "-1*x^2*y*z" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_differetial_sum)
+{
+    ArithmeticExpression expression("D(a, x) + D(b, y) + D(c, z) + D(d, x)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "2" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_integral_sum)
+{
+    ArithmeticExpression expression("I(a, x) + I(b, y) + I(c, z) + I(d, x)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "0.5*y^2 + 0.5*z^2" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_value_at)
+{
+    ArithmeticExpression expression("AT(d, 1, 2, 3) + AT(e, 1, 2, 3)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "5" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial)
+{
+    ArithmeticExpression expression("AT(a, 1, 2, 3) + D(b, y) + I(c, z)  - d*e");
+    // 1 + 1 + 0.5*z^2 - (-x) * (x+y+z)
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "2 + 0.5*z^2  + x^2 + x*y + x*z" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
 }
