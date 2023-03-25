@@ -1,10 +1,7 @@
-set(target test)
+set(target ${POL_TESTS})
 
-#file(GLOB hdrs "*.h*" "../base/*.h" "../gtest/*.h")
 file(GLOB hdrs "*.h*")
-file(GLOB srcs "*.cpp" "../src/postfix.cpp")
-
-#include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty")
+file(GLOB srcs "*.cpp")
 
 add_executable(${target} ${srcs} ${hdrs})
 target_link_libraries(${target} gtest)
