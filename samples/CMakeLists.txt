@@ -1,3 +1,4 @@
+
 set(target ${POL_SAMPLES})
 # Get all cpp-files in the current directory
 

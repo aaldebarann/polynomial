@@ -1,4 +1,4 @@
-set(target ${POL_SRC})
+set(target ${POL_LIBRARY})
 
 file(GLOB hdrs "*.h*" "../include/*.cpp")
 file(GLOB srcs "*.cpp" "../src/*.cpp")
