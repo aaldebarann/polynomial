@@ -48,13 +48,16 @@ string Calculator::interpret(string str) {
         }
     } else {
         // в строке присутствует знак равенства
-        // это выражение-инициализация, задающее значение нового полинома
+        // это выражение-присваивание, задающее значение нового полинома
         string name = str.substr(0, i);
+        if(name== "x" || name == "y" || name == "z")
+            return R"(Invalid variable name: "x", "y", "z" are reserved)";
         string value = str.substr(i + 1);
         try {
             if(!onlyConstants(value)) {
                 // справа выражение из полиномов
                 // перед инициализацией его надо вычислить
+                return "Assignment of an expression from polynomials is unavailable in current version"; // TODO: implement
                 str = interpret(value);
             }
             Polynome pol{value};
