@@ -3,14 +3,26 @@
 //
 
 #include "calculator.h"
+Calculator:: Calculator(bool allTables) {
+    tables.push_back(new List_TB());
+    if(allTables) {
+        tables.push_back(new UnorderedTB());
+        tables.push_back(new OrderedTB());
+    }
+}
 
-void Calculator::insert(const string& name, Polynome p) {
-    Node* node = new Node();
-    node->name = name;
-    node->data = p;
-    for(auto t: tables)
-        t->Insert(*node);
-    delete node;
+void Calculator::insert(const string& name, const Polynome& p) {
+    Node node;
+    node.name = name;
+    node.data = p;
+    for(auto t: tables) {
+        try {
+            t->Take_elem(name);
+            t->Del(name);
+        } catch (exception& e) {
+            t->Insert(node);
+        }
+    }
 }
 Polynome Calculator::get(const string& name) {
     // TODO: убедиться, что Table выкинет исключение
@@ -47,9 +59,25 @@ string Calculator::interpret(string str) {
             }
             Polynome pol{value};
             insert(name, pol);
+            return "New value \""+name+"\" recorded";
         } catch (exception& e) {
             return e.what();
         }
     }
-    return "New variable was added";
+}
+
+void Calculator::deleteAll(string& str, char toDelete) {
+    int spaces = 0;
+    for(int i = 0; i < str.size(); i++) {
+        str[i - spaces] = str[i];
+        if(str[i] == toDelete)
+            spaces++;
+    }
+    str.erase(str.size() - spaces, spaces);
+}
+bool Calculator::onlyConstants(const string& str) {
+    for(char c: str)
+        if('a' <= c && c < 'x' || 'A' <= c && c <= 'Z' || c == '_' )
+            return false;
+    return true;
 }

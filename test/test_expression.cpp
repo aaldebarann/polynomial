@@ -1,6 +1,7 @@
 #include <gtest.h>
 #include "expression.h"
 #include <iostream>
+#include <UnorderedTB.h>
 
 TEST(ArithmeticExpression, can_parse_vars_only_expression) {
     string str = " _var1_ *  var2 + VAR3-  vAr_4 -v  *  ___var_6*var_______7";
@@ -169,125 +170,16 @@ TEST(ArithmeticExpression, can_get_postfix_function_brackets)
     ArithmeticExpression expression("a_0(f) * 2 + pi*( I(p1, dx, a, b) - D(p2, p4, 12) * 8) * 1");
     EXPECT_EQ("a_0(f)2*piI(p1,dx,a,b)D(p2,p4,12)8*-*1*+", expression.getPostfix());
 }
-/*
-TEST(ArithmeticExpression, can_calculate_addition_vars_only)
-{
-    ArithmeticExpression expression(" a + b + (c + d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
 
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1. + 2. + (3. + 4.);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_addition_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a + b + (b + a) + a + a");
-    istringstream values("1 2");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1 + 2 + (2 + 1) + 1 + 1;
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_subtraction_vars_only)
-{
-    ArithmeticExpression expression(" a - b - (c - d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1 - 2 - (3 - 4);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_subtraction_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a - b - (b - a) - a - a");
-    istringstream values("1 2");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1 - 2 - (2 - 1) - 1 - 1;
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_multiplication_vars_only)
-{
-    ArithmeticExpression expression(" a * b * (c * d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1 * 2 * (3 * 4);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_multiplication_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a * b * (b * a) * a * a");
-    istringstream values("2 3");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 2 * 3 * (3 * 2) * 2 * 2;
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_division_vars_only)
-{
-    ArithmeticExpression expression(" a * b * (c * d)");
-    istringstream values("1 2 3 4");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1.0 * 2.0 * (3.0 * 4.0);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_division_repeated_variables_vars_only)
-{
-    ArithmeticExpression expression(" a * b * (b * a) * a * a");
-    istringstream values("2 3");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 2.0 * 3.0 * (3.0 * 2.0) * 2.0 * 2.0;
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_vars_only)
-{
-    ArithmeticExpression expression("( a * b - (c * d) * e + f ) ");
-    istringstream values("2 4 3 6 5 6");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = (2.0 * 4.0 - (3.0 * 6.0) * 5.0 + 6.0 ) ;
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-*/
 TEST(ArithmeticExpression, can_calculate_subtraction_digits_only)
 {
-    ArithmeticExpression expression(" 1 - 2 - (3 - 4)");
+    ArithmeticExpression expression(" 3 - 2 - (3 - 4)");
 
     Polynome result = expression.calculate();
-    float exp = 1 - 2 - (3 - 4);
+    float exp = 3 - 2 - (3 - 4);
     Polynome expected{ exp };
 
-    EXPECT_TRUE(expected == result);
+    EXPECT_EQ(expected.to_string(), result.to_string());
 }
 TEST(ArithmeticExpression, can_calculate_multiplication_digits_only)
 {
@@ -319,56 +211,6 @@ TEST(ArithmeticExpression, can_calculate_digits_only)
 
     EXPECT_TRUE(expected == result);
 }
-/*
-TEST(ArithmeticExpression, can_calculate_addition)
-{
-    ArithmeticExpression expression(" a + 2.0 + (c + d)");
-    istringstream values("1 3 4");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1 + 2 + (3 + 4);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_subtraction)
-{
-    ArithmeticExpression expression(" a - 2 - (c - d)");
-    istringstream values("1 3 4");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1 - 2 - (3 - 4);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_multiplication)
-{
-    ArithmeticExpression expression(" a * 2222 * (c * d)");
-    istringstream values("1 3 4");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1 * 2222 * (3 * 4);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-TEST(ArithmeticExpression, can_calculate_division)
-{
-    ArithmeticExpression expression(" a * b * (0.3 * d)");
-    istringstream values("1 2 4");
-    ostream nowhere(nullptr);
-
-    Polynome result = expression.calculate(values, nowhere);
-    float exp = 1.0 * 2.0 * (0.3 * 4.0);
-    Polynome expected{ exp };
-
-    EXPECT_TRUE(expected == result);
-}
-*/
 TEST(ArithmeticExpression, can_calculate_sqrt)
 {
     ArithmeticExpression expression("(5 - (sqrt(4))*(sqrt(4))) - sqrt(3)*sqrt(3)");
@@ -379,15 +221,110 @@ TEST(ArithmeticExpression, can_calculate_sqrt)
 
     EXPECT_TRUE(expected == result);
 }
-/*
-TEST(ArithmeticExpression, can_calculate)
-{
-    ArithmeticExpression expression("( a * b - (c * d) * e + f - 0.7*g) * (sqrt(1.0) + 2.0)");
+Table* sampleTable () {
+    auto* table = new UnorderedTB();
+    Node node;
 
-    Polynome result = expression.calculate();
-    float exp = (1.0 * 2.0 - (3.0 * 4.0) * 5.0 + 0.6 - 0.7*0.7) * (sqrt(1.0) + 2.0);
-    Polynome expected{ exp };
+    Polynome a{"x"};
+    Polynome b{"y"};
+    Polynome c{"z"};
+    Polynome d{"-1*x"};
+    Polynome e{"x + y + z"};
 
-    EXPECT_TRUE(expected == result);
+    node.data = a;
+    node.name = "a";
+    table->Insert(node);
+    node.data = b;
+    node.name = "b";
+    table->Insert(node);
+    node.data = c;
+    node.name = "c";
+    table->Insert(node);
+    node.data = d;
+    node.name = "d";
+    table->Insert(node);
+    node.data = e;
+    node.name = "e";
+    table->Insert(node);
+
+    return table;
 }
- */
+TEST(ArithmeticExpression, can_calculate_polynomial_additiony)
+{
+    ArithmeticExpression expression(" a + b + (c + d) + (b + b)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{"3*y + z"};
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_multiplication)
+{
+    ArithmeticExpression expression(" a * b * (c * d)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "-1*x^2*y*z" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_differetial_sum)
+{
+    ArithmeticExpression expression("D(a, x) + D(b, y) + D(c, z) + D(d, x)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "2" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_integral_sum)
+{
+    ArithmeticExpression expression("I(a, x) + I(b, y) + I(c, z) + I(d, x)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "0.5*y^2 + 0.5*z^2" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial_value_at)
+{
+    ArithmeticExpression expression("AT(d, 1, 2, 3) + AT(e, 1, 2, 3)");
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "5" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
+TEST(ArithmeticExpression, can_calculate_polynomial)
+{
+    ArithmeticExpression expression("AT(a, 1, 2, 3) + D(b, y) + I(c, z)  - d*e");
+    // 1 + 1 + 0.5*z^2 - (-x) * (x+y+z)
+
+    Table* pTable = sampleTable();
+
+    Polynome result = expression.calculate(pTable);
+    Polynome expected{ "2 + 0.5*z^2  + x^2 + x*y + x*z" };
+
+    delete pTable;
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}

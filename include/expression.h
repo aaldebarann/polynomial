@@ -73,8 +73,11 @@ private:
 
     static Polynome getPolynome(const string& name, Table *table);
 
-    Polynome calcFunction(int& i);
+    Polynome calcFunction(int& i, Table* table);
     Polynome calcSqrt(int& i);
+    Polynome calcDifferentiate(int& i, Table* table);
+    Polynome calcIntegrate(int& i, Table* table);
+    Polynome calcValueAt(int& i, Table* table);
 
 };
 
