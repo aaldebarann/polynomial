@@ -1,5 +1,6 @@
 #include "monome.h"
 #include <cmath>
+#include <iomanip>
 
 using namespace std;
 
@@ -11,10 +12,12 @@ Monome::Monome(float K_, int a_, int b_, int c_) {
 }
 
 void Monome::print() const {
+
     if(K>=0){
         cout <<"+";
     }
-    cout << K ;
+    // Три знака после запятой
+    printf("%.3f",K);
     if(a!=0)
         cout<<"*x^"<<a;
     if(b!=0)
