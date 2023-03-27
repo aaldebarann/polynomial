@@ -37,25 +37,13 @@ Polynome List_TB::Take_elem(string name) {
 void List_TB::Del(string name) {
     list <Node>::iterator Iter;
     int i = 0;
-    bool k = false;
-    try
-    {
-        for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
-            if ((*Iter).name == name) {
-                rows.erase(Iter);
-                k = true;
-                break;
-            }
-            i++;
-        }
-        if (k == false) {
-            throw invalid_argument("ERROR");
-        }
-    }
-    catch (const std::exception&)
-    {
-        cout << "id not found" << endl;
-    }
+    for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
+      if ((*Iter).name == name) {
+        rows.erase(Iter);
+        break;
+      }
+      i++;
+    } 
 };
 void List_TB::Print() {
     list <Node>::iterator Iter;
