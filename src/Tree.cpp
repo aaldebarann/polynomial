@@ -61,7 +61,7 @@ void Tree::Insert(Node Data, nodeptr& p)
         }
         else
         {
-            cout << "Element Exists" << endl;
+            // cout << "Element Exists" << endl;
         }
     }
     int m, n, d;
@@ -92,7 +92,6 @@ Polynome Tree::find(string x, nodeptr& p)
             }
             else
             {
-                cout << "Element found!" << endl;
                 // âûçîâ îêíà ñ òåêñòîì "ýëåìåíò íàéäåò"
                 return p->DataCase.data;
             }
@@ -139,7 +138,7 @@ void Tree::Del(string x, nodeptr& p)
     nodeptr d;
     if (p == NULL)
     {
-        cout << "Sorry! element not found" << endl;
+        //cout << "Sorry! element not found" << endl;
         // âûçîâ îêíà ñ òåêñòîì "ýëåìåíò íå íàéäåò"
     }
     else if (comparison(x, p->DataCase.name) == -1)
@@ -155,21 +154,21 @@ void Tree::Del(string x, nodeptr& p)
         d = p;
         free(d);
         p = NULL;
-        cout << "Element deleted successfully" << endl;
+        //cout << "Element deleted successfully" << endl;
     }
     else if (p->left == NULL)
     {
         d = p;
         free(d);
         p = p->right;
-        cout << "Element deleted successfully" << endl;
+        //cout << "Element deleted successfully" << endl;
     }
     else if (p->right == NULL)
     {
         d = p;
         p = p->left;
         free(d);
-        cout << "Element deleted successfully" << endl;
+        //cout << "Element deleted successfully" << endl;
     }
     else
     {
@@ -180,7 +179,6 @@ void Tree::Del(string x, nodeptr& p)
 Polynome Tree::deletemin(nodeptr& p)
 {
     Polynome c;
-    cout << "inside deltemin" << endl;
     if (p->left == NULL)
     {
         c = p->DataCase.data;

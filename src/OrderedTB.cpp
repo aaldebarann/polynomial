@@ -8,17 +8,13 @@ void OrderedTB::repack() {
         switch (p)
         {
             case 0:
-                cout << KeyMas[i] << endl;
                 i++;
                 continue;
             case 1:
-
                 swap(KeyMas[i], KeyMas[i + 1]);
-                cout << KeyMas[i] << endl;
                 i++;
                 continue;
             case -1:
-                cout << KeyMas[i] << endl;
                 i++;
                 continue;
             default:
