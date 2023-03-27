@@ -94,3 +94,8 @@ TEST(Polynome, to_string) {
 
     EXPECT_EQ(expected.to_string(), result.to_string());
 }
+TEST(Polynome, my_test) {
+    Polynome p("+1.00000*y^1*z^1+1.00000*x^1");
+    string expected = "+1.00000*y^1*z^1+1.00000*x^1";
+    EXPECT_EQ(expected, p.to_string());
+}
