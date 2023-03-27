@@ -16,12 +16,8 @@ void Calculator::insert(const string& name, const Polynome& p) {
     node.name = name;
     node.data = p;
     for(auto t: tables) {
-        try {
-            t->Take_elem(name);
-            t->Del(name);
-        } catch (exception& e) {
-            t->Insert(node);
-        }
+      t->Del(name);
+      t->Insert(node);
     }
 }
 Polynome Calculator::get(const string& name) {
@@ -54,11 +50,11 @@ string Calculator::interpret(string str) {
             return R"(Invalid variable name: "x", "y", "z" are reserved)";
         string value = str.substr(i + 1);
         try {
-            if(!onlyConstants(value)) {
-                // справа выражение из полиномов
-                // перед инициализацией его надо вычислить
-                return "Assignment of an expression from polynomials is unavailable in current version"; // TODO: implement
-                str = interpret(value);
+            if (!onlyConstants(value)) {
+              // справа выражение из полиномов
+              // перед инициализацией его надо вычислить
+              //return "Assignment of an expression from polynomials is unavailable in current version"; // TODO: implement
+              value = interpret(value);
             }
             Polynome pol{value};
             insert(name, pol);

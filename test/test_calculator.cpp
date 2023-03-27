@@ -128,6 +128,34 @@ TEST(Calculator, can_interpret_huge_set) {
 
     EXPECT_EQ(expected.to_string(), actual);
 }
+TEST(Calculator, re_assignment) {
+  Calculator calc{ false };
+  
+  calc.interpret("f = x");
+  calc.interpret("f = y");
+  calc.interpret("f = z");
+  calc.interpret("f = x");
+  calc.interpret("f = y");
+  calc.interpret("f = z");
+  
+  Polynome actual = calc.get("f");
+  Polynome expected = Polynome("z");
+
+  EXPECT_EQ(expected.to_string(), actual.to_string());
+}
+TEST(Calculator, complex_assignment) {
+  Calculator calc{ false };
+
+  calc.interpret("f = x");
+  calc.interpret("g = y");
+  calc.interpret("h = z");
+  calc.interpret("p = f + g*h");
+
+  Polynome actual = calc.get("p");
+  Polynome expected = Polynome("x + y*z");
+
+  EXPECT_EQ(expected.to_string(), actual.to_string());
+}
 /*
 TEST(Calculator, can_interpret_huge_set_all_tables) {
     Calculator calc{true};

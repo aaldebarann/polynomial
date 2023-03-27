@@ -30,18 +30,37 @@ TEST(UnorderedTB, insert_and_get_unord) {
     Polynome pol3 = Polynome{ "x*y*z" };
     n3.name = "pol3";
     n3.data = pol3;
+    Node n4;
+    n4.name = "pol4";
+    Polynome pol4 = Polynome{ "x+y+z" };
+    n4.data = pol4;
+    Node n5;
+    n5.name = "pol5";
+    Polynome pol5 = Polynome{ "x+y+z" };
+    n5.data = pol5;
+    Node n6;
+    Polynome pol6 = Polynome{ "x*y*z" };
+    n6.name = "pol6";
+    n6.data = pol6;
     // table
     UnorderedTB table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
     table.Insert(n3);
+    table.Insert(n4);
+    table.Insert(n5);
+    table.Insert(n6);
     // get back
     Polynome get1 = table.Take_elem("pol1");
     Polynome get2 = table.Take_elem("pol2");
     Polynome get3 = table.Take_elem("pol3");
+    Polynome get4 = table.Take_elem("pol4");
+    Polynome get5 = table.Take_elem("pol5");
+    Polynome get6 = table.Take_elem("pol6");
 
-    EXPECT_TRUE(pol1 == get1 && pol2 == get2 && pol3 == get3);
+    EXPECT_TRUE(pol1 == get1 && pol2 == get2 && pol3 == get3 &&
+    pol4 == get4 && pol5 == get5 && pol6 == get6);
 }
 TEST(UnorderedTB, delete_elem_unord) {
     Node n1;
@@ -123,18 +142,42 @@ TEST(OrderedTB, insert_and_get_ord) {
     Polynome pol3 = Polynome{ "x*y*z" };
     n3.data = pol3;
     n3.name = "pol3";
+    Node n4;
+    n4.name = "pol4";
+    Polynome pol4 = Polynome{ "x+y+z" };
+    n4.data = pol4;
+    Node n5;
+    n5.name = "pol5";
+    Polynome pol5 = Polynome{ "x+y+z" };
+    n5.data = pol5;
+    Node n6;
+    Polynome pol6 = Polynome{ "x*y*z" };
+    n6.name = "pol6";
+    n6.data = pol6;
     // table
     OrderedTB table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
     table.Insert(n3);
+    table.Insert(n4);
+    table.Insert(n5);
+    table.Insert(n6);
     // get back
     Polynome get1 = table.Take_elem("pol1");
     Polynome get2 = table.Take_elem("pol2");
     Polynome get3 = table.Take_elem("pol3");
+    Polynome get4 = table.Take_elem("pol4");
+    Polynome get5 = table.Take_elem("pol5");
+    Polynome get6 = table.Take_elem("pol6");
 
-    EXPECT_TRUE(pol1 == get1 && pol2 == get2 && pol3 == get3);
+    EXPECT_EQ(pol1.to_string(), get1.to_string());
+    EXPECT_EQ(pol2.to_string(), get2.to_string());
+    EXPECT_EQ(pol3.to_string(), get3.to_string());
+    EXPECT_EQ(pol4.to_string(), get4.to_string());
+    EXPECT_EQ(pol5.to_string(), get5.to_string());
+    EXPECT_EQ(pol6.to_string(), get6.to_string());
+
 }
 TEST(OrderedTB, print_elem_ord) {
     Node n1;
