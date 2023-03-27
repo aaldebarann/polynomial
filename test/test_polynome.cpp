@@ -64,6 +64,10 @@ TEST(Polynome,can_multiply_polynomes_properly){
     Polynome p1("x^2+2*y");
     Polynome p2("y-z");
     //p2.print();
+//    Polynome p10("1.2356 * x^2-15.7689 * y");
+//    cout << "IT'S HERE!!!!"<< endl;
+//    p10.print();
+//    cout << "IT'S HERE!!!!"<< endl;
     auto p3 = p1 * p2;
     Polynome p4("x^2*y-x^2*z+2*y^2-2*y*z");
     bool r = (p3 == p4);
