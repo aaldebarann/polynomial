@@ -19,10 +19,7 @@ TEST(Polynome,can_add_polynomes_properly){
     Polynome p1("2* x + y");
     Polynome p2("z - x + y");
     auto p3 = p1 + p2;
-    p3.print();
-    cout << endl;
     auto p4 = Polynome("x+z+2*y");
-    p4.print();
     bool r = (p3 == p4);
     ASSERT_EQ(r,1);
 }
