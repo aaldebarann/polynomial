@@ -15,9 +15,6 @@ int List_TB::Search(string name) {
         i++;
     }
 
-
-
-
 }
 
 
@@ -33,7 +30,7 @@ Polynome List_TB::Take_elem(string name) {
     string message("variable was not found: "+name);
     throw invalid_argument(message);
 
-};
+}
 void List_TB::Del(string name) {
     list <Node>::iterator Iter;
     int i = 0;
@@ -44,7 +41,7 @@ void List_TB::Del(string name) {
       }
       i++;
     } 
-};
+}
 void List_TB::Print() {
     list <Node>::iterator Iter;
     for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
@@ -53,7 +50,7 @@ void List_TB::Print() {
         (*Iter).data.print();
         cout << endl;
     }
-};
+}
 List_TB ::~List_TB() {
     rows.clear();
-};
+}
