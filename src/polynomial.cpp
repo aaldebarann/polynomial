@@ -144,10 +144,13 @@ Polynome::Polynome(string s) {
 }
 
 void Polynome::print() {
-    for (Monome& M:core) {
-        M.print();
+    std::list<Monome>::iterator it;
+    it = core.begin();
+    it->print(true);
+    it++;
+    for(;it!=core.end();it++){
+        it->print();
     }
-
 }
 
 Polynome::Polynome(list<Monome> monomes) {
@@ -310,8 +313,14 @@ string Polynome::to_string() {
     if(core.empty())
         return "0";
     string s;
-    for(auto& m:core)
-        s.append(m.to_string());
+
+    std::list<Monome>::iterator it;
+    it = core.begin();
+    s.append(it->to_string(true));
+    it++;
+    for(;it!=core.end();it++){
+        s.append(it->to_string());
+    }
     return s;
 }
 
