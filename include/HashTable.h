@@ -3,12 +3,14 @@
 #include "Table.h"
 #include <cmath>
 #include <vector>
+#include <unordered_map>
+#include <string>
 class HashTable:Table {
 private:
     vector<Node> rows;
 
     const int PRIME_CONST = 31; // Нужно для хэш-функции
-    int hash(string name); // Хэш-функция
+    int hash(const string& name); // Хэш-функция
 
     const short REHASH_CONST = 4; // Константа перехэширования. Оно происходит при числе непустых > размер/REHASH_CONST
     int num_nonzero{}; // Это число добавленных элементов. Учитывается для перехэширования

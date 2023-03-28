@@ -7,11 +7,8 @@ HashTable::HashTable(int size) {
 }
 void HashTable::rehash() {
     int new_size = num_nonzero * REHASH_CONST;
-    int s = rows.size();
     // Увеличиваем размер
-    for (int i = 0; i < new_size-s; ++i) {
-        rows.emplace_back();
-    }
+    rows.resize(new_size);
     // Теперь происходит перехэширование
     for (auto& elem:rows)
         if(!elem.is_zero()){
@@ -35,18 +32,21 @@ void HashTable::Insert(Node val) {
         rehash();
     }
 }
-int HashTable::hash(string name) {
-    int hashCode = 0;
-    for (int i = 0; i < name.length(); i++) {
-        hashCode += name[i] * pow(PRIME_CONST, i);
-    }
-    return (hashCode*hashCode + 1) % rows.size();
+int HashTable::hash(const string& name) {
+    std::hash<string> hasher;
+    std::size_t hashCode = hasher(name);
+    return hashCode % rows.size();
 }
 
 
 Polynome HashTable::Take_elem(string name) {
     int index = hash(name);
-    return rows[index].data;
+    auto& t = rows[index];
+    if(t.name == name)
+        return t.data;
+    else{
+        throw std::invalid_argument("The element wasn't found!");
+    }
 }
 void HashTable::Del(string name) {
     int index = hash(name);
