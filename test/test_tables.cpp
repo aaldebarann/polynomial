@@ -3,7 +3,8 @@
 #include "OrderedTB.h"
 #include "List_TB.h"
 #include "Tree.h"
-#include "HashTable.h"
+#include "HashListTable.h"
+#include "HashNextTable.h"
 TEST(UnorderedTB, can_create_table) {
     ASSERT_NO_THROW(UnorderedTB table{});
 }
@@ -13,8 +14,11 @@ TEST(OrderedTB, can_create_table) {
 TEST(List_TB, can_create_table) {
     ASSERT_NO_THROW(List_TB table{});
 }
-TEST(HashTable, can_create_table) {
-    ASSERT_NO_THROW(HashTable table{});
+TEST(HashListTable, can_create_table) {
+    ASSERT_NO_THROW(HashListTable table{});
+}
+TEST(HashNextTable, can_create_table) {
+    ASSERT_NO_THROW(HashNextTable table{});
 }
 TEST(Tree, can_create_table) {
     ASSERT_NO_THROW(Tree table{});
@@ -65,6 +69,98 @@ TEST(UnorderedTB, insert_and_get_unord) {
     EXPECT_TRUE(pol1 == get1 && pol2 == get2 && pol3 == get3 &&
     pol4 == get4 && pol5 == get5 && pol6 == get6);
 }
+TEST(HashListTable, insert_and_get_unord) {
+    // nodes
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.name = "pol3";
+    n3.data = pol3;
+    Node n4;
+    n4.name = "pol4";
+    Polynome pol4 = Polynome{ "x+y+z" };
+    n4.data = pol4;
+    Node n5;
+    n5.name = "pol5";
+    Polynome pol5 = Polynome{ "x+y+z" };
+    n5.data = pol5;
+    Node n6;
+    Polynome pol6 = Polynome{ "x*y*z" };
+    n6.name = "pol6";
+    n6.data = pol6;
+    // table
+    UnorderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+    table.Insert(n4);
+    table.Insert(n5);
+    table.Insert(n6);
+    // get back
+    Polynome get1 = table.Take_elem("pol1");
+    Polynome get2 = table.Take_elem("pol2");
+    Polynome get3 = table.Take_elem("pol3");
+    Polynome get4 = table.Take_elem("pol4");
+    Polynome get5 = table.Take_elem("pol5");
+    Polynome get6 = table.Take_elem("pol6");
+
+    EXPECT_TRUE(pol1 == get1 && pol2 == get2 && pol3 == get3 &&
+                pol4 == get4 && pol5 == get5 && pol6 == get6);
+}
+TEST(HashNextTable, insert_and_get_unord) {
+    // nodes
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.name = "pol3";
+    n3.data = pol3;
+    Node n4;
+    n4.name = "pol4";
+    Polynome pol4 = Polynome{ "x+y+z" };
+    n4.data = pol4;
+    Node n5;
+    n5.name = "pol5";
+    Polynome pol5 = Polynome{ "x+y+z" };
+    n5.data = pol5;
+    Node n6;
+    Polynome pol6 = Polynome{ "x*y*z" };
+    n6.name = "pol6";
+    n6.data = pol6;
+    // table
+    UnorderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+    table.Insert(n4);
+    table.Insert(n5);
+    table.Insert(n6);
+    // get back
+    Polynome get1 = table.Take_elem("pol1");
+    Polynome get2 = table.Take_elem("pol2");
+    Polynome get3 = table.Take_elem("pol3");
+    Polynome get4 = table.Take_elem("pol4");
+    Polynome get5 = table.Take_elem("pol5");
+    Polynome get6 = table.Take_elem("pol6");
+
+    EXPECT_TRUE(pol1 == get1 && pol2 == get2 && pol3 == get3 &&
+                pol4 == get4 && pol5 == get5 && pol6 == get6);
+}
 TEST(UnorderedTB, delete_elem_unord) {
     Node n1;
     n1.name = "pol1";
@@ -87,6 +183,51 @@ TEST(UnorderedTB, delete_elem_unord) {
 
     ASSERT_NO_THROW(table.Del(n2.name));
 }
+TEST(HashListTable, delete_elem_unord) {
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.name = "pol3";
+    n3.data = pol3;
+    // table
+    UnorderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+
+    ASSERT_NO_THROW(table.Del(n2.name));
+}
+TEST(HashNextTable, delete_elem_unord) {
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.name = "pol3";
+    n3.data = pol3;
+    // table
+    UnorderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+
+    ASSERT_NO_THROW(table.Del(n2.name));
+}
+
 TEST(UnorderedTB, print_elem_unord) {
     Node n1;
     n1.name = "pol1";
@@ -131,7 +272,153 @@ TEST(OrderedTB, delete_elem_ord) {
 
     ASSERT_NO_THROW(table.Del(n2.name));
 }
+TEST(HashListTable, delete_elem_ord) {
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.data = pol3;
+    n3.name = "pol3";
+    // table
+    UnorderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+
+    ASSERT_NO_THROW(table.Del(n2.name));
+}
+TEST(HashNextTable, delete_elem_ord) {
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.data = pol3;
+    n3.name = "pol3";
+    // table
+    UnorderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+
+    ASSERT_NO_THROW(table.Del(n2.name));
+}
 TEST(OrderedTB, insert_and_get_ord) {
+    // nodes
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.data = pol3;
+    n3.name = "pol3";
+    Node n4;
+    n4.name = "pol4";
+    Polynome pol4 = Polynome{ "x+y+z" };
+    n4.data = pol4;
+    Node n5;
+    n5.name = "pol5";
+    Polynome pol5 = Polynome{ "x+y+z" };
+    n5.data = pol5;
+    Node n6;
+    Polynome pol6 = Polynome{ "x*y*z" };
+    n6.name = "pol6";
+    n6.data = pol6;
+    // table
+    OrderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+    table.Insert(n4);
+    table.Insert(n5);
+    table.Insert(n6);
+    // get back
+    Polynome get1 = table.Take_elem("pol1");
+    Polynome get2 = table.Take_elem("pol2");
+    Polynome get3 = table.Take_elem("pol3");
+    Polynome get4 = table.Take_elem("pol4");
+    Polynome get5 = table.Take_elem("pol5");
+    Polynome get6 = table.Take_elem("pol6");
+
+    EXPECT_EQ(pol1.to_string(), get1.to_string());
+    EXPECT_EQ(pol2.to_string(), get2.to_string());
+    EXPECT_EQ(pol3.to_string(), get3.to_string());
+    EXPECT_EQ(pol4.to_string(), get4.to_string());
+    EXPECT_EQ(pol5.to_string(), get5.to_string());
+    EXPECT_EQ(pol6.to_string(), get6.to_string());
+
+}
+TEST(HashListTable, insert_and_get_ord) {
+    // nodes
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.data = pol3;
+    n3.name = "pol3";
+    Node n4;
+    n4.name = "pol4";
+    Polynome pol4 = Polynome{ "x+y+z" };
+    n4.data = pol4;
+    Node n5;
+    n5.name = "pol5";
+    Polynome pol5 = Polynome{ "x+y+z" };
+    n5.data = pol5;
+    Node n6;
+    Polynome pol6 = Polynome{ "x*y*z" };
+    n6.name = "pol6";
+    n6.data = pol6;
+    // table
+    OrderedTB table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+    table.Insert(n4);
+    table.Insert(n5);
+    table.Insert(n6);
+    // get back
+    Polynome get1 = table.Take_elem("pol1");
+    Polynome get2 = table.Take_elem("pol2");
+    Polynome get3 = table.Take_elem("pol3");
+    Polynome get4 = table.Take_elem("pol4");
+    Polynome get5 = table.Take_elem("pol5");
+    Polynome get6 = table.Take_elem("pol6");
+
+    EXPECT_EQ(pol1.to_string(), get1.to_string());
+    EXPECT_EQ(pol2.to_string(), get2.to_string());
+    EXPECT_EQ(pol3.to_string(), get3.to_string());
+    EXPECT_EQ(pol4.to_string(), get4.to_string());
+    EXPECT_EQ(pol5.to_string(), get5.to_string());
+    EXPECT_EQ(pol6.to_string(), get6.to_string());
+
+}
+TEST(HashNextTable, insert_and_get_ord) {
     // nodes
     Node n1;
     n1.name = "pol1";
