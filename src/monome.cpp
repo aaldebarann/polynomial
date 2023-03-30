@@ -11,9 +11,9 @@ Monome::Monome(float K_, int a_, int b_, int c_) {
     c = c_;
 }
 
-void Monome::print() const {
+void Monome::print(bool is_first) const {
 
-    if(K>=0){
+    if((K>=0)&& !is_first){
         cout <<"+";
     }
     // Три знака после запятой
@@ -110,9 +110,9 @@ bool Monome::equal_iterators(std::list<Monome>::iterator it1, std::list<Monome>:
     return (it1->a == it2->a)&&(it1->b == it2->b)&&(it1->c == it2->c);
 }
 
-string Monome::to_string() const {
+string Monome::to_string(bool is_first) const {
     string s;
-    if(K>=0){
+    if((K>=0)& !is_first){
         s.push_back('+');
     }
     s.append(std::to_string(K));

@@ -145,7 +145,9 @@ TEST(Calculator, re_assignment) {
 }
 TEST(Calculator, complex_assignment) {
   Calculator calc{ false };
-
+  //Polynome p("5 * x^2+3*x");
+  //p.print();
+  //cout << p.to_string() << endl;
   calc.interpret("f = x");
   calc.interpret("g = y");
   calc.interpret("h = z");
