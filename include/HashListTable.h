@@ -5,7 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-class HashListTable: Table {
+class HashListTable: public Table {
 private:
     vector<vector<Node>> rows;
 
