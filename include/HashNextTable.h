@@ -6,7 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-class HashNextTable:Table {
+class HashNextTable: public Table {
 private:
     vector<Node> rows;
 
