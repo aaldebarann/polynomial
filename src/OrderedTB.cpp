@@ -83,6 +83,7 @@ int OrderedTB::comparison(string one, string tow) {
 }
 void OrderedTB::Del(string name) {
     int i = Search(name);
+    if(marker != -1){
     if (i == marker) {
         marker--;
     }
@@ -94,7 +95,7 @@ void OrderedTB::Del(string name) {
         }
         marker--;
     }
-
+    }
 }
 
 int OrderedTB::Search(string name) {
