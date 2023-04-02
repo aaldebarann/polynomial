@@ -9,7 +9,7 @@ struct Obj
 };
 typedef struct Obj* nodeptr;
 
-class Tree
+class Tree: public Table
 {
 private:
     int bsheight(nodeptr); // высота(глубина) до конкретного объекта (звена) в дереве
@@ -22,6 +22,8 @@ private:
     Polynome deletemin(nodeptr&);
     nodeptr nodecopy(nodeptr&);
     void copy(nodeptr&, nodeptr&);
+
+    Obj* o = nullptr;
 public:
     Polynome find(string, nodeptr&); // получение полинома
     void Insert(Node, nodeptr&);
@@ -31,6 +33,22 @@ public:
     void preorder(nodeptr);
     void inorder(nodeptr);
     void postorder(nodeptr);
+    // реализация методов Table.h
+    void Insert(Node val) override {
+        Insert(val, o);
+    }
+    void Del(string name) override {
+        Del(name, o);
+    }
+    int Search(string name) override {
+        throw runtime_error("not implemented yet");
+    }
+    Polynome Take_elem(string name) override {
+        return find(name, o);
+    }
+    void Print() {
+        throw runtime_error("not implemented yet");
+    }
     ~Tree();
 
 
