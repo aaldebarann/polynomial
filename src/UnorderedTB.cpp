@@ -28,6 +28,7 @@ void UnorderedTB::Insert(Node val) {
 }
 void UnorderedTB::Del(string name) {
     int i = Search(name);
+    if(marker!=-1){
     if (i == marker) {
         marker--;
     }
@@ -37,6 +38,7 @@ void UnorderedTB::Del(string name) {
             i++;
         }
         marker--;
+    }
     }
 }
 
