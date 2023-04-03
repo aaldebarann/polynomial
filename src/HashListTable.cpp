@@ -20,7 +20,7 @@ for (int i = 0; i < new_size; ++i) {
     for(auto& v:rows)
         for(auto& node:v){
             // Новый индекс
-            int new_index = hash(node.name);
+            int new_index = hash(node.name,new_size);
             auto& new_v = new_rows[new_index];
 
             inserted = false;
@@ -36,7 +36,16 @@ for (int i = 0; i < new_size; ++i) {
     new_rows.clear();
 }
 void HashListTable::Insert(Node val) {
-    int index = hash(val.name);
+    if (rows.empty()) {
+        vector<Node> v;
+        v.push_back(val);
+        rows.push_back(v);
+        num_nonzero++;
+        return;
+    }
+    /*cout << "Here" << endl;
+    cout << val.name << endl;*/
+    int index = HashListTable::hash(val.name,rows.size());
     auto& v = rows[index];
 
     bool inserted = false;
@@ -51,15 +60,20 @@ void HashListTable::Insert(Node val) {
     if(num_nonzero > (rows.size()/REHASH_CONST))
         rehash();
 }
-int HashListTable::hash(const string& name) {
+int HashListTable::hash(const string& name, int modulus) {
+    /*if (rows.empty()) {
+        return 0;
+    }*/
     std::hash<string> hasher;
     std::size_t hashCode = hasher(name);
-    return hashCode % rows.size();
+    size_t r = hashCode; 
+    r %= modulus;
+    return r;
 }
 
 
 Polynome HashListTable::Take_elem(string name) {
-    int index = hash(name);
+    int index =hash(name,rows.size());
     auto& v = rows[index];
     for(auto& t : v)
         if(t.name == name)
@@ -69,7 +83,7 @@ Polynome HashListTable::Take_elem(string name) {
 
 }
 void HashListTable::Del(string name) {
-    int index = hash(name);
+    int index = hash(name,rows.size());
 
     auto& v = rows[index];
 
@@ -94,5 +108,11 @@ int HashListTable::Search(string) {
 }
 
 void HashListTable::Print() {
-
+    cout << "This hash table is:" << endl;
+    for (auto& row : rows) {
+        for (auto& node : row) {
+            cout << "<"<<node.name<<"->"<< hash(node.name,rows.size()) << "> ";
+        }
+        cout << endl;
+    }
 }

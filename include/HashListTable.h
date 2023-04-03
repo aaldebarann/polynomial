@@ -1,5 +1,4 @@
-#ifndef POLYNOMIAL_HASHLISTTABLE_H
-#define POLYNOMIAL_HASHLISTTABLE_H
+
 #include "Table.h"
 #include <cmath>
 #include <vector>
@@ -9,7 +8,7 @@ class HashListTable: public Table {
 private:
     vector<vector<Node>> rows;
 
-    int hash(const string& name); // Хэш-функция
+    int hash(const string& name,int modulus); // Хэш-функция
 
     const short REHASH_CONST = 4; // Константа перехэширования. Оно происходит при числе непустых > размер/REHASH_CONST
     int num_nonzero{}; // Это число добавленных элементов. Учитывается для перехэширования
@@ -24,6 +23,3 @@ public:
     void Print() override;
     ~HashListTable() override;
 };
-
-
-#endif

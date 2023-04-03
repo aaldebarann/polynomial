@@ -19,9 +19,12 @@ void HashNextTable::rehash() {
 
     for(auto& node:rows){
         // Новый индекс
-        int new_index = hash(node.name);
-        while((new_index < new_rows.size())&&(!(new_rows[new_index].is_zero())))
+        int new_index = hash(node.name,new_size);
+        while ((new_index < new_rows.size()) && (!(new_rows[new_index].is_zero()))) {
             new_index++;
+            new_index %= new_size;
+        }
+            
         new_rows[new_index]=node;
     }
     rows = new_rows;
@@ -38,7 +41,12 @@ void HashNextTable::rehash() {
 //        }
 }
 void HashNextTable::Insert(Node val) {
-    int index = hash(val.name);
+    if (rows.empty()) {
+        rows.push_back(val);
+        num_nonzero++;
+        return;
+    }
+    int index = hash(val.name,rows.size());
     while((index < rows.size())&&(!(rows[index].is_zero())))
         index++;
     if(index < rows.size()){
@@ -50,27 +58,38 @@ void HashNextTable::Insert(Node val) {
             rehash();
     }
     else{
+        rows.push_back(val);
+        num_nonzero++;
         rehash();
     }
 }
-int HashNextTable::hash(const string& name) {
+int HashNextTable::hash(const string& name,int modulus) {
     std::hash<string> hasher;
     std::size_t hashCode = hasher(name);
-    return hashCode % rows.size();
+    return hashCode % modulus;
 }
 
 
 Polynome HashNextTable::Take_elem(string name) {
-    int index = hash(name);
-    auto& t = rows[index];
-    if(t.name == name)
-        return t.data;
-    else{
-        throw std::invalid_argument("The element wasn't found!");
+    int index = hash(name,rows.size());
+    
+    int s = 0;
+    while (s < rows.size()) {
+        
+        auto& t = rows[index];
+        if (t.name == name) {
+            return t.data;
+        }
+        index++;
+        index %= rows.size();
+        s++;
     }
+  
+    throw std::invalid_argument("The element wasn't found!");
+    
 }
 void HashNextTable::Del(string name) {
-    int index = hash(name);
+    int index = hash(name,rows.size());
     auto& t = rows[index];
     t.name = " ";
     t.data = Polynome("0");
@@ -89,5 +108,6 @@ int HashNextTable::Search(string) {
 }
 
 void HashNextTable::Print() {
-
+    for (auto& r : rows)
+        cout << r.name << " -> " << hash(r.name,rows.size()) << endl;
 }
