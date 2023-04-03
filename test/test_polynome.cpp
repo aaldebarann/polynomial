@@ -89,3 +89,12 @@ TEST(Polynome,can_find_value_at_point_properly){
     auto v = p1.value_at(0,1,1);
     ASSERT_EQ(v,-6);
 }
+TEST(Polynome, to_string) {
+    Polynome f("x");
+    Polynome g("y");
+    Polynome h("z");
+    Polynome result = f +  g * h;
+    Polynome expected("x + y*z");
+
+    EXPECT_EQ(expected.to_string(), result.to_string());
+}
