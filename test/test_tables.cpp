@@ -96,7 +96,7 @@ TEST(HashListTable, insert_and_get_unord) {
     n6.name = "pol6";
     n6.data = pol6;
     // table
-    UnorderedTB table;
+    HashListTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -142,7 +142,7 @@ TEST(HashNextTable, insert_and_get_unord) {
     n6.name = "pol6";
     n6.data = pol6;
     // table
-    UnorderedTB table;
+    HashNextTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);

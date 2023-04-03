@@ -105,7 +105,7 @@ int OrderedTB::Search(string name) {
     while (l <= r) {
         mid = (l + r) / 2;
         if (comparison(DataMas[KeyMas[mid]].name, name) == 0) return mid;
-        if (comparison(DataMas[KeyMas[mid]].name, name) == 1) r = mid;
+        if (comparison(DataMas[KeyMas[mid]].name, name) == 1) r = mid-1;
         else l = mid + 1;
     }
     return marker + 1;

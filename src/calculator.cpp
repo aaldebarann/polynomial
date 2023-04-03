@@ -12,11 +12,11 @@ Calculator:: Calculator(bool allTables) {
 }
 
 void Calculator::insert(const string& name, const Polynome& p) {
-    Node node;
-    node.name = name;
-    node.data = p;
     for(auto t: tables) {
-      t->Del(name);
+      Node node;
+      node.name = name;
+      node.data = p;
+      //t->Del(name);
       t->Insert(node);
     }
 }

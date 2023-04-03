@@ -47,6 +47,20 @@ TEST(Calculator, insert_and_get) {
     Polynome h1{calc.get("h")};
     EXPECT_TRUE(f == f1 && g == g1 && h == h1);
 }
+TEST(Calculator, insert_and_get_all) {
+  Calculator calc{ true };
+  Polynome f{ "42" };
+  calc.insert("f", f);
+  Polynome g{ "x + y + z" };
+  calc.insert("g", g);
+  Polynome h{ "x * y^2 * z^3" };
+  calc.insert("h", h);
+  // get back
+  Polynome f1{ calc.get("f") };
+  Polynome g1{ calc.get("g") };
+  Polynome h1{ calc.get("h") };
+  EXPECT_TRUE(f == f1 && g == g1 && h == h1);
+}
 TEST(Calculator, calculate_polynome_expression) {
     Calculator calc{false};
     Polynome f{"3"};
@@ -62,7 +76,7 @@ TEST(Calculator, calculate_polynome_expression) {
     EXPECT_EQ(expected.to_string(), actual.to_string());
 }
 TEST(Calculator, can_interpret_inizialization) {
-    Calculator calc{false};
+    Calculator calc{true};
 
     calc.interpret("f = x*y*z");
     calc.interpret("g = x*y*z"); // g = x*y*z
@@ -81,7 +95,7 @@ TEST(Calculator, can_interpret_inizialization) {
 
 }
 TEST(Calculator, can_interpret_expression) {
-    Calculator calc{false};
+    Calculator calc{true};
 
     Polynome f{"y + z"};
     calc.insert("f", f);
@@ -98,7 +112,7 @@ TEST(Calculator, can_interpret_expression) {
 
 }
 TEST(Calculator, can_interpret) {
-    Calculator calc{false};
+    Calculator calc{true};
 
     calc.interpret("f = y + z");
     calc.interpret("g = x + y");
@@ -111,7 +125,7 @@ TEST(Calculator, can_interpret) {
     EXPECT_EQ(expected.to_string(), actual);
 }
 TEST(Calculator, can_interpret_huge_set) {
-    Calculator calc{false};
+    Calculator calc{true};
 
     calc.interpret("f = y + z");
     calc.interpret("g = x + y");
@@ -129,7 +143,7 @@ TEST(Calculator, can_interpret_huge_set) {
     EXPECT_EQ(expected.to_string(), actual);
 }
 TEST(Calculator, re_assignment) {
-  Calculator calc{ false };
+  Calculator calc{ true };
   
   calc.interpret("f = x");
   calc.interpret("f = y");
@@ -144,7 +158,7 @@ TEST(Calculator, re_assignment) {
   EXPECT_EQ(expected.to_string(), actual.to_string());
 }
 TEST(Calculator, complex_assignment) {
-  Calculator calc{ false };
+  Calculator calc{ true };
   //Polynome p("5 * x^2+3*x");
   //p.print();
   //cout << p.to_string() << endl;
@@ -158,7 +172,7 @@ TEST(Calculator, complex_assignment) {
 
   EXPECT_EQ(expected.to_string(), actual.to_string());
 }
-/*
+
 TEST(Calculator, can_interpret_huge_set_all_tables) {
     Calculator calc{true};
 
@@ -177,4 +191,3 @@ TEST(Calculator, can_interpret_huge_set_all_tables) {
 
     EXPECT_EQ(expected.to_string(), actual);
 }
- */
