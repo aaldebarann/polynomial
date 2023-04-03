@@ -104,8 +104,12 @@ TEST(HashListTable, insert_and_get_unord) {
     table.Insert(n4);
     table.Insert(n5);
     table.Insert(n6);
+    /*cout << "Printing table " << endl;
+    table.Print();
+    cout << "Printing table " << endl;*/
     // get back
     Polynome get1 = table.Take_elem("pol1");
+
     Polynome get2 = table.Take_elem("pol2");
     Polynome get3 = table.Take_elem("pol3");
     Polynome get4 = table.Take_elem("pol4");
@@ -144,12 +148,18 @@ TEST(HashNextTable, insert_and_get_unord) {
     // table
     HashNextTable table;
     // insert
+    //cout << "Inserted new el: " << endl;
     table.Insert(n1);
+    //table.Print();
+    //cout << "Inserted new el: " << endl;
     table.Insert(n2);
+    //table.Print();
+    //cout << "Inserted new el: " << endl;
     table.Insert(n3);
     table.Insert(n4);
     table.Insert(n5);
     table.Insert(n6);
+    
     // get back
     Polynome get1 = table.Take_elem("pol1");
     Polynome get2 = table.Take_elem("pol2");
