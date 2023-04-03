@@ -8,6 +8,8 @@ Calculator:: Calculator(bool allTables) {
     if(allTables) {
         tables.push_back(new UnorderedTB());
         tables.push_back(new OrderedTB());
+        tables.push_back(new HashListTable());
+        tables.push_back(new HashNextTable());
     }
 }
 
