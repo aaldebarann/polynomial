@@ -4,9 +4,9 @@
 
 #include "calculator.h"
 Calculator:: Calculator(bool allTables) {
-    tables.push_back(new List_TB());
+    tables.push_back(new UnorderedTB());
     if(allTables) {
-        tables.push_back(new UnorderedTB());
+        tables.push_back(new List_TB());
         tables.push_back(new OrderedTB());
         tables.push_back(new Tree());
         tables.push_back(new HashListTable());

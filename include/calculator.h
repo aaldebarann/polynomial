@@ -18,7 +18,7 @@ using namespace std;
 class Calculator {
     vector<Table *> tables{};
 public:
-    enum TableType: unsigned {list = 0, unordered = 1, ordered = 2, tree = 3, hashList = 4, hashNext = 5};
+    enum TableType: unsigned {unordered = 0, list = 1, ordered = 2, tree = 3, hashList = 4, hashNext = 5};
 
     explicit Calculator(bool allTables = true);
     ~Calculator() {
