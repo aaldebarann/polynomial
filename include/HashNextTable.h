@@ -24,6 +24,7 @@ public:
     Polynome Take_elem(string) override;
     void Print() override;
     ~HashNextTable() override;
+    string Print_() override;
 };
 
 

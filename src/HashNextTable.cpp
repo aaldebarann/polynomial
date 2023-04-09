@@ -111,3 +111,7 @@ void HashNextTable::Print() {
     for (auto& r : rows)
         cout << r.name << " -> " << hash(r.name,rows.size()) << endl;
 }
+string HashNextTable::Print_() {
+    return "Not implemented yet";
+}
+

@@ -274,3 +274,6 @@ Tree :: ~Tree() {
     Obj* t = NULL;
     this->clear(t);
 }
+string Tree::Print_() {
+    return "Not implemented yet";
+}
