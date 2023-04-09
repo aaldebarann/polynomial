@@ -46,13 +46,14 @@ TEST(Calculator, can_print_table) {
     Polynome a{"x"};
     Polynome b{"y"};
     Polynome c{"z"};
-    auto* calc = new Calculator{true};
+    auto *calc = new Calculator{true};
     calc->insert("a", a);
     calc->insert("b", b);
     calc->insert("c", c);
-    for(int i = 0; i <5; i++)
+    for (int i = 0; i < 5; i++) {
         calc->setActive(i);
         ASSERT_NO_THROW(string s = calc->to_string());
+    }
 }
 TEST(Calculator, insert_and_get) {
     Calculator calc{false};
