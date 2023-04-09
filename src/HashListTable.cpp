@@ -116,3 +116,14 @@ void HashListTable::Print() {
         cout << endl;
     }
 }
+
+string HashListTable::to_string() {
+    string res;
+    for (auto& row : rows) {
+        for (auto& node : row) {
+            if(!node.is_zero())
+                res+= node.name + " " + node.data.to_string() + " | ";
+        }
+    }
+    return res;
+}
