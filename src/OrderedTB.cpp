@@ -129,3 +129,13 @@ void OrderedTB::Print() {
         i++;
     }
 }
+
+string OrderedTB::Print_() {
+    int i = 0;
+    string str;
+    while (i <= marker) {
+       str+= (DataMas[KeyMas[i]].name + " | " + DataMas[KeyMas[i]].data.to_string());
+        i++;
+    }
+    return str;
+}

@@ -17,5 +17,6 @@ public:
     int Search(string) override;
     Polynome Take_elem(string) override;
     void Print() override;
+    string Print_();
     ~OrderedTB();
 };
