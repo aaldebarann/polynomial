@@ -11,4 +11,5 @@ public:
     Polynome Take_elem(string) override;
     void Print() override;
     ~List_TB();
+    string Print_();
 };

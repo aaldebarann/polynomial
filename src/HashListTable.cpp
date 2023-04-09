@@ -116,7 +116,6 @@ void HashListTable::Print() {
         cout << endl;
     }
 }
-
 string HashListTable::to_string() {
     string res;
     for (auto& row : rows) {
@@ -126,4 +125,8 @@ string HashListTable::to_string() {
         }
     }
     return res;
+}
+
+string HashListTable::Print_() {
+    return to_string();
 }

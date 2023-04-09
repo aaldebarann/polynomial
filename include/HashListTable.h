@@ -23,4 +23,5 @@ public:
     void Print() override;
     string to_string(); // Переводит содержимое таблицы в строку
     ~HashListTable() override;
+    string Print_() override;
 };

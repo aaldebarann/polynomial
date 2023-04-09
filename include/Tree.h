@@ -49,6 +49,7 @@ public:
     void Print() {
         throw runtime_error("not implemented yet");
     }
+    string Print_();
     ~Tree();
 
 

@@ -11,6 +11,15 @@ TEST(Calculator, can_destruct){
     auto* calc = new Calculator{false};
     ASSERT_NO_THROW(delete calc);
 }
+TEST(Calculator, can_set_active_table) {
+    auto* calc = new Calculator{true};
+    ASSERT_NO_THROW(calc->setActive(0));
+    ASSERT_NO_THROW(calc->setActive(1));
+    ASSERT_NO_THROW(calc->setActive(2));
+    ASSERT_NO_THROW(calc->setActive(3));
+    ASSERT_NO_THROW(calc->setActive(4));
+    ASSERT_NO_THROW(calc->setActive(2));
+}
 TEST(Calculator, can_insert) {
     auto* calc = new Calculator{false};
     Polynome a{"x"};
@@ -32,6 +41,19 @@ TEST(Calculator, can_insert) {
     ASSERT_NO_THROW(calc->insert("h", h));
     ASSERT_NO_THROW(calc->insert("i", i));
     ASSERT_NO_THROW(delete calc);
+}
+TEST(Calculator, can_print_table) {
+    Polynome a{"x"};
+    Polynome b{"y"};
+    Polynome c{"z"};
+    auto *calc = new Calculator{true};
+    calc->insert("a", a);
+    calc->insert("b", b);
+    calc->insert("c", c);
+    for (int i = 0; i < 5; i++) {
+        calc->setActive(i);
+        ASSERT_NO_THROW(string s = calc->to_string());
+    }
 }
 TEST(Calculator, insert_and_get) {
     Calculator calc{false};

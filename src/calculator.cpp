@@ -8,11 +8,20 @@ Calculator:: Calculator(bool allTables) {
     if(allTables) {
         tables.push_back(new UnorderedTB());
         tables.push_back(new OrderedTB());
+        tables.push_back(new Tree());
         tables.push_back(new HashListTable());
         tables.push_back(new HashNextTable());
     }
+    active = tables[0];
 }
 
+void Calculator::setActive(TableType table) {
+    if(table < tables.size())
+        active = tables[table];
+}
+void Calculator::setActive(unsigned int type) {
+    setActive(TableType(type));
+}
 void Calculator::insert(const string& name, const Polynome& p) {
     for(auto t: tables) {
       Node node;
@@ -28,7 +37,7 @@ Polynome Calculator::get(const string& name) {
     return table->Take_elem(name);
 }
 Table* Calculator::activeTable() {
-    return tables.front();
+    return active;
 }
 
 string Calculator::interpret(string str) {
@@ -66,7 +75,9 @@ string Calculator::interpret(string str) {
         }
     }
 }
-
+string Calculator::to_string() {
+    return activeTable()->Print_();
+}
 void Calculator::deleteAll(string& str, char toDelete) {
     int spaces = 0;
     for(int i = 0; i < str.size(); i++) {
