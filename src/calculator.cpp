@@ -8,15 +8,17 @@ Calculator:: Calculator(bool allTables) {
     if(allTables) {
         tables.push_back(new UnorderedTB());
         tables.push_back(new OrderedTB());
+        tables.push_back(new HashListTable());
+        tables.push_back(new HashNextTable());
     }
 }
 
 void Calculator::insert(const string& name, const Polynome& p) {
-    Node node;
-    node.name = name;
-    node.data = p;
     for(auto t: tables) {
-      t->Del(name);
+      Node node;
+      node.name = name;
+      node.data = p;
+      //t->Del(name);
       t->Insert(node);
     }
 }

@@ -96,7 +96,7 @@ TEST(HashListTable, insert_and_get_unord) {
     n6.name = "pol6";
     n6.data = pol6;
     // table
-    UnorderedTB table;
+    HashListTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -104,8 +104,12 @@ TEST(HashListTable, insert_and_get_unord) {
     table.Insert(n4);
     table.Insert(n5);
     table.Insert(n6);
+    /*cout << "Printing table " << endl;
+    table.Print();
+    cout << "Printing table " << endl;*/
     // get back
     Polynome get1 = table.Take_elem("pol1");
+
     Polynome get2 = table.Take_elem("pol2");
     Polynome get3 = table.Take_elem("pol3");
     Polynome get4 = table.Take_elem("pol4");
@@ -142,14 +146,20 @@ TEST(HashNextTable, insert_and_get_unord) {
     n6.name = "pol6";
     n6.data = pol6;
     // table
-    UnorderedTB table;
+    HashNextTable table;
     // insert
+    //cout << "Inserted new el: " << endl;
     table.Insert(n1);
+    //table.Print();
+    //cout << "Inserted new el: " << endl;
     table.Insert(n2);
+    //table.Print();
+    //cout << "Inserted new el: " << endl;
     table.Insert(n3);
     table.Insert(n4);
     table.Insert(n5);
     table.Insert(n6);
+    
     // get back
     Polynome get1 = table.Take_elem("pol1");
     Polynome get2 = table.Take_elem("pol2");
@@ -591,6 +601,36 @@ TEST(Tree, insert_and_get_Tree) {
     EXPECT_TRUE(pol1 == get1 && pol2 == get2 && pol3 == get3);
 }
 
+TEST(Tree, insert_and_get_astable) {
+    // nodes
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.data = pol3;
+    n3.name = "pol3";
+    // table
+    Tree table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+    // get back
+    Polynome get1 = table.Take_elem("pol1");
+    Polynome get2 = table.Take_elem("pol2");
+    Polynome get3 = table.Take_elem("pol3");
+
+    EXPECT_EQ(pol1.to_string(), get1.to_string());
+    EXPECT_EQ(pol2.to_string(), get2.to_string());
+    EXPECT_EQ(pol3.to_string(), get3.to_string());
+}
+
 TEST(Tree, delete_elem_Tree) {
     Node n1;
     n1.name = "pol1";
@@ -614,6 +654,28 @@ TEST(Tree, delete_elem_Tree) {
 
     ASSERT_NO_THROW(table.Del(n2.name,o));
 }
+TEST(Tree, delete_elem_astable) {
+    Node n1;
+    n1.name = "pol1";
+    Polynome pol1 = Polynome{ "x+y+z" };
+    n1.data = pol1;
+    Node n2;
+    n2.name = "pol2";
+    Polynome pol2 = Polynome{ "x+y+z" };
+    n2.data = pol2;
+    Node n3;
+    Polynome pol3 = Polynome{ "x*y*z" };
+    n3.data = pol3;
+    n3.name = "pol3";
+    // table
+    Tree table;
+    // insert
+    table.Insert(n1);
+    table.Insert(n2);
+    table.Insert(n3);
+
+    ASSERT_NO_THROW(table.Del(n2.name));
+}
 TEST(Tree, print_elem_Tree) {
     Node n1;
     n1.name = "pol1";
@@ -626,7 +688,7 @@ TEST(Tree, print_elem_Tree) {
     Node n3;
     Polynome pol3 = Polynome{ "x*y*z" };
     n3.data = pol3;
-     n3.name = "pol3";
+    n3.name = "pol3";
     // table
     Obj* o = NULL;
     Tree table;

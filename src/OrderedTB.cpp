@@ -83,6 +83,7 @@ int OrderedTB::comparison(string one, string tow) {
 }
 void OrderedTB::Del(string name) {
     int i = Search(name);
+    if(marker != -1){
     if (i == marker) {
         marker--;
     }
@@ -94,7 +95,7 @@ void OrderedTB::Del(string name) {
         }
         marker--;
     }
-
+    }
 }
 
 int OrderedTB::Search(string name) {
@@ -104,7 +105,7 @@ int OrderedTB::Search(string name) {
     while (l <= r) {
         mid = (l + r) / 2;
         if (comparison(DataMas[KeyMas[mid]].name, name) == 0) return mid;
-        if (comparison(DataMas[KeyMas[mid]].name, name) == 1) r = mid;
+        if (comparison(DataMas[KeyMas[mid]].name, name) == 1) r = mid-1;
         else l = mid + 1;
     }
     return marker + 1;
@@ -127,4 +128,14 @@ void OrderedTB::Print() {
         cout << endl;
         i++;
     }
+}
+
+string OrderedTB::Print_() {
+    int i = 0;
+    string str;
+    while (i <= marker) {
+       str+= (DataMas[KeyMas[i]].name + " | " + DataMas[KeyMas[i]].data.to_string());
+        i++;
+    }
+    return str;
 }

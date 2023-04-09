@@ -6,11 +6,11 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-class HashNextTable:Table {
+class HashNextTable: public Table {
 private:
     vector<Node> rows;
 
-    int hash(const string& name); // Хэш-функция
+    int hash(const string& name,int modulus); // Хэш-функция
 
     const short REHASH_CONST = 4; // Константа перехэширования. Оно происходит при числе непустых > размер/REHASH_CONST
     int num_nonzero{}; // Это число добавленных элементов. Учитывается для перехэширования

@@ -10,6 +10,8 @@
 #include "OrderedTB.h"
 #include "List_TB.h"
 #include "Tree.h"
+#include "HashListTable.h"
+#include "HashNextTable.h"
 
 using namespace std;
 

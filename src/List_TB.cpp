@@ -2,7 +2,17 @@
 List_TB::List_TB() {
 }
 void List_TB::Insert(Node val) {
-    rows.push_back(val);
+  list <Node>::iterator Iter;
+  int i = 0;
+  for (Iter = rows.begin(); Iter != rows.end(); Iter++) {
+    if ((*Iter).name == val.name) {
+      (*Iter).data = val.data;
+      return;
+    }
+    i++;
+  }
+  
+  rows.push_back(val);
 }
 int List_TB::Search(string name) {
     list <Node>::iterator Iter;
