@@ -111,3 +111,12 @@ void HashNextTable::Print() {
     for (auto& r : rows)
         cout << r.name << " -> " << hash(r.name,rows.size()) << endl;
 }
+
+string HashNextTable::to_string() {
+    string res;
+    for (auto& node : rows) {
+        if(!node.is_zero())
+            res+= node.name + " " + node.data.to_string() + " | ";
+    }
+    return res;
+}
