@@ -116,6 +116,3 @@ void HashListTable::Print() {
         cout << endl;
     }
 }
-string HashListTable::Print_() {
-    return "Not implemented yet";
-}

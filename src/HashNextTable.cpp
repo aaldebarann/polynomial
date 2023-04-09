@@ -115,3 +115,12 @@ string HashNextTable::Print_() {
     return "Not implemented yet";
 }
 
+
+string HashNextTable::to_string() {
+    string res;
+    for (auto& node : rows) {
+        if(!node.is_zero())
+            res+= node.name + " " + node.data.to_string() + " | ";
+    }
+    return res;
+}
