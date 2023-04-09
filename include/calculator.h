@@ -42,6 +42,6 @@ public:
 private:
     static void deleteAll(string& str, char toDelete);
     static bool onlyConstants(const string& str);
-    Table* active;
+    TableType activeType;
 };
 
