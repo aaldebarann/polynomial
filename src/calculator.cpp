@@ -75,7 +75,9 @@ string Calculator::interpret(string str) {
         }
     }
 }
-
+string Calculator::to_string() {
+    return activeTable()->Print_();
+}
 void Calculator::deleteAll(string& str, char toDelete) {
     int spaces = 0;
     for(int i = 0; i < str.size(); i++) {
