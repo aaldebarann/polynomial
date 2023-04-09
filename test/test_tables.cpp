@@ -104,6 +104,8 @@ TEST(HashListTable, insert_and_get_unord) {
     table.Insert(n4);
     table.Insert(n5);
     table.Insert(n6);
+
+    //cout << table.to_string() <<endl;
     /*cout << "Printing table " << endl;
     table.Print();
     cout << "Printing table " << endl;*/
@@ -159,7 +161,8 @@ TEST(HashNextTable, insert_and_get_unord) {
     table.Insert(n4);
     table.Insert(n5);
     table.Insert(n6);
-    
+
+    //cout << table.to_string() <<endl;
     // get back
     Polynome get1 = table.Take_elem("pol1");
     Polynome get2 = table.Take_elem("pol2");
@@ -207,7 +210,7 @@ TEST(HashListTable, delete_elem_unord) {
     n3.name = "pol3";
     n3.data = pol3;
     // table
-    UnorderedTB table;
+    HashListTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -229,7 +232,7 @@ TEST(HashNextTable, delete_elem_unord) {
     n3.name = "pol3";
     n3.data = pol3;
     // table
-    UnorderedTB table;
+    HashNextTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -274,7 +277,7 @@ TEST(OrderedTB, delete_elem_ord) {
     n3.data = pol3;
     n3.name = "pol3";
     // table
-    UnorderedTB table;
+    OrderedTB table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -296,7 +299,7 @@ TEST(HashListTable, delete_elem_ord) {
     n3.data = pol3;
     n3.name = "pol3";
     // table
-    UnorderedTB table;
+    HashListTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -318,7 +321,7 @@ TEST(HashNextTable, delete_elem_ord) {
     n3.data = pol3;
     n3.name = "pol3";
     // table
-    UnorderedTB table;
+    HashNextTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -404,7 +407,7 @@ TEST(HashListTable, insert_and_get_ord) {
     n6.name = "pol6";
     n6.data = pol6;
     // table
-    OrderedTB table;
+    HashListTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -412,6 +415,8 @@ TEST(HashListTable, insert_and_get_ord) {
     table.Insert(n4);
     table.Insert(n5);
     table.Insert(n6);
+
+    //cout << table.to_string()
     // get back
     Polynome get1 = table.Take_elem("pol1");
     Polynome get2 = table.Take_elem("pol2");
@@ -455,7 +460,7 @@ TEST(HashNextTable, insert_and_get_ord) {
     n6.name = "pol6";
     n6.data = pol6;
     // table
-    OrderedTB table;
+    HashNextTable table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
@@ -493,7 +498,7 @@ TEST(OrderedTB, print_elem_ord) {
     n3.data = pol3;
     n3.name = "pol3";
     // table
-    UnorderedTB table;
+    OrderedTB table;
     // insert
     table.Insert(n1);
     table.Insert(n2);
