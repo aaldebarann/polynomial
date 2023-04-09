@@ -73,6 +73,17 @@ void UnorderedTB::Print() {
         i++;
     }
 }
+string UnorderedTB::Print_() {
+    int i = 0;
+    string str;
+    while (i <= marker) {
+        str += (row[i].name + " | " + row[i].data.to_string());
+        i++;
+    }
+    return str;
+}
+
+
 UnorderedTB:: ~UnorderedTB() {
     delete[]row;
     row = nullptr;
