@@ -12,12 +12,11 @@ Calculator:: Calculator(bool allTables) {
         tables.push_back(new HashListTable());
         tables.push_back(new HashNextTable());
     }
-    active = tables[0];
+    activeType = unordered;
 }
 
 void Calculator::setActive(TableType table) {
-    if(table < tables.size())
-        active = tables[table];
+    activeType = table;
 }
 void Calculator::setActive(unsigned int type) {
     setActive(TableType(type));
@@ -37,7 +36,7 @@ Polynome Calculator::get(const string& name) {
     return table->Take_elem(name);
 }
 Table* Calculator::activeTable() {
-    return active;
+    return tables[activeType];
 }
 
 string Calculator::interpret(string str) {
@@ -76,7 +75,16 @@ string Calculator::interpret(string str) {
     }
 }
 string Calculator::to_string() {
-    return activeTable()->Print_();
+    string s;
+    if(activeType == list || activeType == tree) {
+        TableType tmp = activeType;
+        activeType = unordered;
+        s = activeTable()->Print_();
+        activeType = tmp;
+    } else {
+        s = activeTable()->Print_();
+    }
+    return s;
 }
 void Calculator::deleteAll(string& str, char toDelete) {
     int spaces = 0;
