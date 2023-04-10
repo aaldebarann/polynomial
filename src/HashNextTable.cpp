@@ -47,17 +47,48 @@ void HashNextTable::Insert(Node val) {
         return;
     }
     int index = hash(val.name,rows.size());
-    while((index < rows.size())&&(!(rows[index].is_zero())))
+    int temp = index;
+
+    bool inserted = false;
+
+    while (index < rows.size()) {
+        if (rows[index].name == val.name) {
+            inserted = true;
+            num_nonzero++;
+            rows[index] = val;
+
+            if (num_nonzero > (rows.size() / REHASH_CONST))
+                rehash();
+            break;
+        }
+        index++;
+    }
+    if(!inserted)
+        while (temp < rows.size()) {
+            if (rows[temp].is_zero()) {
+                inserted = true;
+                num_nonzero++;
+                rows[temp] = val;
+
+                if (num_nonzero > (rows.size() / REHASH_CONST))
+                    rehash();
+                break;
+            }
+            temp++;
+        }
+
+
+
+    /*while((index < rows.size())&&(!(rows[index].is_zero())))
         index++;
     if(index < rows.size()){
         num_nonzero++;
         rows[index] = val;
-        //rows.insert(rows.begin()+index,val);
 
         if(num_nonzero > (rows.size()/REHASH_CONST))
             rehash();
-    }
-    else{
+    }*/
+    if(!inserted){
         rows.push_back(val);
         num_nonzero++;
         rehash();

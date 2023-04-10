@@ -49,11 +49,20 @@ void HashListTable::Insert(Node val) {
     auto& v = rows[index];
 
     bool inserted = false;
-    for(auto& t : v)
-        if(t.is_zero()){
+
+    for (auto& t : v)
+        if (t.name == val.name) {
             t = val;
             inserted = true;
+            break;
         }
+    if(!inserted)
+        for(auto& t : v)
+            if(t.is_zero()){
+                t = val;
+                inserted = true;
+                break;
+            }
     if(!inserted)
         rows[index].push_back(val);
     num_nonzero++;
