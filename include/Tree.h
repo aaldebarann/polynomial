@@ -38,8 +38,8 @@ public:
     void Del(string, objptr&);
     void clear(objptr&); // очищает дерево
     // три варианта принтов
-    void inorder(objptr);
-    void inorder();
+    string inorder(objptr);
+    string inorder();
     // реализация методов Table.h
     void Insert(Node val) override {
         Insert(val, root);
