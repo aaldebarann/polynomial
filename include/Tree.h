@@ -6,45 +6,52 @@ struct Obj
     int height; // îíà æå ãëóáèíà
     Obj* right;
     Obj* left;
-};
-typedef struct Obj* nodeptr;
 
-class Tree: public Table
+public:
+    Obj() {
+        height = 0;
+        right = nullptr;
+        left = nullptr;
+    }
+}; 
+typedef struct Obj* objptr;
+
+class Tree : public Table
 {
 private:
-    int bsheight(nodeptr); // высота(глубина) до конкретного объекта (звена) в дереве
-    nodeptr srl(nodeptr&);
-    nodeptr drl(nodeptr&);// левый поворот
-    nodeptr srr(nodeptr&);
-    nodeptr drr(nodeptr&); //правый поворот
+    objptr root = nullptr;
+    int bsheight(objptr); // высота(глубина) до конкретного объекта (звена) в дереве
+    objptr srl(objptr&);
+    objptr drl(objptr&);// левый поворот
+    objptr srr(objptr&);
+    objptr drr(objptr&); //правый поворот
     int max(int, int); // максимальная из двух высот
     int comparison(string, string); // сравнение имен
-    Polynome deletemin(nodeptr&);
-    nodeptr nodecopy(nodeptr&);
-    void copy(nodeptr&, nodeptr&);
-
-    Obj* o = nullptr;
+    Polynome deletemin(objptr&);
+    objptr nodecopy(objptr&);
+    void copy(objptr&, objptr&);
+    bool isEmpty();
 public:
-    Polynome find(string, nodeptr&); // получение полинома
-    void Insert(Node, nodeptr&);
-    void Del(string, nodeptr&);
-    void clear(nodeptr&); // очищает дерево
+
+    Polynome find(string, objptr&); // получение полинома
+    void Insert(Node, objptr&);
+    void Del(string, objptr&);
+    void clear(objptr&); // очищает дерево
     // три варианта принтов
-    void preorder(nodeptr);
-    void inorder(nodeptr);
-    void postorder(nodeptr);
+    void inorder(objptr);
+    void inorder();
     // реализация методов Table.h
     void Insert(Node val) override {
-        Insert(val, o);
+        Insert(val, root);
     }
     void Del(string name) override {
-        Del(name, o);
+        Del(name, root);
     }
     int Search(string name) override {
         throw runtime_error("not implemented yet");
     }
     Polynome Take_elem(string name) override {
-        return find(name, o);
+        return find(name, root);
     }
     void Print() {
         throw runtime_error("not implemented yet");
