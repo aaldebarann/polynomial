@@ -2,16 +2,19 @@
 #include "OrderedTB.h"
 
 void OrderedTB::repack() {
-    int i = 0;
-    while (i < marker) {
-        int p = comparison(DataMas[KeyMas[i]].name, DataMas[KeyMas[i + 1]].name);
-        switch (p)
-        {
+    int i=0;
+    int j = 0;
+    while (j < marker) {
+        i = j + 1;
+        while (i < marker + 1) {
+            int p = comparison(DataMas[KeyMas[j]].name, DataMas[KeyMas[i]].name);
+            switch (p)
+            {
             case 0:
                 i++;
                 continue;
             case 1:
-                swap(KeyMas[i], KeyMas[i + 1]);
+                swap(KeyMas[j], KeyMas[i]);
                 i++;
                 continue;
             case -1:
@@ -19,9 +22,11 @@ void OrderedTB::repack() {
                 continue;
             default:
                 continue;
+            }
         }
+        j++;
     }
-
+  
 }
 
 OrderedTB::OrderedTB() {
@@ -134,7 +139,7 @@ string OrderedTB::Print_() {
     int i = 0;
     string str;
     while (i <= marker) {
-       str+= (DataMas[KeyMas[i]].name + " | " + DataMas[KeyMas[i]].data.to_string());
+       str+= (DataMas[KeyMas[i]].name + "  " + DataMas[KeyMas[i]].data.to_string()+ "| ");
         i++;
     }
     return str;
