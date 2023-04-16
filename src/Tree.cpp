@@ -221,19 +221,21 @@ Polynome Tree::deletemin(objptr& p)
         return c;
     }
 }
-void Tree::inorder() {
-    inorder(root);
+string Tree::inorder() {
+    string s;
+    s += inorder(root);
+    return s;
 }
-void Tree::inorder(objptr p)
+string Tree::inorder(objptr p)
 {
+    string str;
     if (p != nullptr)
     {
-        inorder(p->left);
-        cout << p->DataCase.name << endl;
-        p->DataCase.data.print();
-        cout << "||" << endl;
-        inorder(p->right);
+       str += inorder(p->left);
+        str += p->DataCase.name +" " + p->DataCase.data.to_string() + "| ";
+       str+= inorder(p->right);
     }
+    return str;
 }
 
 
@@ -292,5 +294,5 @@ Tree :: ~Tree() {
     this->clear(t);
 }
 string Tree::Print_() {
-    return "Not implemented yet";
+    return inorder();
 }
