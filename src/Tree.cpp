@@ -15,64 +15,84 @@ int Tree::comparison(string one, string tow) {
     }
 }
 
+bool Tree::isEmpty() {
+    if (root == nullptr) return true;
+    else return false;
+}
 
-
-void Tree::Insert(Node Data, nodeptr& p)
+void Tree::Insert(Node Data, objptr& p)
 {
-    if (p == NULL)
-    {
+    if (isEmpty()) {  
         p = new Obj;
         p->DataCase = Data;
-        p->left = NULL;
-        p->right = NULL;
+        p->left = nullptr;
+        p->right = nullptr;
         p->height = 0;
+        root = p;
+    
     }
-    else
-    {
-        if (comparison(Data.name,p->DataCase.name) == -1)
+    else {
+        if (p == nullptr)
         {
-            Insert(Data, p->left);
-            if ((bsheight(p->left) - bsheight(p->right)) == 2)
-            {
-                if (comparison(Data.name,p->left->DataCase.name) == -1)
-                {
-                    p = srl(p);
-                }
-                else
-                {
-                    p = drl(p);
-                }
-            }
-        }
-        else if (comparison(Data.name, p->DataCase.name) == 1)
-        {
-            Insert(Data, p->right);
-            if ((bsheight(p->right) - bsheight(p->left)) == 2)
-            {
-                if (comparison(Data.name, p->DataCase.name) == 1)
-                {
-                    p = srr(p);
-                }
-                else
-                {
-                    p = drr(p);
-                }
-            }
+            p = new Obj;
+            p->DataCase = Data;
+            p->left = nullptr;
+            p->right = nullptr;
+            p->height = 0;
         }
         else
         {
-            // cout << "Element Exists" << endl;
+            if (comparison(Data.name, p->DataCase.name) == 0) {
+                p->DataCase.data = Data.data;
+                return;
+            }
+            if (comparison(Data.name, p->DataCase.name) == -1)
+            {
+                Insert(Data, p->left);
+                if ((bsheight(p->left) - bsheight(p->right)) == 2)
+                {
+                    if (comparison(Data.name, p->left->DataCase.name) == -1)
+                    {
+                        p = srl(p);
+                    }
+                    else
+                    {
+                        p = drl(p);
+                    }
+                }
+            }
+            else if (comparison(Data.name, p->DataCase.name) == 1)
+            {
+                Insert(Data, p->right);
+                if ((bsheight(p->right) - bsheight(p->left)) == 2)
+                {
+                    if (comparison(Data.name, p->DataCase.name) == 1)
+                    {
+                        p = srr(p);
+                    }
+                    else
+                    {
+                        p = drr(p);
+                    }
+                }
+            }
+            else
+            {
+                // cout << "Element Exists" << endl;
+            }
         }
+        int m, n, d;
+        m = bsheight(p->left);
+        n = bsheight(p->right);
+        d = max(m, n);
+        p->height = d + 1;
     }
-    int m, n, d;
-    m = bsheight(p->left);
-    n = bsheight(p->right);
-    d = max(m, n);
-    p->height = d + 1;
 }
-Polynome Tree::find(string x, nodeptr& p)
+
+
+Polynome Tree::find(string x, objptr& p)
 {
-    if (p == NULL)
+    if (p == nullptr)
     {
         cout << "Sorry! element not found" << endl;
         // âûçîâ îêíà ñ òåêñòîì "ýëåìåíò íå íàéäåò"
@@ -99,27 +119,27 @@ Polynome Tree::find(string x, nodeptr& p)
     }
 
 }
-void Tree::copy(nodeptr& p, nodeptr& p1)
+void Tree::copy(objptr& p, objptr& p1)
 {
     clear(p1);
     p1 = nodecopy(p);
 }
-void Tree::clear(nodeptr& p)
+void Tree::clear(objptr& p)
 {
-    nodeptr d;
-    if (p != NULL)
+    objptr d;
+    if (p != nullptr)
     {
         clear(p->left);
         clear(p->right);
         d = p;
         free(d);
-        p = NULL;
+        p = nullptr;
     }
 }
-nodeptr Tree::nodecopy(nodeptr& p)
+objptr Tree::nodecopy(objptr& p)
 {
-    nodeptr temp;
-    if (p == NULL)
+    objptr temp;
+    if (p == nullptr)
     {
         return p;
     }
@@ -133,11 +153,12 @@ nodeptr Tree::nodecopy(nodeptr& p)
     }
 }
 
-void Tree::Del(string x, nodeptr& p)
+void Tree::Del(string x, objptr& p)
 {
-    nodeptr d;
-    if (p == NULL)
+    objptr d;
+    if (p == nullptr)
     {
+        return;
         //cout << "Sorry! element not found" << endl;
         // âûçîâ îêíà ñ òåêñòîì "ýëåìåíò íå íàéäåò"
     }
@@ -149,21 +170,21 @@ void Tree::Del(string x, nodeptr& p)
     {
         Del(x, p->right);
     }
-    else if ((p->left == NULL) && (p->right == NULL))
+    else if ((p->left == nullptr) && (p->right == nullptr))
     {
         d = p;
         free(d);
-        p = NULL;
+        p = nullptr;
         //cout << "Element deleted successfully" << endl;
     }
-    else if (p->left == NULL)
+    else if (p->left == nullptr)
     {
         d = p;
         free(d);
         p = p->right;
         //cout << "Element deleted successfully" << endl;
     }
-    else if (p->right == NULL)
+    else if (p->right == nullptr)
     {
         d = p;
         p = p->left;
@@ -172,14 +193,23 @@ void Tree::Del(string x, nodeptr& p)
     }
     else
     {
-        p->DataCase.data = deletemin(p->right);
+        objptr pNode = p;
+        objptr pN = pNode->left, * ppR = &pNode->left;
+        while (pN->right != nullptr) {
+            ppR = &pN->right; pN = *ppR;
+        
+        }
+        pNode->DataCase.data = pN->DataCase.data;
+        pNode->DataCase.name = pN->DataCase.name;
+        pNode = pN; *ppR = pN->left;
+        delete pNode;
     }
 }
 
-Polynome Tree::deletemin(nodeptr& p)
+Polynome Tree::deletemin(objptr& p)
 {
     Polynome c;
-    if (p->left == NULL)
+    if (p->left == nullptr)
     {
         c = p->DataCase.data;
         p = p->right;
@@ -191,45 +221,31 @@ Polynome Tree::deletemin(nodeptr& p)
         return c;
     }
 }
-void Tree::preorder(nodeptr p)
-{
-    if (p != NULL)
-    {
-        p->DataCase.data.print();
-        preorder(p->left);
-        preorder(p->right);
-    }
+void Tree::inorder() {
+    inorder(root);
 }
-void Tree::inorder(nodeptr p)
+void Tree::inorder(objptr p)
 {
-    if (p != NULL)
+    if (p != nullptr)
     {
         inorder(p->left);
         cout << p->DataCase.name << endl;
         p->DataCase.data.print();
-        cout << endl;
+        cout << "||" << endl;
         inorder(p->right);
     }
 }
-void Tree::postorder(nodeptr p)
-{
-    if (p != NULL)
-    {
-        postorder(p->left);
-        postorder(p->right);
-        p->DataCase.data.print();
-    }
-}
+
 
 int Tree::max(int val1, int val2)
 {
     return ((val1 > val2) ? val1 : val2); // небольшое пояснение ((?:a) соответствует целевой последовательности "a", но "(?:a)\1" является недопустимым, так как группа записи 1 отсутствует.) это из ML ну или
     // простыми словами если val1 > val2 то возвращаем val1 иначе val2
 }
-int Tree::bsheight(nodeptr p)
+int Tree::bsheight(objptr p)
 {
     int t;
-    if (p == NULL)
+    if (p == nullptr)
     {
         return -1;
     }
@@ -240,9 +256,9 @@ int Tree::bsheight(nodeptr p)
     }
 }
 
-nodeptr Tree::srl(nodeptr& p1)
+objptr Tree::srl(objptr& p1)
 {
-    nodeptr p2;
+    objptr p2;
     p2 = p1->left;
     p1->left = p2->right;
     p2->right = p1;
@@ -250,9 +266,9 @@ nodeptr Tree::srl(nodeptr& p1)
     p2->height = max(bsheight(p2->left), p1->height) + 1;
     return p2;
 }
-nodeptr Tree::srr(nodeptr& p1)
+objptr Tree::srr(objptr& p1)
 {
-    nodeptr p2;
+    objptr p2;
     p2 = p1->right;
     p1->right = p2->left;
     p2->left = p1;
@@ -260,18 +276,19 @@ nodeptr Tree::srr(nodeptr& p1)
     p2->height = max(p1->height, bsheight(p2->right)) + 1;
     return p2;
 }
-nodeptr Tree::drl(nodeptr& p1)
+objptr Tree::drl(objptr& p1)
 {
     p1->left = srr(p1->left);
     return srl(p1);
 }
-nodeptr Tree::drr(nodeptr& p1)
+objptr Tree::drr(objptr& p1)
 {
     p1->right = srl(p1->right);
     return srr(p1);
 }
 Tree :: ~Tree() {
-    Obj* t = NULL;
+    Obj* t = nullptr;
+    root = nullptr;
     this->clear(t);
 }
 string Tree::Print_() {
